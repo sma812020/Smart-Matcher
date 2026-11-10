@@ -1,472 +1,2671 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- وسوم تهيئة محركات البحث (SEO) للظهور في جوجل -->
-    <title>نظام المطابقة الذكي | Smart Matcher - تطوير م. سمير الكمالي</title>
-    <meta name="description" content="نظام المطابقة الذكي (Smart Matcher): الحل المتكامل لمطابقة ومقارنة البيانات والمستندات بدقة متناهية وسرعة فائقة على نظام ويندوز. تطوير وبرمجة م. سمير الكمالي.">
-    <meta name="keywords" content="نظام المطابقة الذكي, Smart Matcher, برنامج مطابقة البيانات, مقارنة المستندات, تدقيق مالي, سمير الكمالي, برنامج محاسبي, مطابقة الكشوفات, .NET 8">
-    <meta name="author" content="م. سمير الكمالي - Eng. Samir Al-Kamali">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://sma812020.github.io/Smart-Matcher/">
-
-    <!-- وسوم المشاركة على فيسبوك وواتساب ولينكدإن (Open Graph) -->
-    <meta property="og:title" content="نظام المطابقة الذكي | Smart Matcher">
-    <meta property="og:description" content="الحل المتكامل لمطابقة ومقارنة البيانات والمستندات بدقة متناهية وسرعة فائقة — وفر أكثر من 90% من وقت التدقيق اليدوي.">
-    <meta property="og:url" content="https://sma812020.github.io/Smart-Matcher/">
-    <meta property="og:type" content="website">
-
-    <!-- بيانات جوجل المنظمة للبرامج (SoftwareApplication Schema) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "نظام المطابقة الذكي - Smart Matcher",
-      "operatingSystem": "Windows 10, Windows 11",
-      "applicationCategory": "BusinessApplication",
-      "softwareVersion": "1.0.0",
-      "author": {
-        "@type": "Person",
-        "name": "م. سمير الكمالي"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "downloadUrl": "https://github.com/sma812020/Smart-Matcher/raw/main/SmartMatcher_Setup_v1.0.0.exe"
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Native Smart Matcher v5.1 | مطابقة كشوف الحسابات الذكية</title>
+  <!-- مكتبة SheetJS لقراءة وتصدير ملفات Excel و CSV مباشرة في المتصفح -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --surface2: #f8fafc;
+      --text: #212b3c;
+      --muted: #6e7887;
+      --border: #dee2e6;
+      --primary: #1e3a5f;
+      --sidebar-bg: #ffffff;
+      --sidebar-text: #3c4655;
+      --sidebar-hover: #eaf0fa;
+      --grid-alt: #fafbfd;
+      --grid-header: #f0f3f8;
+      --selection: #dcebfc;
+      --selection-text: #142846;
+      --highlight: #ddebff;
+      --warn-tint: #fff3e0;
+      --info-tint: #e8f4fd;
+      --ok-tint: #fff9db;
+      --accent: #0d6efd;
+      --success: #198754;
+      --danger: #dc3545;
+      --warning: #ff9800;
+      --purple: #6f42c1;
     }
-    </script>
 
-    <!-- خط القاهرة العربي من Google Fonts وأيقونات FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    body.dark {
+      --bg: #12161e;
+      --surface: #1b212d;
+      --surface2: #242b3a;
+      --text: #e2e8f0;
+      --muted: #8c98aa;
+      --border: #323c4e;
+      --primary: #101a2c;
+      --sidebar-bg: #161c28;
+      --sidebar-text: #bec8d7;
+      --sidebar-hover: #283246;
+      --grid-alt: #1f2634;
+      --grid-header: #262f40;
+      --selection: #2d4b78;
+      --selection-text: #ffffff;
+      --highlight: #233e64;
+      --warn-tint: #463414;
+      --info-tint: #183048;
+      --ok-tint: #403c18;
+    }
 
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #0f172a;
-            --accent: #eb6325;
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --card-bg: #ffffff;
-        }
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-size: 13.5px;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
+    /* الرأس العلوي */
+    .app-header {
+      height: 54px;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+    .brand-badge {
+      background: rgba(255,255,255,0.15);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .header-actions { display: flex; gap: 6px; }
+    .icon-btn {
+      width: 36px; height: 34px;
+      border: none; border-radius: 6px;
+      background: transparent; color: #fff;
+      font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.2); }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.7;
-        }
+    /* هيكل الوسط */
+    .app-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
 
-        /* الهيدر والقسم الرئيسي */
-        header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-            color: #ffffff;
-            padding: 80px 20px 90px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+    /* الشريط الجانبي */
+    .sidebar {
+      width: 215px;
+      background: var(--sidebar-bg);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 10px 8px;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--sidebar-text);
+      text-align: right;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: 0.15s;
+    }
+    .nav-btn:hover { background: var(--sidebar-hover); }
+    .nav-btn.active { background: var(--accent); color: #fff; }
+    .nav-badge {
+      background: rgba(0,0,0,0.15);
+      color: inherit;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+    .nav-btn.active .nav-badge { background: rgba(255,255,255,0.25); color: #fff; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+    /* منطقة المحتوى */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 10px;
+      gap: 8px;
+      overflow: hidden;
+    }
 
-        .badge-version {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #38bdf8;
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
+    /* شريط الإجراءات العلوي */
+    .action-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .action-buttons { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .btn {
+      height: 35px;
+      padding: 0 14px;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.15s;
+    }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-sm { height: 29px; padding: 0 10px; font-size: 12px; }
+    .btn-success { background: var(--success); }
+    .btn-primary { background: var(--accent); }
+    .btn-purple { background: var(--purple); }
+    .btn-secondary { background: #6c757d; }
+    .btn-slate { background: #415470; }
 
-        header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
+    .progress-box { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .progress-label { color: var(--muted); font-size: 12.5px; }
+    .progress-track {
+      width: 100%; height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: var(--success);
+      transition: width 0.2s;
+    }
 
-        header h1 span {
-            color: #38bdf8;
-        }
+    /* الشريط التنبيهي */
+    .banner {
+      padding: 8px 14px;
+      border-radius: 6px;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+      flex-shrink: 0;
+    }
 
-        header p.lead {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            max-width: 780px;
-            margin: 0 auto 35px;
-        }
+    /* الصفحات */
+    .page {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .page.active { display: flex; }
 
-        /* أزرار التحميل */
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-        .btn-download {
-            background: linear-gradient(135deg, #eb6325 0%, #d9460f 100%);
-            color: #fff;
-            text-decoration: none;
-            padding: 16px 36px;
-            border-radius: 12px;
-            font-size: 1.15rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 25px rgba(235, 99, 37, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    /* صفحة الإعداد */
+    .files-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .file-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      position: relative;
+    }
+    .file-card.dragover {
+      outline: 2px dashed var(--accent);
+      background: var(--highlight);
+    }
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .form-row label {
+      width: 55px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12.5px;
+      flex-shrink: 0;
+    }
+    input[type="text"], input[type="number"], select {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 13px;
+      flex: 1;
+    }
+    .file-info { font-size: 11.5px; color: var(--muted); font-style: italic; }
 
-        .btn-download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(235, 99, 37, 0.55);
-        }
+    .options-strip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .checks-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .chk-label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
 
-        .btn-github {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            text-decoration: none;
-            padding: 16px 28px;
-            border-radius: 12px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: background 0.2s;
-        }
+    .previews-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      overflow: hidden;
+    }
 
-        .btn-github:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+    /* الجداول */
+    .table-wrap {
+      flex: 1;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+    }
+    table.data-grid {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    table.data-grid th {
+      position: sticky;
+      top: 0;
+      background: var(--grid-header);
+      color: var(--text);
+      font-weight: 700;
+      padding: 7px 8px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      white-space: nowrap;
+      z-index: 1;
+    }
+    table.data-grid td {
+      padding: 5px 8px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      max-width: 340px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    table.data-grid tbody tr:nth-child(even) { background: var(--grid-alt); }
+    table.data-grid tbody tr:hover { background: var(--sidebar-hover); cursor: pointer; }
+    table.data-grid tbody tr.selected { background: var(--selection) !important; color: var(--selection-text); }
+    table.data-grid tbody tr.row-header-guess { background: var(--highlight) !important; font-weight: 700; }
+    table.data-grid tbody tr.row-totals-guess { color: var(--muted); font-style: italic; }
+    table.data-grid tbody tr.tint-warn { background: var(--warn-tint); }
+    table.data-grid tbody tr.tint-info { background: var(--info-tint); }
+    table.data-grid tbody tr.tint-ok { background: var(--ok-tint); }
 
-        .meta-info {
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
+    /* لوحة المعلومات */
+    .kpis-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .kpi-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .kpi-strip { height: 4px; width: 100%; }
+    .kpi-cap { font-size: 11.5px; color: var(--muted); padding: 6px 10px 2px; }
+    .kpi-val { font-size: 20px; font-weight: 700; padding: 2px 10px 8px; direction: ltr; text-align: right; }
 
-        .meta-info span {
-            margin: 0 10px;
-        }
+    .dash-middle {
+      display: grid;
+      grid-template-columns: 28% 38% 1fr;
+      gap: 8px;
+      height: 230px;
+      flex-shrink: 0;
+    }
+    .recon-list { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
+    .recon-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border); padding: 4px 0; }
+    .recon-item span:first-child { color: var(--muted); font-size: 12.5px; }
+    .recon-item strong { font-size: 13.5px; direction: ltr; }
 
-        /* قسم المميزات */
-        .section {
-            padding: 70px 0;
-        }
+    /* شريط الأدوات في صفحات النتائج */
+    .filter-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .details-box {
+      height: 115px;
+      flex-shrink: 0;
+    }
+    .details-textarea {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.55;
+      outline: none;
+    }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+    /* القوائم المنسدلة والنوافذ المنبثقة */
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      min-width: 210px;
+      z-index: 50;
+      display: none;
+      flex-direction: column;
+      padding: 4px;
+    }
+    .dropdown-menu.show { display: flex; }
+    .dropdown-item {
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      text-align: right;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .dropdown-item:hover { background: var(--sidebar-hover); }
 
-        .section-title h2 {
-            font-size: 2rem;
-            color: var(--secondary);
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-card {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 680px;
+      max-width: 95vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      padding: 12px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-body { padding: 14px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .modal-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
+    .options-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
 
-        .section-title p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
+    /* شريط الحالة السفلي */
+    .status-bar {
+      height: 28px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 30px 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.25s, box-shadow 0.25s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.1);
-            border-color: #bfdbfe;
-        }
-
-        .feature-icon {
-            width: 55px;
-            height: 55px;
-            background: #eff6ff;
-            color: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
-            color: var(--secondary);
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-        }
-
-        /* قسم متطلبات التشغيل */
-        .specs-box {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 35px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .specs-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .specs-table tr {
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .specs-table tr:last-child {
-            border-bottom: none;
-        }
-
-        .specs-table th, .specs-table td {
-            padding: 14px 10px;
-            text-align: right;
-        }
-
-        .specs-table th {
-            color: var(--secondary);
-            width: 40%;
-            font-weight: 700;
-        }
-
-        .specs-table td {
-            color: var(--text-muted);
-        }
-
-        /* قسم المطور والتواصل */
-        .contact-section {
-            background: var(--secondary);
-            color: #fff;
-            padding: 60px 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .contact-card {
-            max-width: 700px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 35px 25px;
-            border-radius: 16px;
-        }
-
-        .contact-card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #38bdf8;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
-
-        .contact-item {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .contact-item:hover {
-            background: var(--primary);
-        }
-
-        footer {
-            background: #090e1a;
-            color: #64748b;
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 600px) {
-            header h1 { font-size: 2rem; }
-            header p.lead { font-size: 1.05rem; }
-            .btn-download, .btn-github { width: 100%; justify-content: center; }
-        }
-    </style>
+    /* أشرطة الرسم البياني */
+    .bar-list { display: flex; flex-direction: column; gap: 7px; overflow-y: auto; flex: 1; padding-left: 4px; }
+    .bar-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    .bar-label { width: 46%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-track { flex: 1; height: 11px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .bar-val { width: 42px; text-align: center; font-weight: 700; }
+  </style>
 </head>
 <body>
 
-    <!-- القسم الترحيبي الرئيسي -->
-    <header>
-        <div class="container">
-            <div class="badge-version">
-                <i class="fa-solid fa-bolt"></i> الإصدار الرسمي v1.0.0 — مبني على .NET 8
-            </div>
-            <h1>نظام المطابقة الذكي<br><span>Smart Matcher</span></h1>
-            <p class="lead">
-                الحل المتكامل لمطابقة ومقارنة البيانات والمستندات بدقة متناهية وسرعة فائقة. يعتمد النظام على خوارزميات مطابقة متقدمة لاكتشاف الفروقات، توحيد السجلات، وأتمتة عمليات المراجعة المعقدة بضغطة زر؛ مما يقضي على الأخطاء البشرية ويوفر أكثر من <strong>90%</strong> من وقت التدقيق اليدوي.
-            </p>
-            
-            <div class="cta-buttons">
-                <a href="https://github.com/sma812020/Smart-Matcher/raw/main/SmartMatcher_Setup_v1.0.0.exe" class="btn-download">
-                    <i class="fa-solid fa-download"></i> تحميل البرنامج لنظام Windows (مباشر)
-                </a>
-                <a href="https://github.com/sma812020/Smart-Matcher" target="_blank" class="btn-github">
-                    <i class="fa-brands fa-github"></i> صفحة المشروع على GitHub
-                </a>
-            </div>
+  <!-- الرأس العلوي -->
+  <header class="app-header">
+    <div class="brand">
+      <span>⚡ Native Smart Matcher</span>
+      <span class="brand-badge">v5.1 Web Edition</span>
+      <span style="font-weight:400; font-size:13px; opacity:0.85;">| نظام مطابقة كشوف الحسابات الذكي</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnTheme" title="تبديل الوضع الداكن/الفاتح (Ctrl+T)">🌙</button>
+      <button class="icon-btn" id="btnHelp" title="اختصارات لوحة المفاتيح والمساعدة">❓</button>
+    </div>
+  </header>
 
-            <div class="meta-info">
-                <span><i class="fa-brands fa-windows"></i> يدعم Windows 10 / 11</span> |
-                <span><i class="fa-solid fa-shield-halved"></i> آمن وخالٍ من الأخطاء</span> |
-                <span><i class="fa-solid fa-box-archive"></i> الحجم: 2.62 MB</span>
+  <!-- الجسم الرئيسي -->
+  <div class="app-body">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar">
+      <button class="nav-btn active" data-page="0"><span>📁 الإعداد والملفات</span></button>
+      <button class="nav-btn" data-page="1"><span>📊 لوحة المعلومات</span></button>
+      <button class="nav-btn" data-page="2"><span>⚠ غير المتطابقة</span><span class="nav-badge" id="badgeUnmatched">0</span></button>
+      <button class="nav-btn" data-page="3"><span>✅ المطابقات</span><span class="nav-badge" id="badgeMatched">0</span></button>
+      <button class="nav-btn" data-page="4"><span>🧾 التقرير التفصيلي</span></button>
+      <button class="nav-btn" data-page="5"><span>↩ القيود وعكسها</span><span class="nav-badge" id="badgeReversals">0</span></button>
+      <button class="nav-btn" data-page="6"><span>🔔 التحذيرات</span><span class="nav-badge" id="badgeWarnings">0</span></button>
+    </aside>
+
+    <!-- منطقة المحتوى -->
+    <main class="content-area">
+      <!-- شريط الإجراءات -->
+      <div class="action-bar">
+        <div class="action-buttons">
+          <button class="btn btn-success" id="btnRun">▶ بدء المطابقة (F5)</button>
+          <button class="btn btn-purple" id="btnIntermediary" title="مطابقة كشف الحساب الوسيط الذكية (Ctrl+I)">⚖ حساب وسيط</button>
+          <button class="btn btn-secondary" id="btnCancel" disabled>✖ إلغاء</button>
+          <div class="dropdown">
+            <button class="btn btn-primary" id="btnExport" disabled>⬇ تصدير ▾</button>
+            <div class="dropdown-menu" id="exportMenu">
+              <button class="dropdown-item" id="expXlsx">📊 ملف Excel كامل (.xlsx)</button>
+              <button class="dropdown-item" id="expHtml">🌐 حفظ تقرير HTML</button>
+              <button class="dropdown-item" id="expCsv">📄 القيود غير المتطابقة (CSV)</button>
+              <button class="dropdown-item" id="expSummary">📋 نسخ ملخص للمشاركة (واتساب)</button>
             </div>
+          </div>
+          <button class="btn btn-slate" id="btnSwap" title="تبديل الكشفين (الأول ↔ الثاني)">⇄</button>
+          <button class="btn btn-slate" id="btnDemo" title="توليد بيانات تجريبية فورية لاختبار المحرك">🧪 بيانات تجريبية</button>
         </div>
-    </header>
 
-    <!-- قسم المميزات -->
-    <section class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>✨ أبرز مميزات النظام</h2>
-                <p>صُمم خصيصاً لتبسيط عمليات التدقيق والمطابقة بمرونة وكفاءة عالية</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
-                    <h3>محرك مطابقة فائق السرعة</h3>
-                    <p>معالجة ومقارنة آلاف السجلات والمستندات في ثوانٍ معدودة بفضل بنية .NET 8 الحديثة عالية الأداء.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
-                    <h3>كشف ذكي للفروقات</h3>
-                    <p>تحديد التطابقات الكلية والجزئية بدقة متناهية، واكتشاف السجلات المفقودة أو المكررة تلقائياً.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-display"></i></div>
-                    <h3>واجهة عصرية متكيفة</h3>
-                    <p>تصميم مريح وذكي يتكيف تلقائياً مع كافة أحجام ودقات الشاشات لضمان تجربة استخدام سلسة.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-file-export"></i></div>
-                    <h3>تقارير دقيقة وفورية</h3>
-                    <p>استخراج نتائج المطابقة والفروقات بصيغ واضحة ومنظمة جاهزة للاعتماد والأرشفة المباشرة.</p>
-                </div>
-            </div>
+        <div class="progress-box">
+          <div class="progress-label" id="lblProgress">جاهز — اختر ملفي الكشف أو اضغط «بيانات تجريبية» ثم اضغط «بدء المطابقة» (F5).</div>
+          <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
         </div>
-    </section>
+      </div>
 
-    <!-- قسم المواصفات ومتطلبات التشغيل -->
-    <section class="section" style="padding-top: 0;">
-        <div class="container">
-            <div class="section-title">
-                <h2>💻 معلومات ومتطلبات التشغيل</h2>
+      <!-- الشريط التنبيهي -->
+      <div class="banner" id="pnlBanner"></div>
+
+      <!-- الصفحة 0: الإعداد والملفات -->
+      <section class="page active" id="page0">
+        <div class="files-grid">
+          <!-- الكشف الأول -->
+          <div class="file-card" id="dropSlot1">
+            <div style="color:#0d6efd; font-weight:700;">● الكشف الأول (نظامنا)</div>
+            <div class="form-row">
+              <label>الملف:</label>
+              <input type="text" id="txtPath1" readonly placeholder="اسحب ملف Excel/CSV هنا أو اضغط استعراض..." />
+              <input type="file" id="fileInput1" accept=".xlsx,.xlsm,.xls,.csv,.txt,.tsv" hidden />
+              <button class="btn btn-sm btn-slate" onclick="document.getElementById('fileInput1').click()">استعراض...</button>
             </div>
-            <div class="specs-box">
-                <table class="specs-table">
-                    <tr>
-                        <th>اسم البرنامج</th>
-                        <td>نظام المطابقة الذكي (Smart Matcher)</td>
-                    </tr>
-                    <tr>
-                        <th>رقم الإصدار</th>
-                        <td>1.0.0 (الإصدار المستقر)</td>
-                    </tr>
-                    <tr>
-                        <th>نظام التشغيل المدعوم</th>
-                        <td>Windows 10 / Windows 11 (معمارية 64-bit و 32-bit)</td>
-                    </tr>
-                    <tr>
-                        <th>بيئة التشغيل</th>
-                        <td>Microsoft .NET 8.0 Desktop Runtime</td>
-                    </tr>
-                    <tr>
-                        <th>المطور والناشر</th>
-                        <td>م. سمير الكمالي (Eng. Samir Al-Kamali)</td>
-                    </tr>
-                </table>
+            <div class="form-row">
+              <label>الورقة:</label>
+              <select id="cboSheet1" disabled></select>
+              <button class="btn btn-sm btn-purple" id="btnMap1" disabled>🧩 تعيين الأعمدة</button>
             </div>
+            <div class="form-row">
+              <label>الاسم:</label>
+              <input type="text" id="txtLabel1" placeholder="اسم الطرف الأول (يؤخذ من اسم الملف إن تُرك فارغاً)" />
+            </div>
+            <div class="file-info" id="lblInfo1">💡 يمكنك سحب ملف Excel/CSV وإفلاته هنا مباشرة.</div>
+          </div>
+
+          <!-- الكشف الثاني -->
+          <div class="file-card" id="dropSlot2">
+            <div style="color:#d63384; font-weight:700;">● الكشف الثاني (الطرف المقابل)</div>
+            <div class="form-row">
+              <label>الملف:</label>
+              <input type="text" id="txtPath2" readonly placeholder="اسحب ملف Excel/CSV هنا أو اضغط استعراض..." />
+              <input type="file" id="fileInput2" accept=".xlsx,.xlsm,.xls,.csv,.txt,.tsv" hidden />
+              <button class="btn btn-sm btn-slate" onclick="document.getElementById('fileInput2').click()">استعراض...</button>
+            </div>
+            <div class="form-row">
+              <label>الورقة:</label>
+              <select id="cboSheet2" disabled></select>
+              <button class="btn btn-sm btn-purple" id="btnMap2" disabled>🧩 تعيين الأعمدة</button>
+            </div>
+            <div class="form-row">
+              <label>الاسم:</label>
+              <input type="text" id="txtLabel2" placeholder="اسم الطرف الثاني (يؤخذ من اسم الملف إن تُرك فارغاً)" />
+            </div>
+            <div class="file-info" id="lblInfo2">💡 يمكنك سحب ملف Excel/CSV وإفلاته هنا مباشرة.</div>
+          </div>
         </div>
-    </section>
 
-    <!-- قسم معلومات المطور والتواصل -->
-    <section class="contact-section">
-        <div class="container">
-            <div class="contact-card">
-                <h2>👨‍💻 تطوير وبرمجة: م. سمير الكمالي</h2>
-                <p>للاستفسارات، الدعم الفني، أو طلب نسخ مخصصة للشركات والمؤسسات، يسعدنا تواصلكم عبر القنوات التالية:</p>
-                
-                <div class="contact-links">
-                    <a href="tel:776441718" class="contact-item">
-                        <i class="fa-solid fa-phone"></i> 776441718
-                    </a>
-                    <a href="https://wa.me/967776441718" target="_blank" class="contact-item" style="background: #16a34a;">
-                        <i class="fa-brands fa-whatsapp"></i> تواصل عبر واتساب
-                    </a>
-                    <a href="mailto:samirakamaly8@gmail.com" class="contact-item">
-                        <i class="fa-solid fa-envelope"></i> samirakamaly8@gmail.com
-                    </a>
-                </div>
-            </div>
+        <!-- شريط الخيارات السريعة -->
+        <div class="options-strip">
+          <div class="checks-group">
+            <label class="chk-label"><input type="checkbox" id="chkGroup" checked /> مطابقة المجموعات (N:1)</label>
+            <label class="chk-label"><input type="checkbox" id="chkFees" checked /> احتساب العمولات</label>
+            <label class="chk-label"><input type="checkbox" id="chkSame" /> الكشفان بنفس الاتجاه</label>
+            <label class="chk-label"><input type="checkbox" id="chkDup" checked /> كشف التكرار</label>
+            <label class="chk-label"><input type="checkbox" id="chkSugg" checked /> اقتراح القيود القريبة</label>
+          </div>
+          <button class="btn btn-sm btn-primary" id="btnAdvanced">⚙ خيارات متقدمة…</button>
         </div>
-    </section>
 
-    <!-- الفوتر -->
-    <footer>
-        <p>© 2026 جميع الحقوق محفوظة — نظام المطابقة الذكي (Smart Matcher) | تطوير م. سمير الكمالي.</p>
-    </footer>
+        <!-- معاينة الملفين -->
+        <div class="previews-grid">
+          <div class="card">
+            <div class="card-title">معاينة — الكشف الأول</div>
+            <div class="table-wrap" id="previewWrap1"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">معاينة — الكشف الثاني</div>
+            <div class="table-wrap" id="previewWrap2"></div>
+          </div>
+        </div>
+      </section>
 
+      <!-- الصفحة 1: لوحة المعلومات -->
+      <section class="page" id="page1">
+        <div class="kpis-row">
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--success)"></div><div class="kpi-cap">نسبة المطابقة</div><div class="kpi-val" id="kpiRate" style="color:var(--success)">—</div></div>
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--accent)"></div><div class="kpi-cap">مجموعات المطابقة</div><div class="kpi-val" id="kpiGroups" style="color:var(--accent)">—</div></div>
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--danger)"></div><div class="kpi-cap">قيود غير متطابقة</div><div class="kpi-val" id="kpiUnmatched" style="color:var(--danger)">—</div></div>
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--warning)"></div><div class="kpi-cap">تحتاج مراجعة</div><div class="kpi-val" id="kpiReview" style="color:var(--warning)">—</div></div>
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--purple)"></div><div class="kpi-cap">مطابقات بفروق</div><div class="kpi-val" id="kpiDiffGroups" style="color:var(--purple)">—</div></div>
+          <div class="kpi-box"><div class="kpi-strip" style="background:var(--primary)"></div><div class="kpi-cap">صافي الفارق</div><div class="kpi-val" id="kpiNetDiff">—</div></div>
+        </div>
+
+        <div class="dash-middle">
+          <div class="card">
+            <div class="card-title">🎯 نسبة المطابقة</div>
+            <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+              <canvas id="donutCanvas" width="175" height="175"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">📊 توزيع مستويات المطابقة</div>
+            <div class="bar-list" id="barLevels"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">🧮 تسوية صافي الفارق</div>
+            <div class="recon-list">
+              <div class="recon-item"><span>صافي الفارق الكلي</span><strong id="recNet">—</strong></div>
+              <div class="recon-item"><span>فروق العمولات (مطابقة)</span><strong id="recMatched">—</strong></div>
+              <div class="recon-item"><span>أثر غير المتطابق</span><strong id="recUnmatched">—</strong></div>
+              <div class="recon-item"><span>قيد/عكس مستبعد</span><strong id="recRev">—</strong></div>
+              <div class="recon-item"><span>التحقق الرياضي</span><strong id="recCheck">—</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="flex:1;">
+          <div class="card-title">🔝 أكبر القيود غير المتطابقة</div>
+          <div class="table-wrap" id="topUnmatchedWrap"></div>
+        </div>
+      </section>
+
+      <!-- الصفحة 2: غير المتطابقة -->
+      <section class="page" id="page2">
+        <div class="filter-bar">
+          <input type="text" id="uSearch" placeholder="🔍 بحث في البيان / المرجع / المبلغ… (Ctrl+F)" style="max-width:240px;" />
+          <select id="uCboSide" style="max-width:160px;"><option value="0">كل الأطراف</option></select>
+          <select id="uCboDir" style="max-width:140px;">
+            <option value="0">كل الجوانب</option>
+            <option value="مدين">مدين</option>
+            <option value="دائن">دائن</option>
+          </select>
+          <label class="chk-label"><input type="checkbox" id="uChkSugg" /> 💡 مع اقتراح</label>
+          <label class="chk-label"><input type="checkbox" id="uChkHint" /> ⚠ مع تنبيه</label>
+          <button class="btn btn-sm btn-primary" id="uBtnCsv">⬇ CSV</button>
+          <button class="btn btn-sm btn-slate" id="uBtnCopy">📋 نسخ</button>
+          <span id="uLblCount" style="color:var(--muted); margin-right:auto;">0 / 0</span>
+        </div>
+        <div class="table-wrap" id="uGridWrap"></div>
+        <div class="card details-box">
+          <div class="card-title">📌 تفاصيل الصف المحدد</div>
+          <textarea class="details-textarea" id="uDetails" readonly></textarea>
+        </div>
+      </section>
+
+      <!-- الصفحة 3: المطابقات -->
+      <section class="page" id="page3">
+        <div class="filter-bar">
+          <input type="text" id="mSearch" placeholder="🔍 بحث في البيان / المرجع / المبلغ… (Ctrl+F)" style="max-width:240px;" />
+          <select id="mCboLevel" style="max-width:160px;"><option value="0">كل المستويات</option></select>
+          <select id="mCboDiff" style="max-width:150px;">
+            <option value="0">الكل</option>
+            <option value="1">بفروق مبالغ</option>
+            <option value="2">بدون فروق</option>
+          </select>
+          <label class="chk-label"><input type="checkbox" id="mChkReview" /> 🔎 للمراجعة فقط</label>
+          <label class="chk-label"><input type="checkbox" id="mChkLowConf" /> ⚑ ثقة منخفضة فقط</label>
+          <button class="btn btn-sm btn-primary" id="mBtnCsv">⬇ CSV</button>
+          <button class="btn btn-sm btn-slate" id="mBtnCopy">📋 نسخ</button>
+          <span id="mLblCount" style="color:var(--muted); margin-right:auto;">0 / 0</span>
+        </div>
+        <div class="table-wrap" id="mGridWrap"></div>
+        <div class="card details-box">
+          <div class="card-title">📌 تفاصيل المجموعة المحددة</div>
+          <textarea class="details-textarea" id="mDetails" readonly></textarea>
+        </div>
+      </section>
+
+      <!-- الصفحة 4: التقرير -->
+      <section class="page" id="page4">
+        <div class="filter-bar">
+          <button class="btn btn-sm btn-primary" id="btnOpenReportTab">🌐 فتح في تبويب جديد</button>
+          <button class="btn btn-sm btn-slate" id="btnPrintReport">🖨 طباعة التقرير</button>
+          <button class="btn btn-sm btn-success" id="btnSaveReportHtml">💾 حفظ ملف HTML</button>
+        </div>
+        <div class="card" style="flex:1; padding:0;">
+          <iframe id="reportFrame" style="width:100%; height:100%; border:none; border-radius:8px; background:#fff;"></iframe>
+        </div>
+      </section>
+
+      <!-- الصفحة 5: القيود وعكسها -->
+      <section class="page" id="page5">
+        <div class="card" style="flex:1;">
+          <div class="card-title">↩ قيود وعكسها داخل نفس الملف (أثرها صفر ومستبعدة من الفروقات)</div>
+          <div class="table-wrap" id="revGridWrap"></div>
+        </div>
+      </section>
+
+      <!-- الصفحة 6: التحذيرات -->
+      <section class="page" id="page6">
+        <div class="card" style="flex:1;">
+          <div class="card-title">🔔 التحذيرات وعمليات التحقق</div>
+          <div class="table-wrap" id="warnGridWrap"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- شريط الحالة السفلي -->
+  <footer class="status-bar">
+    <span id="lblStatus">جاهز.</span>
+    <span id="lblStats"></span>
+  </footer>
+
+  <!-- نافذة الخيارات المتقدمة -->
+  <div class="modal-backdrop" id="modalAdvanced">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span>⚙ الخيارات المتقدمة للمطابقة</span>
+        <button class="icon-btn" onclick="closeModal('modalAdvanced')">✖</button>
+      </div>
+      <div class="modal-body">
+        <div class="options-grid-2">
+          <div class="form-row"><label style="width:170px;">نافذة التاريخ القريب (أيام):</label><input type="number" id="optDateWin" min="0" max="60" /></div>
+          <div class="form-row"><label style="width:170px;">نافذة المطابقة عبر الأيام:</label><input type="number" id="optCrossWin" min="0" max="365" /></div>
+          <div class="form-row"><label style="width:170px;">سماحية المبلغ (ثابت):</label><input type="number" id="optAmtTol" min="0" max="10000" step="0.5" /></div>
+          <div class="form-row"><label style="width:170px;">سماحية المبلغ (نسبة %):</label><input type="number" id="optAmtPct" min="0" max="10" step="0.1" /></div>
+          <div class="form-row"><label style="width:170px;">حد تشابه البيان/الاسم (%):</label><input type="number" id="optSim" min="30" max="100" /></div>
+          <div class="form-row"><label style="width:170px;">أقصى حجم مجموعة (N:1):</label><input type="number" id="optGroupSize" min="2" max="8" /></div>
+          <div class="form-row"><label style="width:170px;">أقصى نسبة عمولة (%):</label><input type="number" id="optFeeRatio" min="0" max="30" step="0.5" /></div>
+        </div>
+        <hr style="border:none; border-top:1px solid var(--border); width:100%;" />
+        <div class="options-grid-2">
+          <label class="chk-label"><input type="checkbox" id="optChkGroup" /> مطابقة المجموعات (عدة قيود مقابل قيد)</label>
+          <label class="chk-label"><input type="checkbox" id="optChkFee" /> احتساب العمولات المذكورة في البيان</label>
+          <label class="chk-label"><input type="checkbox" id="optChkFuzzy" /> المطابقة التقريبية (فروق رسوم صغيرة)</label>
+          <label class="chk-label"><input type="checkbox" id="optChkDup" /> كشف القيود المكررة</label>
+          <label class="chk-label"><input type="checkbox" id="optChkSugg" /> اقتراح أقرب قيد لغير المتطابق</label>
+          <label class="chk-label"><input type="checkbox" id="optChkRev" /> كشف القيد وعكسه داخل الملف الواحد</label>
+          <label class="chk-label"><input type="checkbox" id="optChkTotals" /> استبعاد صفوف الإجمالي والرصيد</label>
+          <label class="chk-label"><input type="checkbox" id="optChkDayFirst" /> التاريخ بصيغة يوم/شهر/سنة</label>
+          <label class="chk-label"><input type="checkbox" id="optChkRef" /> المطابقة بالرقم المشترك تتجاوز التاريخ</label>
+          <label class="chk-label"><input type="checkbox" id="optChkSame" /> الكشفان بنفس اتجاه المدين/الدائن</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" id="btnOptReset">↺ الافتراضي</button>
+        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalAdvanced')">إلغاء</button>
+        <button class="btn btn-sm btn-success" id="btnOptSave">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة تعيين الأعمدة يدوياً -->
+  <div class="modal-backdrop" id="modalMapping">
+    <div class="modal-card" style="width:820px;">
+      <div class="modal-header">
+        <span id="mapModalTitle">🧩 تعيين الأعمدة يدوياً</span>
+        <button class="icon-btn" onclick="closeModal('modalMapping')">✖</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <label style="width:155px;">صف العناوين (0 = تلقائي):</label>
+          <input type="number" id="mapHeaderRow" min="0" value="0" style="max-width:90px;" />
+          <span style="color:var(--muted); font-size:12px;">اتركها "تلقائي" ما لم يفشل اكتشاف الأعمدة.</span>
+        </div>
+        <div class="options-grid-2" id="mapCombosContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" id="btnMapAuto">↺ تلقائي بالكامل</button>
+        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalMapping')">إلغاء</button>
+        <button class="btn btn-sm btn-success" id="btnMapApply">تطبيق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الحساب الوسيط -->
+  <div class="modal-backdrop" id="modalIntermediary">
+    <div class="modal-card" style="width:780px;">
+      <div class="modal-header">
+        <span>⚖ مطابقة كشف الحساب الوسيط الداخلي (القيود المتقابلة داخل نفس الكشف)</span>
+        <button class="icon-btn" onclick="closeModal('modalIntermediary')">✖</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin:0; color:var(--muted); font-size:12.5px;">
+          يقوم هذا المعالج بفحص <strong>الكشف الأول</strong> لمطابقة الحركات المدينة مع الحركات الدائنة المقابلة لها داخل نفس الحساب الوسيط، واستخراج القيود المعلقة التي لم تُصفَّ بعد.
+        </p>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button class="btn btn-sm btn-purple" id="btnRunIntermediary">▶ تشغيل فحص الحساب الوسيط</button>
+          <span id="lblIntermediarySummary" style="font-weight:700; color:var(--accent);"></span>
+        </div>
+        <div class="table-wrap" style="height:320px;" id="intermediaryWrap"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalIntermediary')">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* =====================================================================================
+   1. الإعدادات المحفوظة (AppSettings)
+   ===================================================================================== */
+const DEFAULT_SETTINGS = {
+  dateWindowDays: 5,
+  crossDayWindowDays: 30,
+  amountTolerance: 0.5,
+  amountTolerancePct: 0.005,
+  descSimilarityThreshold: 0.65,
+  maxGroupSize: 5,
+  maxFeeRatio: 0.06,
+  enableGroupMatching: true,
+  enableFeeSplit: true,
+  enableFuzzy: true,
+  enableDuplicates: true,
+  enableSuggestions: true,
+  enableReversals: true,
+  skipTotalsRows: true,
+  dayFirstDates: true,
+  unlimitedRefMatch: true,
+  sameConvention: false,
+  darkMode: false
+};
+
+let settings = loadSettings();
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem('NativeSmartMatcher_Settings_v51');
+    if (raw) return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
+  } catch (e) {}
+  return { ...DEFAULT_SETTINGS };
+}
+function saveSettings() {
+  try {
+    localStorage.setItem('NativeSmartMatcher_Settings_v51', JSON.stringify(settings));
+  } catch (e) {}
+}
+
+/* =====================================================================================
+   2. حالة التطبيق والملفات
+   ===================================================================================== */
+const slots = {
+  1: { index: 1, title: 'الكشف الأول', workbook: null, fileName: '', rows: [], mapping: null },
+  2: { index: 2, title: 'الكشف الثاني', workbook: null, fileName: '', rows: [], mapping: null }
+};
+
+let currentResult = null;
+let unmatchedRowsData = [];
+let matchedRowsData = [];
+let activeMappingSlot = 1;
+
+const LEVEL_NAMES = {
+  L1: 'مبلغ + مرجع تام',
+  L2: 'مبلغ + مرجع متقارب',
+  L3: 'مبلغ + بيان/اسم',
+  L4: 'مبلغ + تاريخ (ضعيف)',
+  L5: 'مبلغ ضمن السماحية',
+  L6: 'تجميع N:1',
+  L6R: 'تجميع بالرقم المشترك',
+  L6F: 'مبلغ مقارب برسوم'
+};
+
+/* =====================================================================================
+   3. دوال التطبيع واللغة العربية (طبق الأصل من NativeSmartMatcher)
+   ===================================================================================== */
+function normalizeDigits(s) {
+  if (!s) return '';
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    const code = s.charCodeAt(i);
+    if (code >= 0x0660 && code <= 0x0669) out += String.fromCharCode(code - 0x0660 + 48);
+    else if (code >= 0x06F0 && code <= 0x06F9) out += String.fromCharCode(code - 0x06F0 + 48);
+    else if (code === 0x066B) out += '.';
+    else if (code === 0x066C) out += ',';
+    else out += s[i];
+  }
+  return out;
+}
+
+function normalizeArabic(s) {
+  if (!s) return '';
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    const code = s.charCodeAt(i);
+    if ((code >= 0x064B && code <= 0x065F) || code === 0x0670 || code === 0x0640) continue;
+    if (code === 0x0623 || code === 0x0625 || code === 0x0622 || code === 0x0671) out += '\u0627';
+    else if (code === 0x0649 || code === 0x0626) out += '\u064A';
+    else if (code === 0x0629) out += '\u0647';
+    else if (code === 0x0624) out += '\u0648';
+    else out += s[i];
+  }
+  return out;
+}
+
+function normalizeRef(s) {
+  if (!s) return '';
+  s = normalizeArabic(normalizeDigits(String(s))).trim().toLowerCase();
+  s = s.replace(/[^a-z0-9\u0600-\u06ff]/g, '');
+  s = s.replace(/^0+/, '');
+  return s;
+}
+
+function normalizeDesc(s) {
+  if (!s) return '';
+  s = normalizeArabic(normalizeDigits(String(s))).trim().toLowerCase();
+  s = s.replace(/[^\w\u0600-\u06ff\s]/g, ' ');
+  return s.replace(/\s+/g, ' ').trim();
+}
+
+const NAME_NOISE = new Set(
+  normalizeArabic("عليكم الى إلى حساب لكم من محفظة جيب شركة عهد للخدمات المالية مقابل ايداع إيداع نقدي سحب رقم اسم المحفظة وعمولة عمولة عمولته وعمولته مناولة طلبك بموجب سند قبض صرف بين الفروع فرع مودعة مسحوبة مصروفة مقيدة العملة قيد في على عن باسم حوالة حواله اكسبرس وخدمة خدمة تحويل الرقم العام مضافه مضافة الصباح الحزمي للصرافة بعيد بسيط مركز المركز الرئيسي الادارة مبيعات")
+    .toLowerCase().split(/\s+/)
+);
+
+const COMMON_NAMES = new Set(
+  normalizeArabic("محمد احمد علي عبدالله عبد حسن حسين صالح يحيى ناصر سعيد عبده محمود ابراهيم خالد عمر يوسف")
+    .toLowerCase().split(/\s+/)
+);
+
+function extractNameTokens(desc) {
+  const result = new Set();
+  if (!desc) return result;
+  const s = normalizeArabic(normalizeDigits(String(desc))).toLowerCase();
+  let region = s;
+  let m = s.match(/اسم المحفظه\s*:\s*([^\\\d]+)/);
+  if (m) region = m[1];
+  else if ((m = s.match(/مناوله\s+(.+)/))) region = m[1];
+  else if ((m = s.match(/(?:من حساب|الي حساب)\s+(.+)/))) region = m[1];
+
+  for (const tok of region.split(/[^\w\u0600-\u06ff]+/)) {
+    if (tok.length < 2 || /\d/.test(tok) || NAME_NOISE.has(tok)) continue;
+    result.add(tok);
+  }
+  return result;
+}
+
+function withinOneEdit(s, t) {
+  const ls = s.length, lt = t.length;
+  if (Math.abs(ls - lt) > 1) return false;
+  let i = 0, j = 0, edits = 0;
+  while (i < ls && j < lt) {
+    if (s[i] === t[j]) { i++; j++; }
+    else {
+      edits++;
+      if (edits > 1) return false;
+      if (ls > lt) i++;
+      else if (lt > ls) j++;
+      else { i++; j++; }
+    }
+  }
+  edits += (ls - i) + (lt - j);
+  return edits <= 1;
+}
+
+function tokensMatch(t1, t2) {
+  if (t1 === t2) return true;
+  if (t1.length < 3 || t2.length < 3) return false;
+  if (COMMON_NAMES.has(t1) || COMMON_NAMES.has(t2)) return false;
+  return withinOneEdit(t1, t2);
+}
+
+function nameSimilarity(a, b) {
+  const ta = a.nameTokens, tb = b.nameTokens;
+  if (ta.size === 0 || tb.size === 0) return 0;
+  let wInter = 0, wA = 0, wB = 0, matchedCount = 0, lastToken = '';
+  const tbArr = Array.from(tb);
+  for (const t of ta) {
+    const w = COMMON_NAMES.has(t) ? 0.5 : 1.0;
+    wA += w;
+    if (tb.has(t) || tbArr.some(u => tokensMatch(t, u))) {
+      wInter += w;
+      matchedCount++;
+      lastToken = t;
+    }
+  }
+  if (matchedCount === 0) return 0;
+  for (const u of tb) wB += COMMON_NAMES.has(u) ? 0.5 : 1.0;
+  const wMin = Math.min(wA, wB);
+  if (wMin <= 0) return 0;
+  let score = Math.min(1.0, wInter / wMin);
+  if (matchedCount === 1) score = Math.min(score, COMMON_NAMES.has(lastToken) ? 0.4 : 0.7);
+  return score;
+}
+
+function tokenSimilarity(a, b) {
+  const filteredA = a.split(/\s+/).filter(t => t.length >= 2 && !NAME_NOISE.has(t));
+  const filteredB = b.split(/\s+/).filter(t => t.length >= 2 && !NAME_NOISE.has(t));
+  const ta = new Set(filteredA), tb = new Set(filteredB);
+  let jac = 0, contain = 0;
+  if (ta.size > 0 && tb.size > 0) {
+    let inter = 0;
+    for (const t of ta) if (tb.has(t)) inter++;
+    if (inter > 0) {
+      jac = inter / (ta.size + tb.size - inter);
+      const minCount = Math.min(ta.size, tb.size);
+      if (minCount >= 2) contain = (inter / minCount) * 0.85;
+    }
+  }
+  let maxConsec = 0;
+  for (let i = 0; i < filteredA.length; i++) {
+    for (let j = 0; j < filteredB.length; j++) {
+      let k = 0;
+      while (i + k < filteredA.length && j + k < filteredB.length && filteredA[i + k] === filteredB[j + k]) k++;
+      if (k > maxConsec) maxConsec = k;
+    }
+  }
+  const consecBonus = maxConsec >= 5 ? 0.95 : maxConsec === 4 ? 0.85 : maxConsec === 3 ? 0.65 : 0;
+  return Math.max(jac, contain, consecBonus);
+}
+
+function levenshteinRatio(a, b, minRatio) {
+  if (a.length > 200) a = a.substring(0, 200);
+  if (b.length > 200) b = b.substring(0, 200);
+  const m = a.length, n = b.length;
+  if (m === 0 || n === 0) return 0;
+  const maxLen = Math.max(m, n);
+  if (Math.abs(m - n) / maxLen > (1 - minRatio)) return 0;
+  let prev = new Array(n + 1), curr = new Array(n + 1);
+  for (let j = 0; j <= n; j++) prev[j] = j;
+  for (let i = 1; i <= m; i++) {
+    curr[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    [prev, curr] = [curr, prev];
+  }
+  return (maxLen - prev[n]) / maxLen;
+}
+
+function similarity(a, b, minRatio) {
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  const tok = tokenSimilarity(a, b);
+  if (tok >= 0.999) return tok;
+  return Math.max(tok, levenshteinRatio(a, b, minRatio));
+}
+
+function parseDecimalSafe(raw) {
+  if (raw === null || raw === undefined) return 0;
+  if (typeof raw === 'number') return isFinite(raw) ? raw : 0;
+  let s = normalizeDigits(String(raw)).trim();
+  if (!s) return 0;
+  let negative = s.startsWith('(') && s.endsWith(')');
+  s = s.replace(/[^\d.,\-]/g, '');
+  if (s.includes('-')) { negative = true; s = s.replace(/-/g, ''); }
+  if (!s) return 0;
+  const lastComma = s.lastIndexOf(',');
+  const lastDot = s.lastIndexOf('.');
+  if (lastComma >= 0 && lastDot >= 0) {
+    if (lastComma > lastDot) s = s.replace(/\./g, '').replace(',', '.');
+    else s = s.replace(/,/g, '');
+  } else if (lastComma >= 0) {
+    const digitsAfter = s.length - lastComma - 1;
+    if (digitsAfter <= 2 && s.indexOf(',') === lastComma) s = s.replace(',', '.');
+    else s = s.replace(/,/g, '');
+  } else if (lastDot >= 0 && s.indexOf('.') !== lastDot) {
+    s = s.replace(/\./g, '');
+  }
+  const v = parseFloat(s);
+  return isNaN(v) ? 0 : (negative ? -v : v);
+}
+
+function tryParseFlexibleDate(raw, dayFirst) {
+  if (!raw && raw !== 0) return null;
+  if (raw instanceof Date && !isNaN(raw)) {
+    return new Date(Date.UTC(raw.getFullYear(), raw.getMonth(), raw.getDate()));
+  }
+  let s = normalizeDigits(String(raw)).replace(/[\u200E\u200F\u202A-\u202E\u00A0]/g, ' ').trim();
+  if (!s) return null;
+
+  // رقم تسلسلي Excel
+  if (/^\d{5}(\.\d+)?$/.test(s)) {
+    const serial = parseFloat(s);
+    if (serial >= 29221 && serial <= 76702) {
+      const utcDays = Math.floor(serial - 25569);
+      return new Date(utcDays * 86400 * 1000);
+    }
+  }
+
+  // yyyyMMdd متصل
+  const mCompact = s.match(/(?<!\d)(20\d{2}|19\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?!\d)/);
+  if (mCompact) {
+    return new Date(Date.UTC(+mCompact[1], +mCompact[2] - 1, +mCompact[3]));
+  }
+
+  // استخراج التوكن الرقمي للتاريخ
+  const mTok = s.match(/(\d{1,4})\s*[/\-.\s]\s*(\d{1,2})\s*[/\-.\s]\s*(\d{1,4})/);
+  if (mTok) {
+    let a = +mTok[1], b = +mTok[2], c = +mTok[3];
+    let y, m, d;
+    if (a >= 1900 && a <= 2100) { y = a; m = b; d = c; }
+    else if (c >= 1900 && c <= 2100) {
+      y = c;
+      if (dayFirst) { d = a; m = b; if (m > 12 && d <= 12) [d, m] = [m, d]; }
+      else { m = a; d = b; if (m > 12 && d <= 12) [d, m] = [m, d]; }
+    } else if (c < 100) {
+      y = c + (c >= 70 ? 1900 : 2000);
+      if (dayFirst) { d = a; m = b; } else { m = a; d = b; }
+    }
+    if (y >= 1990 && y <= 2100 && m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      return new Date(Date.UTC(y, m - 1, d));
+    }
+  }
+  return null;
+}
+
+function fmt(n) {
+  return Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtDate(d) {
+  if (!d) return 'غير محدد';
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function daysBetween(d1, d2) {
+  return Math.abs(Math.round((d1.getTime() - d2.getTime()) / 86400000));
+}
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function colLetter(index) {
+  let s = '', n = index + 1;
+  while (n > 0) {
+    const r = (n - 1) % 26;
+    s = String.fromCharCode(65 + r) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
+/* =====================================================================================
+   4. قراءة الأوراق واكتشاف صف العناوين والأعمدة
+   ===================================================================================== */
+const HEADER_KEYS = ['تاريخ', 'date', 'مدين', 'debit', 'دائن', 'credit', 'مبلغ', 'amount', 'بيان', 'تفاصيل', 'desc', 'مرجع', 'ref'];
+const TOTAL_REGEX = /^(?:ال)?(?:اجمالي|إجمالي|مجموع|جمله|مجاميع)|^(?:grand\s*)?total|^sum\b/i;
+const BALANCE_REGEX = /^(?:ال)?رصيد|^balance|^opening|^closing/i;
+const FEE_REGEX = /(?:تحويل|عموله|عمولته|رسوم|استقطاع|ضريبه|خصم|تامين|vat|tax|fee|commission)\s*[:=]?\s*(\d[\d,]*(?:\.\d+)?)/gi;
+const REVERSAL_REGEX = /عكس|الغاء|الغي|مرتجع|ارجاع|استرجاع|تصحيح خطا|reversal|reverse|cancel|refund|void/i;
+
+function guessHeaderRow(rows) {
+  let bestRow = 0, bestScore = 0;
+  const limit = Math.min(rows.length, 30);
+  for (let i = 0; i < limit; i++) {
+    const r = rows[i];
+    if (!r) continue;
+    let score = 0;
+    for (const cell of r) {
+      const h = String(cell ?? '').trim().toLowerCase();
+      if (!h) continue;
+      if (h === 'منه' || h === 'له' || HEADER_KEYS.some(k => h.includes(k))) score++;
+    }
+    if (score > bestScore) { bestScore = score; bestRow = i; }
+  }
+  return bestRow;
+}
+
+function totalsLabel(fields) {
+  if (!fields) return '';
+  for (const cell of fields) {
+    if (!cell) continue;
+    const t = normalizeArabic(String(cell)).trim().toLowerCase();
+    if (!t || t.length > 40 || /\d/.test(t[0])) continue;
+    if (TOTAL_REGEX.test(t)) return 'total';
+    if (BALANCE_REGEX.test(t)) return 'balance';
+  }
+  return '';
+}
+
+function extractFee(desc, amount, maxRatio) {
+  if (!desc || amount <= 0) return 0;
+  const text = normalizeArabic(normalizeDigits(String(desc))).toLowerCase();
+  FEE_REGEX.lastIndex = 0;
+  let m;
+  while ((m = FEE_REGEX.exec(text)) !== null) {
+    const fee = parseDecimalSafe(m[1]);
+    if (fee > 0 && fee < amount && fee <= amount * maxRatio && (amount - fee) >= 0.5) return fee;
+  }
+  return 0;
+}
+
+function pickCol(forced, headers, used, exact, contains, excluded) {
+  let idx = forced !== undefined && forced >= 0 ? forced : -1;
+  if (idx < 0) {
+    for (let i = 0; i < headers.length; i++) {
+      if (used.has(i)) continue;
+      if (exact.includes(headers[i])) { idx = i; break; }
+    }
+  }
+  if (idx < 0) {
+    for (let i = 0; i < headers.length; i++) {
+      if (used.has(i)) continue;
+      const h = headers[i];
+      if (!h || (excluded && excluded.some(x => h.includes(x)))) continue;
+      if (contains.some(k => h.includes(k))) { idx = i; break; }
+    }
+  }
+  if (idx >= 0) used.add(idx);
+  return idx;
+}
+
+function buildTransactionsFromRows(rows, sourceName, side, map, opts, warnings) {
+  const list = [];
+  if (!rows || rows.length === 0) return list;
+
+  let headerRow = (map && map.headerRow >= 0) ? map.headerRow : guessHeaderRow(rows);
+  if (headerRow >= rows.length) headerRow = 0;
+  const headers = (rows[headerRow] || []).map(h => String(h ?? '').trim().toLowerCase());
+  const used = new Set();
+
+  const colDate = pickCol(map?.dateCol ?? -1, headers, used, ['تاريخ', 'التاريخ', 'date'], ['تاريخ', 'date'], null);
+  const colDebit = pickCol(map?.debitCol ?? -1, headers, used, ['منه', 'مدين', 'dr', 'debit'], ['مدين', 'debit'], null);
+  const colCredit = pickCol(map?.creditCol ?? -1, headers, used, ['له', 'دائن', 'cr', 'credit'], ['دائن', 'credit'], null);
+  let colAmount = -1;
+  if (colDebit < 0 && colCredit < 0) {
+    colAmount = pickCol(map?.amountCol ?? -1, headers, used, ['قيمة', 'القيمة', 'مبلغ', 'المبلغ', 'amount', 'value'], ['مبلغ', 'amount', 'قيمة'], ['رصيد', 'balance']);
+  }
+  const colRef = pickCol(map?.refCol ?? -1, headers, used, ['مرجع', 'المرجع', 'رقم المرجع', 'ref', 'reference', 'رقم القيد', 'رقم السند', 'رقم العملية', 'رقم الحركة', 'رقمه'], ['مرجع', 'ref', 'رقم', 'number'], ['حساب', 'account', 'هاتف', 'phone', 'جوال', 'mobile', 'iban']);
+  const colDesc = pickCol(map?.descCol ?? -1, headers, used, ['بيان', 'البيان', 'تفاصيل', 'التفاصيل', 'وصف', 'الوصف', 'description', 'desc', 'details'], ['بيان', 'تفاصيل', 'desc', 'detail', 'وصف', 'ملاحظ'], null);
+  const colDoc = pickCol(map?.docCol ?? -1, headers, used, ['المستند', 'مستند', 'نوع المستند', 'نوع الحركة', 'نوع القيد', 'document', 'doc', 'type'], ['مستند', 'نوع', 'doctype'], null);
+
+  if (colDebit < 0 && colCredit < 0 && colAmount < 0) {
+    throw new Error(`تعذر تحديد أعمدة المبالغ في [${sourceName}] — استخدم زر «تعيين الأعمدة».`);
+  }
+
+  let ctrlDebit = 0, ctrlCredit = 0, hasControl = false;
+
+  for (let i = headerRow + 1; i < rows.length; i++) {
+    const fields = rows[i];
+    if (!fields || fields.length === 0) continue;
+
+    const transDate = (colDate >= 0 && colDate < fields.length) ? tryParseFlexibleDate(fields[colDate], opts.dayFirstDates) : null;
+
+    if (opts.skipTotalsRows && !transDate) {
+      const lbl = totalsLabel(fields);
+      if (lbl) {
+        if (lbl === 'total' && !hasControl) {
+          if (colDebit >= 0 && colDebit < fields.length) ctrlDebit = parseDecimalSafe(fields[colDebit]);
+          if (colCredit >= 0 && colCredit < fields.length) ctrlCredit = parseDecimalSafe(fields[colCredit]);
+          hasControl = (ctrlDebit > 0 || ctrlCredit > 0);
+        }
+        continue;
+      }
+    }
+
+    let debit = 0, credit = 0;
+    if (colDebit >= 0 || colCredit >= 0) {
+      if (colDebit >= 0 && colDebit < fields.length) debit = parseDecimalSafe(fields[colDebit]);
+      if (colCredit >= 0 && colCredit < fields.length) credit = parseDecimalSafe(fields[colCredit]);
+      if (debit < 0) { credit += -debit; debit = 0; }
+      if (credit < 0) { debit += -credit; credit = 0; }
+    } else if (colAmount >= 0 && colAmount < fields.length) {
+      const amt = parseDecimalSafe(fields[colAmount]);
+      if (amt < 0) debit = Math.abs(amt); else credit = amt;
+    }
+
+    let hint = '';
+    if (debit > 0 && credit > 0) {
+      if (debit >= credit) { debit = +(debit - credit).toFixed(2); credit = 0; }
+      else { credit = +(credit - debit).toFixed(2); debit = 0; }
+      hint = 'ℹ️ القيد يحوي مدين ودائن معاً فتم اعتماد الصافي';
+    }
+
+    if (debit > 0 || credit > 0) {
+      const ref = (colRef >= 0 && colRef < fields.length) ? normalizeDigits(String(fields[colRef] ?? '')).trim().replace(/\.0$/, '') : '';
+      const desc = (colDesc >= 0 && colDesc < fields.length) ? String(fields[colDesc] ?? '').trim() : '';
+      const docType = (colDoc >= 0 && colDoc < fields.length) ? String(fields[colDoc] ?? '').trim() : '';
+      const amount = debit > 0 ? debit : credit;
+      list.push({
+        transDate,
+        debit,
+        credit,
+        amount,
+        isDebit: debit > 0,
+        ref,
+        desc,
+        docType,
+        matched: false,
+        matchLevel: '',
+        matchId: 0,
+        source: sourceName,
+        side,
+        rowNumber: i + 1,
+        feeAmount: extractFee(desc, amount, opts.maxFeeRatio),
+        superseded: false,
+        possibleDuplicate: false,
+        hint,
+        suggestion: '',
+        refNorm: normalizeRef(ref),
+        descNorm: normalizeDesc(desc),
+        descCompact: normalizeRef(desc),
+        nameTokens: extractNameTokens(desc)
+      });
+    }
+  }
+
+  if (hasControl && warnings) {
+    const sumD = list.reduce((acc, x) => acc + x.debit, 0);
+    const sumC = list.reduce((acc, x) => acc + x.credit, 0);
+    if (Math.abs(sumD - ctrlDebit) < 0.01 && Math.abs(sumC - ctrlCredit) < 0.01) {
+      warnings.push(`✅ [${sourceName}] تم التحقق: مجموع المدين (${fmt(sumD)}) والدائن (${fmt(sumC)}) يطابقان إجمالي الكشف.`);
+    } else {
+      warnings.push(`⚠️ [${sourceName}] المجاميع المقروءة (مدين ${fmt(sumD)} / دائن ${fmt(sumC)}) لا تطابق إجمالي الكشف (مدين ${fmt(ctrlDebit)} / دائن ${fmt(ctrlCredit)}).`);
+    }
+  }
+  return list;
+}
+
+/* =====================================================================================
+   5. محرك المطابقة الذكي (NativeSmartMatcher Engine in JS)
+   ===================================================================================== */
+function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
+  const warnings = [];
+  let nextMatchId = 0;
+  const nextId = () => ++nextMatchId;
+
+  const orig1 = buildTransactionsFromRows(rows1, name1, 1, map1, opts, warnings);
+  const orig2 = buildTransactionsFromRows(rows2, name2, 2, map2, opts, warnings);
+
+  if (orig1.length === 0) warnings.push(`⚠️ لم يتم العثور على أي حركة في الملف الأول [${name1}].`);
+  if (orig2.length === 0) warnings.push(`⚠️ لم يتم العثور على أي حركة في الملف الثاني [${name2}].`);
+
+  const all1 = [...orig1];
+  const all2 = [...orig2];
+
+  for (const t of [...all1, ...all2]) {
+    if (!t.transDate || t.amount <= 0) {
+      t.matched = false;
+      t.hint = '🚫 استُبعدت من المطابقة: لا يوجد تاريخ صحيح أو المبلغ صفر';
+    }
+  }
+
+  // كشف التكرار داخل الملف الواحد
+  if (opts.enableDuplicates) {
+    const flagDups = (list, srcName) => {
+      const groups = new Map();
+      for (const x of list) {
+        if (x.refNorm.length >= 3 && x.transDate) {
+          const k = `${x.refNorm}|${x.isDebit ? 'D' : 'C'}|${x.amount}|${fmtDate(x.transDate)}`;
+          if (!groups.has(k)) groups.set(k, []);
+          groups.get(k).push(x);
+        }
+      }
+      let n = 0;
+      for (const g of groups.values()) {
+        if (g.length > 1) {
+          for (const x of g) {
+            x.possibleDuplicate = true;
+            x.hint = '⚠️ تكرار محتمل داخل نفس الملف';
+            n++;
+          }
+        }
+      }
+      if (n > 0) warnings.push(`⚠️ [${srcName}] تم رصد ${n} قيد مكرر محتمل (نفس المرجع والمبلغ والجانب واليوم).`);
+    };
+    flagDups(all1, name1);
+    flagDups(all2, name2);
+  }
+
+  // (0) المطابقة العالمية بالرقم المشترك
+  if (opts.unlimitedRefMatch) {
+    const same = opts.sameConvention;
+    const groupByRef = list => {
+      const m = new Map();
+      for (const x of list) {
+        if (!x.matched && x.transDate && x.amount > 0 && x.refNorm.length >= 3) {
+          if (!m.has(x.refNorm)) m.set(x.refNorm, []);
+          m.get(x.refNorm).push(x);
+        }
+      }
+      return m;
+    };
+    const d1 = groupByRef(all1), d2 = groupByRef(all2);
+    for (const [refKey, items1] of d1.entries()) {
+      const items2 = d2.get(refKey);
+      if (!items2) continue;
+      for (let pass = 1; pass <= 2; pass++) {
+        const aIsDebit = (pass === 1);
+        const bIsDebit = aIsDebit ? same : !same;
+        const sideA = items1.filter(x => !x.matched && x.isDebit === aIsDebit);
+        const sideB = items2.filter(x => !x.matched && x.isDebit === bIsDebit);
+        if (sideA.length === 0 || sideB.length === 0 || sideA.length > 8 || sideB.length > 8) continue;
+        const sumA = sideA.reduce((s, x) => s + x.amount, 0);
+        const sumB = sideB.reduce((s, x) => s + x.amount, 0);
+        if (Math.abs(sumA - sumB) >= 0.01) continue;
+        let lbl;
+        if (sideA.length === 1 && sideB.length === 1) {
+          lbl = (fmtDate(sideA[0].transDate) === fmtDate(sideB[0].transDate)) ? 'L1-مبلغ+مرجع' : 'L1-مرجع عالمي (تجاوز التاريخ)';
+        } else {
+          lbl = `L6R-تجميع بالمرجع(${sideA.length}:${sideB.length})`;
+        }
+        const id = nextId();
+        for (const x of [...sideA, ...sideB]) { x.matched = true; x.matchId = id; x.matchLevel = lbl; }
+      }
+    }
+  }
+
+  // حساب درجة التطابق الزوجي
+  const computeScore = (a, b, level, maxDays) => {
+    const daysDiff = daysBetween(a.transDate, b.transDate);
+    if (daysDiff > maxDays) return { score: 0, label: '' };
+
+    const amtDiff = Math.abs(a.amount - b.amount);
+    const netDiffA = opts.enableFeeSplit ? Math.abs((a.amount - a.feeAmount) - b.amount) : Infinity;
+    const netDiffB = opts.enableFeeSplit ? Math.abs(a.amount - (b.amount - b.feeAmount)) : Infinity;
+
+    let isFeeMatch = false, amtOk = false;
+    if (amtDiff < 0.01) amtOk = true;
+    else if (a.feeAmount > 0 && netDiffA < 0.01) { amtOk = true; isFeeMatch = true; }
+    else if (b.feeAmount > 0 && netDiffB < 0.01) { amtOk = true; isFeeMatch = true; }
+
+    const tol = Math.max(opts.amountTolerance, Math.max(a.amount, b.amount) * opts.amountTolerancePct);
+    const amtClose = amtDiff <= tol || netDiffA <= tol || netDiffB <= tol;
+    const cw = Math.max(1, opts.crossDayWindowDays);
+    const dateBonus = 9 * (1 - Math.min(daysDiff, cw) / cw);
+
+    const refA = a.refNorm, refB = b.refNorm;
+    const hasRefs = refA.length > 0 && refB.length > 0;
+    const refExact = hasRefs && refA === refB;
+    const refClose = hasRefs && Math.min(refA.length, refB.length) >= 4 && (refA.includes(refB) || refB.includes(refA));
+    const refInDesc = (refA.length >= 5 && b.descCompact.includes(refA)) || (refB.length >= 5 && a.descCompact.includes(refB));
+
+    if (level === 'L1' && amtOk && refExact) {
+      return { score: 1000 + dateBonus, label: isFeeMatch ? 'L1-مبلغ صافي+مرجع' : 'L1-مبلغ+مرجع' };
+    }
+    if (level === 'L2' && amtOk && (refClose || refInDesc)) {
+      return { score: 900 + dateBonus, label: isFeeMatch ? 'L2-مبلغ صافي+مرجع~' : 'L2-مبلغ+مرجع~' };
+    }
+    if (level === 'L3' && amtOk) {
+      const descSim = similarity(a.descNorm, b.descNorm, opts.descSimilarityThreshold);
+      const nSim = nameSimilarity(a, b);
+      const sim = Math.max(descSim, nSim);
+      if (sim >= opts.descSimilarityThreshold) {
+        const ev = nSim > descSim ? 'اسم' : 'بيان';
+        return { score: 700 + sim * 100 + dateBonus, label: `${isFeeMatch ? 'L3-مبلغ صافي+' : 'L3-مبلغ+'}${ev}(${Math.round(sim * 100)}%)` };
+      }
+    }
+    if (level === 'L4' && amtOk && daysDiff <= Math.min(opts.dateWindowDays, maxDays)) {
+      return { score: 500 + (opts.dateWindowDays - daysDiff), label: isFeeMatch ? 'L4-مبلغ صافي+تاريخ~' : 'L4-مبلغ+تاريخ~' };
+    }
+    if (level === 'L5' && amtClose && maxDays <= opts.dateWindowDays) {
+      if (refExact) return { score: 300 + dateBonus, label: 'L5-مبلغ~+مرجع' };
+      const sim = Math.max(similarity(a.descNorm, b.descNorm, opts.descSimilarityThreshold), nameSimilarity(a, b));
+      if (sim >= opts.descSimilarityThreshold) return { score: 100 + sim * 100 + dateBonus, label: `L5-مبلغ~+بيان(${Math.round(sim * 100)}%)` };
+    }
+    return { score: 0, label: '' };
+  };
+
+  const matchLists = (listA, listB, maxDays, levels) => {
+    for (const level of levels) {
+      const aList = listA.filter(x => !x.matched);
+      const bList = listB.filter(x => !x.matched);
+      if (aList.length === 0 || bList.length === 0) break;
+      const cands = [];
+      for (const a of aList) {
+        const win = (level === 'L5' ? Math.max(opts.amountTolerance, a.amount * opts.amountTolerancePct) : 0.01) + (opts.enableFeeSplit ? a.amount * opts.maxFeeRatio : 0);
+        for (const b of bList) {
+          if (Math.abs(a.amount - b.amount) > win) continue;
+          const res = computeScore(a, b, level, maxDays);
+          if (res.score > 0) cands.push({ a, b, score: res.score, label: res.label });
+        }
+      }
+      cands.sort((x, y) => y.score - x.score);
+      for (const c of cands) {
+        if (!c.a.matched && !c.b.matched) {
+          const id = nextId();
+          c.a.matched = true; c.b.matched = true;
+          c.a.matchId = id; c.b.matchId = id;
+          c.a.matchLevel = c.label; c.b.matchLevel = c.label;
+        }
+      }
+    }
+  };
+
+  const crossMatchLocalized = (l1, l2, maxDays, levels) => {
+    const same = opts.sameConvention;
+    matchLists(l1.filter(x => x.isDebit), l2.filter(x => x.isDebit === same), maxDays, levels);
+    matchLists(l1.filter(x => !x.isDebit), l2.filter(x => (!x.isDebit) === same), maxDays, levels);
+  };
+
+  // البحث عن مجموعات جزئية (Subset Sum N:1)
+  const findComboMatchingSum = (candidates, targetAmount, maxSize, tolerance) => {
+    const sorted = [...candidates].sort((a, b) => b.amount - a.amount);
+    const n = sorted.length;
+    if (n < 2) return null;
+    const suffix = new Array(n + 1).fill(0);
+    for (let i = n - 1; i >= 0; i--) suffix[i] = suffix[i + 1] + sorted[i].amount;
+    if (suffix[0] < targetAmount - tolerance) return null;
+
+    let nodes = 0;
+    const nodeLimit = 60000;
+    const tols = tolerance > 0.01 ? [0.01, tolerance] : [0.01];
+
+    for (const tol of tols) {
+      for (let exactSize = 2; exactSize <= Math.min(maxSize, n); exactSize++) {
+        const chosen = [];
+        let best = null;
+        const dfs = (startIdx, currentSum) => {
+          if (best || nodes > nodeLimit) return;
+          nodes++;
+          if (chosen.length === exactSize) {
+            if (Math.abs(currentSum - targetAmount) <= tol) best = [...chosen];
+            return;
+          }
+          if (startIdx >= n || currentSum > targetAmount + tol || currentSum + suffix[startIdx] < targetAmount - tol) return;
+          for (let i = startIdx; i < n; i++) {
+            if (i > startIdx && sorted[i].amount === sorted[i - 1].amount) continue;
+            chosen.push(sorted[i]);
+            dfs(i + 1, currentSum + sorted[i].amount);
+            chosen.pop();
+            if (best || nodes > nodeLimit) return;
+          }
+        };
+        dfs(0, 0);
+        if (best) return best;
+        if (nodes > nodeLimit) return null;
+      }
+    }
+    return null;
+  };
+
+  const matchSubsets = (source, target, maxDays, isFuzzy) => {
+    const targets = target.filter(x => !x.matched && x.transDate && x.amount > 0).sort((a, b) => b.amount - a.amount);
+    for (const t of targets) {
+      if (t.matched) continue;
+      const tol = isFuzzy ? +(t.amount * opts.maxFeeRatio).toFixed(2) : 0.01;
+      let cands = source.filter(x => !x.matched && x.transDate && x.amount <= t.amount + tol && daysBetween(x.transDate, t.transDate) <= maxDays)
+                        .sort((a, b) => daysBetween(a.transDate, t.transDate) - daysBetween(b.transDate, t.transDate) || b.amount - a.amount);
+      if (cands.length < 2) continue;
+      if (cands.length > 35) cands = cands.slice(0, 35);
+      const combo = findComboMatchingSum(cands, +t.amount.toFixed(2), Math.min(opts.maxGroupSize, cands.length), tol);
+      if (combo && combo.length >= 2) {
+        const actualDiff = +Math.abs(combo.reduce((s, x) => s + x.amount, 0) - t.amount).toFixed(2);
+        if (isFuzzy && actualDiff > 0.5) {
+          const combinedDesc = combo.map(x => x.descNorm).join(' ');
+          const sim = similarity(combinedDesc, t.descNorm, 0);
+          if (sim < 0.25 && !(t.refNorm.length >= 4 && combo.some(x => x.refNorm === t.refNorm))) continue;
+        }
+        const id = nextId();
+        const lbl = (isFuzzy && actualDiff > 0.5) ? `L6F-تجميع مقارب(${combo.length}:1) فرق رسوم ${fmt(actualDiff)}` : `L6-تجميع(${combo.length}:1)`;
+        t.matched = true; t.matchId = id; t.matchLevel = lbl;
+        for (const c of combo) { c.matched = true; c.matchId = id; c.matchLevel = lbl; }
+      }
+    }
+  };
+
+  const groupPassLocalized = (l1, l2, maxDays) => {
+    const same = opts.sameConvention;
+    for (const isFuzzy of [false, ...(opts.enableFuzzy ? [true] : [])]) {
+      for (let pass = 1; pass <= 2; pass++) {
+        const aIsDebit = (pass === 1);
+        const aPool = l1.filter(x => !x.matched && x.isDebit === aIsDebit);
+        const bPool = l2.filter(x => !x.matched && x.isDebit === (aIsDebit ? same : !same));
+        matchSubsets(aPool, bPool, maxDays, isFuzzy);
+        matchSubsets(bPool, aPool, maxDays, isFuzzy);
+      }
+    }
+  };
+
+  const windows = Array.from(new Set([0, Math.max(0, opts.dateWindowDays), Math.max(0, opts.crossDayWindowDays)])).sort((a, b) => a - b);
+  const gPool1 = all1.filter(x => !x.matched && x.transDate && x.amount > 0);
+  const gPool2 = all2.filter(x => !x.matched && x.transDate && x.amount > 0);
+
+  // (1) المطابقات القوية (L1, L2, L3)
+  for (const w of windows) crossMatchLocalized(gPool1, gPool2, w, ['L1', 'L2', 'L3']);
+
+  // (2) المطابقات الضعيفة والتجميع
+  for (const w of windows) crossMatchLocalized(gPool1, gPool2, w, ['L4', 'L5']);
+  if (opts.enableGroupMatching) groupPassLocalized(gPool1, gPool2, opts.dateWindowDays);
+
+  // (3) المطابقة التقريبية 1:1 (L6F)
+  if (opts.enableFuzzy) {
+    const same = opts.sameConvention;
+    for (let pass = 1; pass <= 2; pass++) {
+      const aIsDebit = (pass === 1);
+      const aPool = gPool1.filter(x => !x.matched && x.isDebit === aIsDebit).sort((a, b) => b.amount - a.amount);
+      const bPool = gPool2.filter(x => !x.matched && x.isDebit === (aIsDebit ? same : !same));
+      for (const a of aPool) {
+        if (a.matched) continue;
+        let bestB = null, bestDiffScore = Infinity, actualDiff = 0;
+        for (const b of bPool) {
+          if (b.matched || daysBetween(a.transDate, b.transDate) > opts.dateWindowDays) continue;
+          const diff = Math.abs(a.amount - b.amount);
+          const maxAmt = Math.max(a.amount, b.amount);
+          if (diff > 0.5 && diff <= maxAmt * opts.maxFeeRatio) {
+            const sim = Math.max(similarity(a.descNorm, b.descNorm, 0), nameSimilarity(a, b));
+            if (sim >= 0.3 || (a.refNorm.length >= 4 && a.refNorm === b.refNorm)) {
+              const score = diff - sim * 100;
+              if (score < bestDiffScore) { bestDiffScore = score; actualDiff = diff; bestB = b; }
+            }
+          }
+        }
+        if (bestB) {
+          const id = nextId();
+          const lbl = `L6F-مبلغ مقارب(رسوم مدمجة): فرق ${fmt(actualDiff)}`;
+          a.matched = true; bestB.matched = true;
+          a.matchId = id; bestB.matchId = id;
+          a.matchLevel = lbl; bestB.matchLevel = lbl;
+        }
+      }
+    }
+  }
+
+  // (4) كشف القيد وعكسه داخل نفس الملف (L0R)
+  const reversals = [];
+  if (opts.enableReversals) {
+    const detectRev = list => {
+      const pool = list.filter(x => !x.matched && !x.superseded && x.transDate && x.amount > 0);
+      const debits = pool.filter(x => x.isDebit);
+      const credits = pool.filter(x => !x.isDebit);
+      for (const d of debits) {
+        if (d.superseded) continue;
+        let best = null, bestScore = -Infinity;
+        for (const c of credits) {
+          if (c.superseded || Math.abs(c.amount - d.amount) >= 0.01) continue;
+          const days = daysBetween(c.transDate, d.transDate);
+          if (days > opts.crossDayWindowDays) continue;
+          const refEq = d.refNorm.length >= 3 && d.refNorm === c.refNorm;
+          const hasWord = REVERSAL_REGEX.test(d.descNorm) || REVERSAL_REGEX.test(c.descNorm);
+          if (!(refEq || (hasWord && days <= opts.dateWindowDays))) continue;
+          const sc = (refEq ? 100 : 0) + (hasWord ? 20 : 0) - days;
+          if (sc > bestScore) { bestScore = sc; best = c; }
+        }
+        if (best) {
+          const id = nextId();
+          d.superseded = true; best.superseded = true;
+          d.matchId = id; best.matchId = id;
+          reversals.push({ groupId: id, level: 'L0R-قيد وعكسه', items: [d, best] });
+        }
+      }
+    };
+    detectRev(all1);
+    detectRev(all2);
+    if (reversals.length > 0) warnings.push(`ℹ️ تم رصد ${reversals.length} زوج (قيد + عكسه) داخل نفس الملف واستُبعدت من الفروقات لأن أثرها صفر.`);
+  }
+
+  const active = [...all1, ...all2].filter(x => !x.superseded);
+  const unmatchedRecords = active.filter(x => !x.matched).sort((a, b) => {
+    const da = a.transDate ? a.transDate.getTime() : Infinity;
+    const db = b.transDate ? b.transDate.getTime() : Infinity;
+    return da - db || a.side - b.side || a.rowNumber - b.rowNumber;
+  });
+
+  const groupMap = new Map();
+  for (const x of active.filter(t => t.matched)) {
+    if (!groupMap.has(x.matchId)) groupMap.set(x.matchId, { groupId: x.matchId, level: x.matchLevel, items: [] });
+    groupMap.get(x.matchId).items.push(x);
+  }
+  const matchedGroups = Array.from(groupMap.values()).sort((a, b) => a.groupId - b.groupId);
+
+  // اقتراحات القيود غير المتطابقة
+  if (opts.enableSuggestions) {
+    const u1 = unmatchedRecords.filter(x => x.side === 1 && x.amount > 0);
+    const u2 = unmatchedRecords.filter(x => x.side === 2 && x.amount > 0);
+    const same = opts.sameConvention;
+    for (const x of [...u1, ...u2]) {
+      const others = x.side === 1 ? u2 : u1;
+      const wantDebit = same ? x.isDebit : !x.isDebit;
+      let best = null, bestScore = 0, bestNs = 0;
+      for (const y of others) {
+        if (y.isDebit !== wantDebit) continue;
+        const ns = nameSimilarity(x, y);
+        const refEq = x.refNorm.length >= 3 && x.refNorm === y.refNorm;
+        const diff = Math.abs(x.amount - y.amount);
+        const ratio = diff / Math.max(x.amount, y.amount);
+        if (ns < 0.65 && !refEq && ratio > 0.01) continue;
+        const sc = ns * 100 + (refEq ? 60 : 0) + (1 - Math.min(1, ratio)) * 40;
+        if (sc > bestScore) { bestScore = sc; best = y; bestNs = ns; }
+      }
+      if (best) {
+        const reasons = [];
+        if (bestNs >= 0.65) reasons.push(`الاسم متشابه (${Math.round(bestNs * 100)}%)`);
+        if (x.refNorm.length >= 3 && x.refNorm === best.refNorm) reasons.push('نفس المرجع');
+        const d = Math.abs(x.amount - best.amount);
+        reasons.push(d < 0.01 ? 'نفس المبلغ' : `فرق المبلغ ${fmt(d)}`);
+        x.suggestion = `💡 أقرب قيد محتمل في [${best.source}]: ${fmtDate(best.transDate)} | ${fmt(best.amount)} | مرجع ${best.ref || '-'} — ${reasons.join('، ')}`;
+      }
+    }
+  }
+
+  // الإحصائيات والتسوية
+  const signedNet = x => {
+    let v = x.debit - x.credit;
+    if (x.side === 2 && !opts.sameConvention) v = -v;
+    return v;
+  };
+  const levelKey = lvl => (lvl && lvl.includes('-')) ? lvl.split('-')[0] : (lvl || '');
+  const confidenceOf = k => (k === 'L1' || k === 'L2') ? 'عالية' : (k === 'L3' || k === 'L6' || k === 'L6R') ? 'متوسطة' : 'منخفضة';
+
+  const a1 = all1.filter(x => !x.superseded);
+  const a2 = all2.filter(x => !x.superseded);
+  const stats = {
+    count1: a1.length,
+    count2: a2.length,
+    matched1: a1.filter(x => x.matched).length,
+    matched2: a2.filter(x => x.matched).length,
+    net1: orig1.reduce((s, x) => s + signedNet(x), 0),
+    net2: orig2.reduce((s, x) => s + signedNet(x), 0),
+    groupCount: matchedGroups.length,
+    reversalPairs: reversals.length
+  };
+  stats.netDiff = +(stats.net1 - stats.net2).toFixed(2);
+  const total = stats.count1 + stats.count2;
+  stats.matchRatePct = total === 0 ? 100 : ((stats.matched1 + stats.matched2) * 100 / total);
+
+  for (const g of matchedGroups) {
+    const s1 = g.items.filter(x => x.side === 1).reduce((s, x) => s + x.amount, 0);
+    const s2 = g.items.filter(x => x.side === 2).reduce((s, x) => s + x.amount, 0);
+    g.diff = +(s1 - s2).toFixed(2);
+    const e1 = g.items.filter(x => x.side === 1).reduce((s, x) => s + signedNet(x), 0);
+    const e2 = g.items.filter(x => x.side === 2).reduce((s, x) => s + signedNet(x), 0);
+    g.effect = +(e1 - e2).toFixed(2);
+    const k = levelKey(g.level);
+    g.levelKey = k;
+    g.needsReview = ['L4', 'L5', 'L6F'].includes(k);
+    g.confidence = confidenceOf(k);
+  }
+
+  stats.matchedEffect = +matchedGroups.reduce((s, g) => s + g.effect, 0).toFixed(2);
+  stats.unmatchedEffect = +unmatchedRecords.reduce((s, x) => s + (x.side === 1 ? signedNet(x) : -signedNet(x)), 0).toFixed(2);
+  stats.reviewGroups = matchedGroups.filter(g => g.needsReview).length;
+  stats.diffGroups = matchedGroups.filter(g => Math.abs(g.diff) >= 0.01).length;
+
+  const result = { name1, name2, unmatchedRecords, matchedGroups, reversals, warnings, stats, reportText: '' };
+  result.reportText = buildReportHtml(result, opts);
+  return result;
+}
+
+/* =====================================================================================
+   6. بناء تقرير HTML المدمج (نفس تصميم BuildReport في VB.NET)
+   ===================================================================================== */
+function buildReportHtml(result, opts) {
+  const st = result.stats;
+  const recon = +(st.matchedEffect + st.unmatchedEffect).toFixed(2);
+  const reconOk = Math.abs(recon - st.netDiff) < 0.01;
+
+  const renderCard = x => {
+    const sideText = x.isDebit ? 'مدين' : 'دائن';
+    const sideBadge = x.isDebit ? 'badge-debit' : 'badge-credit';
+    const srcBadge = x.side === 1 ? 'badge-src1' : 'badge-src2';
+    const borderCls = x.side === 1 ? 'card-border-src1' : 'card-border-src2';
+    const ref = x.ref || '─';
+    const desc = !x.desc ? 'لا يوجد بيان' : (x.desc.length > 160 ? x.desc.substring(0, 160) + '...' : x.desc);
+    return `
+      <div class="unmatched-card ${borderCls}">
+        <div class="card-header-row">
+          <div class="card-header-right">
+            <span class="badge ${srcBadge}">🏢 ${escHtml(x.source)}</span>
+            <span class="badge ${sideBadge}">${sideText}</span>
+            ${x.docType ? `<span class="badge badge-doc">📑 ${escHtml(x.docType)}</span>` : ''}
+            <span class="record-date">📅 ${fmtDate(x.transDate)}</span>
+            <span class="record-ref">مرجع: <b>${escHtml(ref)}</b></span>
+          </div>
+          <div class="card-header-left"><span class="record-amount">${fmt(x.amount)}</span></div>
+        </div>
+        ${x.hint ? `<div class="card-hint-row">${escHtml(x.hint)}</div>` : ''}
+        <div class="record-desc">${escHtml(desc)}</div>
+        ${x.suggestion ? `<div class="record-sugg">${escHtml(x.suggestion)}</div>` : ''}
+      </div>`;
+  };
+
+  return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><title>تقرير المطابقة المالية</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f1f5f9; color: #1e293b; margin: 0; padding: 15px; direction: rtl; text-align: right; }
+    .report-container { max-width: 1080px; margin: auto; background: #fff; padding: 24px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    .header { text-align: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 18px; }
+    .header h1 { margin: 0 0 8px 0; font-size: 22px; color: #0f172a; }
+    .header h3 { margin: 0; font-size: 14px; color: #0d9488; }
+    .kpi-table { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0 22px; }
+    .kpi-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 6px; text-align: center; border-top: 4px solid #2563eb; }
+    .kpi-val { display: block; font-size: 20px; font-weight: bold; margin-bottom: 4px; }
+    .kpi-lbl { font-size: 11.5px; color: #64748b; font-weight: 600; }
+    .section-card { border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; margin-bottom: 16px; border-right: 5px solid #3b82f6; }
+    .section-title { font-size: 14.5px; font-weight: bold; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px dashed #e2e8f0; }
+    table.tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    table.tbl th, table.tbl td { border: 1px solid #e2e8f0; padding: 7px 10px; text-align: right; }
+    table.tbl th { background: #f8fafc; }
+    .unmatched-card { border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 9px; }
+    .card-border-src1 { border-right: 4px solid #2563eb; }
+    .card-border-src2 { border-right: 4px solid #db2777; }
+    .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 5px; }
+    .badge-src1 { background: #dbeafe; color: #1d4ed8; }
+    .badge-src2 { background: #fce7f3; color: #be185d; }
+    .badge-debit { background: #dcfce7; color: #15803d; }
+    .badge-credit { background: #fef3c7; color: #b45309; }
+    .badge-doc { background: #f3e8ff; color: #7e22ce; }
+    .record-amount { font-size: 15.5px; font-weight: bold; direction: ltr; }
+    .record-desc { font-size: 12.5px; color: #334155; padding-top: 5px; border-top: 1px dashed #e2e8f0; margin-top: 5px; }
+    .record-sugg { margin-top: 5px; color: #1d4ed8; background: #eff6ff; padding: 4px 8px; border-radius: 4px; font-size: 11.5px; }
+    .card-hint-row { font-size: 11.5px; color: #b45309; background: #fffbeb; padding: 3px 8px; border-radius: 4px; margin: 4px 0; }
+  </style></head><body>
+  <div class="report-container">
+    <div class="header">
+      <h1>📊 تقرير المطابقة والتسوية المالية</h1>
+      <h3>الطرف الأول: <strong>${escHtml(result.name1)}</strong> ◄► الطرف الثاني: <strong>${escHtml(result.name2)}</strong></h3>
+    </div>
+    <div class="kpi-table">
+      <div class="kpi-card" style="border-top-color:#16a34a"><span class="kpi-val" style="color:#16a34a">${st.matchRatePct.toFixed(1)}%</span><span class="kpi-lbl">نسبة المطابقة</span></div>
+      <div class="kpi-card"><span class="kpi-val">${st.count1}</span><span class="kpi-lbl">قيود ${escHtml(result.name1)}</span></div>
+      <div class="kpi-card" style="border-top-color:#0891b2"><span class="kpi-val">${st.count2}</span><span class="kpi-lbl">قيود ${escHtml(result.name2)}</span></div>
+      <div class="kpi-card" style="border-top-color:#dc2626"><span class="kpi-val" style="color:#dc2626">${result.unmatchedRecords.length}</span><span class="kpi-lbl">قيود غير متطابقة</span></div>
+      <div class="kpi-card" style="border-top-color:#f59e0b"><span class="kpi-val" style="color:#d97706">${st.reviewGroups}</span><span class="kpi-lbl">تحتاج مراجعة</span></div>
+    </div>
+    <div class="section-card" style="border-right-color:#8b5cf6">
+      <div class="section-title">🧮 تسوية صافي الفارق الكلي</div>
+      <table class="tbl">
+        <tr><td>صافي الفارق الكلي (الطرف الأول − الطرف الثاني)</td><td style="direction:ltr;text-align:left;font-weight:bold">${fmt(st.netDiff)}</td></tr>
+        <tr><td>أثر فروق المبالغ داخل المطابقات (عمولات / رسوم) — ${st.diffGroups} مجموعة</td><td style="direction:ltr;text-align:left">${fmt(st.matchedEffect)}</td></tr>
+        <tr><td>أثر القيود غير المتطابقة — ${result.unmatchedRecords.length} قيد</td><td style="direction:ltr;text-align:left">${fmt(st.unmatchedEffect)}</td></tr>
+        <tr><td>التحقق الرياضي من المطابقة الكلية</td><td style="direction:ltr;text-align:left">${reconOk ? '✅ متوازن تماماً' : '⚠️ فرق غير مفسر ' + fmt(st.netDiff - recon)}</td></tr>
+      </table>
+    </div>
+    <div class="section-card" style="border-right-color:#ef4444">
+      <div class="section-title">📋 القيود غير المتطابقة النهائية (${result.unmatchedRecords.length} قيد)</div>
+      ${result.unmatchedRecords.length > 0 ? result.unmatchedRecords.map(renderCard).join('') : '<div style="padding:16px;text-align:center;color:#166534;background:#f0fdf4;border-radius:6px;font-weight:bold;">🎉 مطابقة تامة 100%! لا توجد أي فروقات أو قيود معلقة.</div>'}
+    </div>
+  </div></body></html>`;
+}
+
+/* =====================================================================================
+   7. إدارة الواجهة والأحداث (UI & DOM Wiring)
+   ===================================================================================== */
+function showPage(index) {
+  document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === index));
+  document.querySelectorAll('.nav-btn').forEach((b, i) => b.classList.toggle('active', i === index));
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page, 10)));
+});
+
+let bannerTimer = null;
+function showBanner(text, kind = 'ok') {
+  const el = document.getElementById('pnlBanner');
+  el.style.background = kind === 'ok' ? 'var(--success)' : kind === 'warn' ? 'var(--warning)' : 'var(--danger)';
+  el.textContent = text;
+  el.style.display = 'block';
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(() => { el.style.display = 'none'; }, 6500);
+}
+document.getElementById('pnlBanner').addEventListener('click', function() { this.style.display = 'none'; });
+
+function applyTheme() {
+  document.body.classList.toggle('dark', settings.darkMode);
+  document.getElementById('btnTheme').textContent = settings.darkMode ? '☀️' : '🌙';
+  if (currentResult) drawDonut(currentResult.stats.matchRatePct, `${currentResult.stats.matched1 + currentResult.stats.matched2} من ${currentResult.stats.count1 + currentResult.stats.count2} قيد`);
+}
+
+document.getElementById('btnTheme').addEventListener('click', () => {
+  settings.darkMode = !settings.darkMode;
+  saveSettings();
+  applyTheme();
+});
+
+// قراءة ملف Excel / CSV باستخدام SheetJS
+function handleFileSelect(slotNum, file) {
+  if (!file) return;
+  const slot = slots[slotNum];
+  document.getElementById('lblStatus').textContent = `⏳ جاري قراءة: ${file.name}...`;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, { type: 'array', raw: false });
+      slot.workbook = wb;
+      slot.fileName = file.name;
+      slot.mapping = null;
+      document.getElementById(`txtPath${slotNum}`).value = file.name;
+      const baseName = file.name.replace(/\.[^.]+$/, '');
+      const lblInput = document.getElementById(`txtLabel${slotNum}`);
+      if (!lblInput.value.trim()) lblInput.placeholder = `الاسم الافتراضي: ${baseName}`;
+
+      const cbo = document.getElementById(`cboSheet${slotNum}`);
+      cbo.innerHTML = '';
+      wb.SheetNames.forEach((nm, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = nm;
+        cbo.appendChild(opt);
+      });
+      cbo.disabled = wb.SheetNames.length === 0;
+      document.getElementById(`btnMap${slotNum}`).disabled = false;
+      loadSheetPreview(slotNum, 0);
+    } catch (err) {
+      showBanner(`تعذر فتح الملف: ${err.message}`, 'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function loadSheetPreview(slotNum, sheetIdx) {
+  const slot = slots[slotNum];
+  if (!slot.workbook) return;
+  const sheetName = slot.workbook.SheetNames[sheetIdx];
+  const sheet = slot.workbook.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+  slot.rows = rows;
+  renderPreviewGrid(slotNum, rows);
+  const hdr = guessHeaderRow(rows);
+  document.getElementById(`lblInfo${slotNum}`).textContent =
+    `✅ ${rows.length.toLocaleString()} صف • صف العناوين المقترح: ${hdr + 1}`;
+  document.getElementById('lblStatus').textContent = `✅ جاهز: ${slot.fileName}`;
+}
+
+function renderPreviewGrid(slotNum, rows) {
+  const wrap = document.getElementById(`previewWrap${slotNum}`);
+  if (!rows || rows.length === 0) {
+    wrap.innerHTML = `<div style="padding:35px; text-align:center; color:var(--muted); font-style:italic;">لم يتم اختيار ملف</div>`;
+    return;
+  }
+  const previewRows = rows.slice(0, 120);
+  const width = Math.max(1, ...previewRows.map(r => (r ? r.length : 0)));
+  const hdr = guessHeaderRow(rows);
+
+  let html = `<table class="data-grid"><thead><tr><th style="width:42px">#</th>`;
+  for (let c = 0; c < width; c++) html += `<th>${colLetter(c)}</th>`;
+  html += `</tr></thead><tbody>`;
+
+  for (let r = 0; r < previewRows.length; r++) {
+    const cls = r === hdr ? 'row-header-guess' : (totalsLabel(previewRows[r]) ? 'row-totals-guess' : '');
+    html += `<tr class="${cls}"><td>${r + 1}</td>`;
+    for (let c = 0; c < width; c++) {
+      html += `<td>${escHtml(previewRows[r]?.[c] ?? '')}</td>`;
+    }
+    html += `</tr>`;
+  }
+  html += `</tbody></table>`;
+  wrap.innerHTML = html;
+}
+
+// ربط أحداث رفع وسحب الملفات
+[1, 2].forEach(num => {
+  document.getElementById(`fileInput${num}`).addEventListener('change', e => handleFileSelect(num, e.target.files[0]));
+  document.getElementById(`cboSheet${num}`).addEventListener('change', e => loadSheetPreview(num, parseInt(e.target.value, 10)));
+  const card = document.getElementById(`dropSlot${num}`);
+  card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('dragover'); });
+  card.addEventListener('dragleave', () => card.classList.remove('dragover'));
+  card.addEventListener('drop', e => {
+    e.preventDefault();
+    card.classList.remove('dragover');
+    if (e.dataTransfer.files.length >= 2) {
+      handleFileSelect(1, e.dataTransfer.files[0]);
+      handleFileSelect(2, e.dataTransfer.files[1]);
+    } else if (e.dataTransfer.files.length === 1) {
+      handleFileSelect(num, e.dataTransfer.files[0]);
+    }
+  });
+});
+
+// تبديل الكشفين
+document.getElementById('btnSwap').addEventListener('click', () => {
+  const tmp = { ...slots[1] };
+  Object.assign(slots[1], slots[2], { index: 1, title: 'الكشف الأول' });
+  Object.assign(slots[2], tmp, { index: 2, title: 'الكشف الثاني' });
+
+  const p1 = document.getElementById('txtPath1').value;
+  document.getElementById('txtPath1').value = document.getElementById('txtPath2').value;
+  document.getElementById('txtPath2').value = p1;
+
+  const l1 = document.getElementById('txtLabel1').value;
+  document.getElementById('txtLabel1').value = document.getElementById('txtLabel2').value;
+  document.getElementById('txtLabel2').value = l1;
+
+  renderPreviewGrid(1, slots[1].rows);
+  renderPreviewGrid(2, slots[2].rows);
+  showBanner('تم تبديل الكشفين (الأول ↔ الثاني).', 'ok');
+});
+
+/* =====================================================================================
+   8. تشغيل المطابقة وتحديث جميع الجداول واللوحات
+   ===================================================================================== */
+function syncOptionsFromQuickStrip() {
+  settings.enableGroupMatching = document.getElementById('chkGroup').checked;
+  settings.enableFeeSplit = document.getElementById('chkFees').checked;
+  settings.sameConvention = document.getElementById('chkSame').checked;
+  settings.enableDuplicates = document.getElementById('chkDup').checked;
+  settings.enableSuggestions = document.getElementById('chkSugg').checked;
+  saveSettings();
+}
+['chkGroup', 'chkFees', 'chkSame', 'chkDup', 'chkSugg'].forEach(id => {
+  document.getElementById(id).addEventListener('change', syncOptionsFromQuickStrip);
+});
+
+function startMatching() {
+  if (!slots[1].rows.length || !slots[2].rows.length) {
+    showPage(0);
+    showBanner('يرجى اختيار ملفي الكشف أولاً أو الضغط على زر «بيانات تجريبية».', 'warn');
+    return;
+  }
+
+  const t0 = performance.now();
+  document.getElementById('progressBar').style.width = '35%';
+  document.getElementById('lblProgress').textContent = '⏳ جاري تحليل ومطابقة الحركات المالية...';
+
+  setTimeout(() => {
+    try {
+      const name1 = document.getElementById('txtLabel1').value.trim() || slots[1].fileName.replace(/\.[^.]+$/, '') || 'الطرف الأول';
+      const name2 = document.getElementById('txtLabel2').value.trim() || slots[2].fileName.replace(/\.[^.]+$/, '') || 'الطرف الثاني';
+
+      const result = runSmartMatcher(slots[1].rows, slots[2].rows, name1, name2, slots[1].mapping, slots[2].mapping, settings);
+      currentResult = result;
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+
+      document.getElementById('progressBar').style.width = '100%';
+      document.getElementById('lblProgress').textContent = `✅ اكتمل التحليل في ${elapsed} ثانية.`;
+      document.getElementById('btnExport').disabled = false;
+
+      populateAllViews(result);
+      showPage(1);
+
+      const st = result.stats;
+      if (result.unmatchedRecords.length === 0) {
+        showBanner('🎉 مطابقة تامة 100% — لا توجد قيود غير متطابقة!', 'ok');
+      } else {
+        showBanner(`اكتملت المطابقة: ${st.matchRatePct.toFixed(1)}% • غير متطابق: ${result.unmatchedRecords.length} • للمراجعة: ${st.reviewGroups}`, 'ok');
+      }
+    } catch (err) {
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('lblProgress').textContent = '❌ فشل التحليل.';
+      showBanner(err.message, 'err');
+    }
+  }, 50);
+}
+
+document.getElementById('btnRun').addEventListener('click', startMatching);
+
+function drawDonut(pct, caption) {
+  const canvas = document.getElementById('donutCanvas');
+  const ctx = canvas.getContext('2d');
+  const style = getComputedStyle(document.body);
+  const textColor = style.getPropertyValue('--text').trim();
+  const mutedColor = style.getPropertyValue('--muted').trim();
+  const trackColor = style.getPropertyValue('--border').trim();
+  const ringColor = pct >= 95 ? '#198754' : pct >= 80 ? '#ff9800' : '#dc3545';
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const cx = canvas.width / 2, cy = canvas.height / 2, r = 68;
+
+  ctx.lineWidth = 16;
+  ctx.strokeStyle = trackColor;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.stroke();
+
+  const sweep = (Math.max(0, Math.min(100, pct)) / 100) * Math.PI * 2;
+  if (sweep > 0.01) {
+    ctx.strokeStyle = ringColor;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + sweep);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = textColor;
+  ctx.font = 'bold 22px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${pct.toFixed(1)}%`, cx, cy - 2);
+
+  ctx.fillStyle = mutedColor;
+  ctx.font = '11.5px Segoe UI';
+  ctx.fillText(caption, cx, cy + 20);
+}
+
+function populateAllViews(r) {
+  const st = r.stats;
+  // الشارات الجانبية
+  document.getElementById('badgeUnmatched').textContent = r.unmatchedRecords.length;
+  document.getElementById('badgeMatched').textContent = r.matchedGroups.length;
+  document.getElementById('badgeReversals').textContent = r.reversals.length;
+  document.getElementById('badgeWarnings').textContent = r.warnings.length;
+
+  // بطاقات KPI
+  document.getElementById('kpiRate').textContent = `${st.matchRatePct.toFixed(1)}%`;
+  document.getElementById('kpiGroups').textContent = st.groupCount.toLocaleString();
+  document.getElementById('kpiUnmatched').textContent = r.unmatchedRecords.length.toLocaleString();
+  document.getElementById('kpiReview').textContent = st.reviewGroups.toLocaleString();
+  document.getElementById('kpiDiffGroups').textContent = st.diffGroups.toLocaleString();
+  document.getElementById('kpiNetDiff').textContent = fmt(st.netDiff);
+
+  drawDonut(st.matchRatePct, `${st.matched1 + st.matched2} من ${st.count1 + st.count2} قيد`);
+
+  // أشرطة مستويات المطابقة
+  const levelCounts = new Map();
+  for (const g of r.matchedGroups) {
+    levelCounts.set(g.levelKey, (levelCounts.get(g.levelKey) || 0) + 1);
+  }
+  const maxVal = Math.max(1, ...levelCounts.values());
+  const barContainer = document.getElementById('barLevels');
+  if (levelCounts.size === 0) {
+    barContainer.innerHTML = `<div style="text-align:center;color:var(--muted);padding-top:40px;">لا توجد بيانات بعد</div>`;
+  } else {
+    barContainer.innerHTML = Array.from(levelCounts.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([k, v]) => {
+      const label = LEVEL_NAMES[k] ? `${k} • ${LEVEL_NAMES[k]}` : k;
+      const color = (k === 'L1' || k === 'L2') ? 'var(--success)' : (['L4', 'L5', 'L6F'].includes(k) ? 'var(--warning)' : 'var(--purple)');
+      const w = Math.max(4, Math.round((v / maxVal) * 100));
+      return `<div class="bar-row"><div class="bar-label">${escHtml(label)}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${color}"></div></div><div class="bar-val">${v}</div></div>`;
+    }).join('');
+  }
+
+  // تسوية صافي الفارق
+  const recon = +(st.matchedEffect + st.unmatchedEffect).toFixed(2);
+  document.getElementById('recNet').textContent = fmt(st.netDiff);
+  document.getElementById('recMatched').textContent = fmt(st.matchedEffect);
+  document.getElementById('recUnmatched').textContent = fmt(st.unmatchedEffect);
+  document.getElementById('recRev').textContent = `${st.reversalPairs} زوج (0.00)`;
+  const chkEl = document.getElementById('recCheck');
+  if (Math.abs(recon - st.netDiff) < 0.01) {
+    chkEl.textContent = '✅ متطابق';
+    chkEl.style.color = 'var(--success)';
+  } else {
+    chkEl.textContent = `⚠ فرق ${fmt(st.netDiff - recon)}`;
+    chkEl.style.color = 'var(--danger)';
+  }
+
+  // أكبر 8 قيود غير متطابقة في لوحة المعلومات
+  const top8 = [...r.unmatchedRecords].sort((a, b) => b.amount - a.amount).slice(0, 8);
+  document.getElementById('topUnmatchedWrap').innerHTML = `
+    <table class="data-grid">
+      <thead><tr><th>الطرف</th><th>المبلغ</th><th>الجانب</th><th>المرجع</th><th>البيان</th></tr></thead>
+      <tbody>${top8.map(x => `<tr><td>${escHtml(x.source)}</td><td><b>${fmt(x.amount)}</b></td><td>${x.isDebit ? 'مدين' : 'دائن'}</td><td>${escHtml(x.ref)}</td><td>${escHtml(x.desc)}</td></tr>`).join('')}</tbody>
+    </table>`;
+
+  // فلاتر صفحة غير المتطابقة
+  const uCboSide = document.getElementById('uCboSide');
+  uCboSide.innerHTML = `<option value="0">كل الأطراف</option><option value="1">${escHtml(r.name1)}</option><option value="2">${escHtml(r.name2)}</option>`;
+
+  unmatchedRowsData = r.unmatchedRecords.map(x => {
+    const sideText = x.isDebit ? 'مدين' : 'دائن';
+    const full = `المصدر: ${x.source}   |   الصف في الملف: ${x.rowNumber}\nالتاريخ: ${fmtDate(x.transDate)}   |   الجانب: ${sideText}   |   المبلغ: ${fmt(x.amount)}\nالمرجع: ${x.ref || '-'}   ${x.docType ? '|   نوع المستند: ' + x.docType : ''}\nالبيان: ${x.desc}${x.hint ? '\nالتنبيه: ' + x.hint : ''}${x.suggestion ? '\n' + x.suggestion : ''}`;
+    return {
+      ...x,
+      dateText: fmtDate(x.transDate),
+      sideText,
+      searchText: normalizeDesc(`${x.source} ${x.ref} ${x.docType} ${x.desc} ${x.hint} ${x.suggestion} ${x.amount} ${fmtDate(x.transDate)}`),
+      full
+    };
+  });
+
+  // فلاتر صفحة المطابقات
+  const mCboLevel = document.getElementById('mCboLevel');
+  const distinctLevels = Array.from(new Set(r.matchedGroups.map(g => g.levelKey))).sort();
+  mCboLevel.innerHTML = `<option value="0">كل المستويات</option>` + distinctLevels.map(k => `<option value="${k}">${k}</option>`).join('');
+
+  matchedRowsData = r.matchedGroups.map(g => {
+    const s1 = g.items.filter(x => x.side === 1);
+    const s2 = g.items.filter(x => x.side === 2);
+    const itemShort = x => `${fmt(x.amount)}${x.ref ? ' #' + x.ref : ''}`;
+    const itemLong = x => `• ${fmtDate(x.transDate)} | ${x.isDebit ? 'مدين ' : 'دائن '}${fmt(x.amount)} | مرجع: ${x.ref || '-'}\n    ${x.desc}`;
+    const full = `المجموعة #${g.groupId}   |   المستوى: ${g.level}   |   الثقة: ${g.confidence}   |   الفرق (1 − 2): ${fmt(g.diff)}   |   الأثر: ${fmt(g.effect)}${g.needsReview ? '   |   ⚠ تحتاج مراجعة' : ''}\n── الطرف الأول (${r.name1}) ──\n${s1.map(itemLong).join('\n')}\n── الطرف الثاني (${r.name2}) ──\n${s2.map(itemLong).join('\n')}`;
+    return {
+      groupId: g.groupId,
+      levelText: g.level,
+      levelKey: g.levelKey,
+      confidence: g.confidence,
+      review: g.needsReview,
+      hasDiff: Math.abs(g.diff) >= 0.01,
+      side1Text: s1.map(itemShort).join('  +  '),
+      side2Text: s2.map(itemShort).join('  +  '),
+      diff: g.diff,
+      effect: g.effect,
+      searchText: normalizeDesc(`${g.level} ${g.confidence} ${g.items.map(x => `${x.ref} ${x.desc} ${x.amount}`).join(' ')}`),
+      full
+    };
+  });
+
+  filterUnmatched();
+  filterMatched();
+
+  // التقرير المدمج
+  document.getElementById('reportFrame').srcdoc = r.reportText;
+
+  // صفحة القيود وعكسها
+  document.getElementById('revGridWrap').innerHTML = `
+    <table class="data-grid">
+      <thead><tr><th>#</th><th>المصدر</th><th>تاريخ المدين</th><th>تاريخ الدائن</th><th>المبلغ</th><th>المرجع</th><th>البيان</th></tr></thead>
+      <tbody>${r.reversals.map(g => {
+        const a = g.items[0], b = g.items[1];
+        return `<tr><td>${g.groupId}</td><td>${escHtml(a.source)}</td><td>${fmtDate(a.transDate)}</td><td>${fmtDate(b.transDate)}</td><td><b>${fmt(a.amount)}</b></td><td>${escHtml(a.ref || b.ref)}</td><td>${escHtml(a.desc || b.desc)}</td></tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  // صفحة التحذيرات
+  document.getElementById('warnGridWrap').innerHTML = `
+    <table class="data-grid">
+      <thead><tr><th style="width:50px">#</th><th style="width:110px">النوع</th><th>الرسالة</th></tr></thead>
+      <tbody>${r.warnings.map((w, idx) => {
+        const kind = w.startsWith('✅') ? '✅ تحقق' : w.startsWith('ℹ') ? 'ℹ معلومة' : '⚠ تحذير';
+        const cls = w.startsWith('✅') ? 'tint-ok' : w.startsWith('ℹ') ? 'tint-info' : 'tint-warn';
+        return `<tr class="${cls}"><td>${idx + 1}</td><td><b>${kind}</b></td><td>${escHtml(w)}</td></tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  document.getElementById('lblStats').textContent = `مطابقة ${st.matchRatePct.toFixed(1)}%  •  غير متطابق ${r.unmatchedRecords.length}  •  صافي الفارق ${fmt(st.netDiff)}`;
+}
+
+// فلترة وعرض جدول غير المتطابقة
+function filterUnmatched() {
+  const q = normalizeDesc(document.getElementById('uSearch').value);
+  const side = parseInt(document.getElementById('uCboSide').value, 10);
+  const dir = document.getElementById('uCboDir').value;
+  const chkSugg = document.getElementById('uChkSugg').checked;
+  const chkHint = document.getElementById('uChkHint').checked;
+
+  const filtered = unmatchedRowsData.filter(x => {
+    if (q && !x.searchText.includes(q)) return false;
+    if (side > 0 && x.side !== side) return false;
+    if (dir !== '0' && x.sideText !== dir) return false;
+    if (chkSugg && !x.suggestion) return false;
+    if (chkHint && !x.hint) return false;
+    return true;
+  });
+
+  document.getElementById('uLblCount').textContent = `${filtered.length} / ${unmatchedRowsData.length}`;
+  const wrap = document.getElementById('uGridWrap');
+  wrap.innerHTML = `
+    <table class="data-grid" id="uTable">
+      <thead><tr><th>المصدر</th><th>التاريخ</th><th>الجانب</th><th>المبلغ</th><th>المرجع</th><th>المستند</th><th>البيان</th><th>الاقتراح</th><th>تنبيه</th><th>الصف</th></tr></thead>
+      <tbody>${filtered.map((x, i) => {
+        const cls = x.hint ? 'tint-warn' : x.suggestion ? 'tint-info' : '';
+        const sideColor = x.sideText === 'مدين' ? 'var(--success)' : 'var(--warning)';
+        return `<tr class="${cls}" data-idx="${i}">
+          <td>${escHtml(x.source)}</td><td>${x.dateText}</td>
+          <td style="color:${sideColor};font-weight:700">${x.sideText}</td>
+          <td style="direction:ltr;text-align:right;font-weight:700">${fmt(x.amount)}</td>
+          <td>${escHtml(x.ref)}</td><td>${escHtml(x.docType)}</td>
+          <td>${escHtml(x.desc)}</td><td>${escHtml(x.suggestion)}</td>
+          <td>${escHtml(x.hint)}</td><td>${x.rowNumber}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  const rows = wrap.querySelectorAll('tbody tr');
+  rows.forEach(tr => {
+    tr.addEventListener('click', () => {
+      rows.forEach(r => r.classList.remove('selected'));
+      tr.classList.add('selected');
+      document.getElementById('uDetails').value = filtered[parseInt(tr.dataset.idx, 10)].full;
+    });
+  });
+  document.getElementById('uDetails').value = filtered.length ? filtered[0].full : 'لا توجد صفوف مطابقة للفلاتر الحالية.';
+}
+['uSearch', 'uCboSide', 'uCboDir', 'uChkSugg', 'uChkHint'].forEach(id => {
+  document.getElementById(id).addEventListener('input', filterUnmatched);
+  document.getElementById(id).addEventListener('change', filterUnmatched);
+});
+
+// فلترة وعرض جدول المطابقات
+function filterMatched() {
+  const q = normalizeDesc(document.getElementById('mSearch').value);
+  const lvl = document.getElementById('mCboLevel').value;
+  const diffMode = document.getElementById('mCboDiff').value;
+  const chkRev = document.getElementById('mChkReview').checked;
+  const chkLow = document.getElementById('mChkLowConf').checked;
+
+  const filtered = matchedRowsData.filter(g => {
+    if (q && !g.searchText.includes(q)) return false;
+    if (lvl !== '0' && g.levelKey !== lvl) return false;
+    if (diffMode === '1' && !g.hasDiff) return false;
+    if (diffMode === '2' && g.hasDiff) return false;
+    if (chkRev && !g.review) return false;
+    if (chkLow && g.confidence !== 'منخفضة') return false;
+    return true;
+  });
+
+  document.getElementById('mLblCount').textContent = `${filtered.length} / ${matchedRowsData.length}`;
+  const wrap = document.getElementById('mGridWrap');
+  wrap.innerHTML = `
+    <table class="data-grid" id="mTable">
+      <thead><tr><th>#</th><th>المستوى</th><th>الثقة</th><th>مراجعة</th><th>الطرف الأول</th><th>الطرف الثاني</th><th>الفرق</th><th>الأثر</th></tr></thead>
+      <tbody>${filtered.map((g, i) => {
+        const cls = g.review ? 'tint-warn' : g.hasDiff ? 'tint-ok' : '';
+        const confColor = g.confidence === 'عالية' ? 'var(--success)' : g.confidence === 'متوسطة' ? 'var(--warning)' : 'var(--danger)';
+        return `<tr class="${cls}" data-idx="${i}">
+          <td>${g.groupId}</td><td>${escHtml(g.levelText)}</td>
+          <td style="color:${confColor};font-weight:700">${g.confidence}</td>
+          <td>${g.review ? '⚠ نعم' : ''}</td>
+          <td>${escHtml(g.side1Text)}</td><td>${escHtml(g.side2Text)}</td>
+          <td style="direction:ltr;text-align:right">${fmt(g.diff)}</td>
+          <td style="direction:ltr;text-align:right">${fmt(g.effect)}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`;
+
+  const rows = wrap.querySelectorAll('tbody tr');
+  rows.forEach(tr => {
+    tr.addEventListener('click', () => {
+      rows.forEach(r => r.classList.remove('selected'));
+      tr.classList.add('selected');
+      document.getElementById('mDetails').value = filtered[parseInt(tr.dataset.idx, 10)].full;
+    });
+  });
+  document.getElementById('mDetails').value = filtered.length ? filtered[0].full : 'لا توجد مجموعات مطابقة للفلاتر الحالية.';
+}
+['mSearch', 'mCboLevel', 'mCboDiff', 'mChkReview', 'mChkLowConf'].forEach(id => {
+  document.getElementById(id).addEventListener('input', filterMatched);
+  document.getElementById(id).addEventListener('change', filterMatched);
+});
+
+/* =====================================================================================
+   9. التصدير (Excel متعدد الأوراق / HTML / CSV / ملخص واتساب)
+   ===================================================================================== */
+const exportBtn = document.getElementById('btnExport');
+const exportMenu = document.getElementById('exportMenu');
+exportBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  exportMenu.classList.toggle('show');
+});
+document.addEventListener('click', () => exportMenu.classList.remove('show'));
+
+function exportFullXlsx() {
+  if (!currentResult) return;
+  const r = currentResult;
+  const st = r.stats;
+  const wb = XLSX.utils.book_new();
+
+  const summaryRows = [
+    ['البند', 'القيمة'],
+    ['الطرف الأول', r.name1],
+    ['الطرف الثاني', r.name2],
+    ['نسبة المطابقة %', +st.matchRatePct.toFixed(2)],
+    ['صافي الطرف الأول', st.net1],
+    ['صافي الطرف الثاني', st.net2],
+    ['صافي الفارق الكلي', st.netDiff],
+    ['أثر فروق المطابقات (عمولات/رسوم)', st.matchedEffect],
+    ['أثر القيود غير المتطابقة', st.unmatchedEffect],
+    ['مطابقات تحتاج مراجعة', st.reviewGroups],
+    ['أزواج قيد/عكس مستبعدة', st.reversalPairs],
+    ['إجمالي غير المتطابق', r.unmatchedRecords.length]
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summaryRows), 'الملخص');
+
+  const unRows = [['المصدر', 'التاريخ', 'الجانب', 'المبلغ', 'المرجع', 'نوع المستند', 'البيان', 'ملاحظات', 'اقتراح']];
+  r.unmatchedRecords.forEach(x => unRows.push([x.source, fmtDate(x.transDate), x.isDebit ? 'مدين' : 'دائن', x.amount, x.ref, x.docType, x.desc, x.hint, x.suggestion]));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(unRows), 'غير المتطابقة');
+
+  const mRows = [['رقم المجموعة', 'المستوى', 'الثقة', 'المصدر', 'التاريخ', 'الجانب', 'المبلغ', 'المرجع', 'نوع المستند', 'البيان']];
+  r.matchedGroups.forEach(g => g.items.forEach(x => mRows.push([g.groupId, g.level, g.confidence, x.source, fmtDate(x.transDate), x.isDebit ? 'مدين' : 'دائن', x.amount, x.ref, x.docType, x.desc])));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(mRows), 'المتطابقة');
+
+  XLSX.writeFile(wb, `تقرير_مطابقة_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  showBanner('تم تصدير ملف Excel الكامل (.xlsx) بنجاح.', 'ok');
+}
+
+function saveReportHtmlFile() {
+  if (!currentResult) return;
+  const blob = new Blob([currentResult.reportText], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `تقرير_مطابقة_${new Date().toISOString().slice(0, 10)}.html`;
+  a.click();
+  showBanner('تم حفظ تقرير HTML.', 'ok');
+}
+
+function exportTableToCsv(tableId, baseName) {
+  const tbl = document.getElementById(tableId);
+  if (!tbl) return;
+  const lines = [];
+  tbl.querySelectorAll('tr').forEach(tr => {
+    const row = Array.from(tr.children).map(td => `"${String(td.textContent).replace(/"/g, '""')}"`);
+    lines.push(row.join(','));
+  });
+  const blob = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${baseName}.csv`;
+  a.click();
+}
+
+function copyTableText(tableId) {
+  const tbl = document.getElementById(tableId);
+  if (!tbl) return;
+  const lines = [];
+  tbl.querySelectorAll('tr').forEach(tr => {
+    lines.push(Array.from(tr.children).map(td => td.textContent.trim()).join('\t'));
+  });
+  navigator.clipboard.writeText(lines.join('\r\n'));
+  showBanner('تم نسخ الجدول إلى الحافظة.', 'ok');
+}
+
+document.getElementById('expXlsx').addEventListener('click', exportFullXlsx);
+document.getElementById('expHtml').addEventListener('click', saveReportHtmlFile);
+document.getElementById('expCsv').addEventListener('click', () => exportTableToCsv('uTable', 'القيود_غير_المتطابقة'));
+document.getElementById('uBtnCsv').addEventListener('click', () => exportTableToCsv('uTable', 'القيود_غير_المتطابقة'));
+document.getElementById('mBtnCsv').addEventListener('click', () => exportTableToCsv('mTable', 'المطابقات'));
+document.getElementById('uBtnCopy').addEventListener('click', () => copyTableText('uTable'));
+document.getElementById('mBtnCopy').addEventListener('click', () => copyTableText('mTable'));
+
+document.getElementById('expSummary').addEventListener('click', () => {
+  if (!currentResult) return;
+  const r = currentResult, st = r.stats;
+  let txt = `📊 ملخص مطابقة كشفي الحساب\nالطرف الأول: ${r.name1}\nالطرف الثاني: ${r.name2}\n`;
+  txt += `نسبة المطابقة: ${st.matchRatePct.toFixed(1)}% (${st.matched1 + st.matched2} من ${st.count1 + st.count2} قيد)\n`;
+  txt += `صافي الفارق: ${fmt(st.netDiff)} (فروق عمولات: ${fmt(st.matchedEffect)} | غير متطابق: ${fmt(st.unmatchedEffect)})\n`;
+  if (r.unmatchedRecords.length > 0) {
+    txt += `⚠ القيود غير المتطابقة (${r.unmatchedRecords.length}):\n`;
+    r.unmatchedRecords.slice(0, 15).forEach((x, idx) => {
+      txt += `${idx + 1}) [${x.source}] ${fmtDate(x.transDate)} | ${x.isDebit ? 'مدين ' : 'دائن '}${fmt(x.amount)} | ${x.ref || '-'} | ${x.desc}\n`;
+    });
+  }
+  navigator.clipboard.writeText(txt);
+  showBanner('تم نسخ الملخص — الصقه في واتساب أو البريد.', 'ok');
+});
+
+document.getElementById('btnOpenReportTab').addEventListener('click', () => {
+  if (!currentResult) return;
+  const w = window.open('', '_blank');
+  w.document.write(currentResult.reportText);
+  w.document.close();
+});
+document.getElementById('btnPrintReport').addEventListener('click', () => {
+  const frame = document.getElementById('reportFrame');
+  if (frame.contentWindow) frame.contentWindow.print();
+});
+document.getElementById('btnSaveReportHtml').addEventListener('click', saveReportHtmlFile);
+
+/* =====================================================================================
+   10. النوافذ المنبثقة (الخيارات المتقدمة + تعيين الأعمدة + الحساب الوسيط)
+   ===================================================================================== */
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+document.getElementById('btnAdvanced').addEventListener('click', () => {
+  document.getElementById('optDateWin').value = settings.dateWindowDays;
+  document.getElementById('optCrossWin').value = settings.crossDayWindowDays;
+  document.getElementById('optAmtTol').value = settings.amountTolerance;
+  document.getElementById('optAmtPct').value = +(settings.amountTolerancePct * 100).toFixed(2);
+  document.getElementById('optSim').value = Math.round(settings.descSimilarityThreshold * 100);
+  document.getElementById('optGroupSize').value = settings.maxGroupSize;
+  document.getElementById('optFeeRatio').value = +(settings.maxFeeRatio * 100).toFixed(1);
+
+  document.getElementById('optChkGroup').checked = settings.enableGroupMatching;
+  document.getElementById('optChkFee').checked = settings.enableFeeSplit;
+  document.getElementById('optChkFuzzy').checked = settings.enableFuzzy;
+  document.getElementById('optChkDup').checked = settings.enableDuplicates;
+  document.getElementById('optChkSugg').checked = settings.enableSuggestions;
+  document.getElementById('optChkRev').checked = settings.enableReversals;
+  document.getElementById('optChkTotals').checked = settings.skipTotalsRows;
+  document.getElementById('optChkDayFirst').checked = settings.dayFirstDates;
+  document.getElementById('optChkRef').checked = settings.unlimitedRefMatch;
+  document.getElementById('optChkSame').checked = settings.sameConvention;
+
+  document.getElementById('modalAdvanced').classList.add('show');
+});
+
+document.getElementById('btnOptSave').addEventListener('click', () => {
+  settings.dateWindowDays = +document.getElementById('optDateWin').value;
+  settings.crossDayWindowDays = +document.getElementById('optCrossWin').value;
+  settings.amountTolerance = +document.getElementById('optAmtTol').value;
+  settings.amountTolerancePct = +document.getElementById('optAmtPct').value / 100;
+  settings.descSimilarityThreshold = +document.getElementById('optSim').value / 100;
+  settings.maxGroupSize = +document.getElementById('optGroupSize').value;
+  settings.maxFeeRatio = +document.getElementById('optFeeRatio').value / 100;
+
+  settings.enableGroupMatching = document.getElementById('optChkGroup').checked;
+  settings.enableFeeSplit = document.getElementById('optChkFee').checked;
+  settings.enableFuzzy = document.getElementById('optChkFuzzy').checked;
+  settings.enableDuplicates = document.getElementById('optChkDup').checked;
+  settings.enableSuggestions = document.getElementById('optChkSugg').checked;
+  settings.enableReversals = document.getElementById('optChkRev').checked;
+  settings.skipTotalsRows = document.getElementById('optChkTotals').checked;
+  settings.dayFirstDates = document.getElementById('optChkDayFirst').checked;
+  settings.unlimitedRefMatch = document.getElementById('optChkRef').checked;
+  settings.sameConvention = document.getElementById('optChkSame').checked;
+
+  document.getElementById('chkGroup').checked = settings.enableGroupMatching;
+  document.getElementById('chkFees').checked = settings.enableFeeSplit;
+  document.getElementById('chkSame').checked = settings.sameConvention;
+  document.getElementById('chkDup').checked = settings.enableDuplicates;
+  document.getElementById('chkSugg').checked = settings.enableSuggestions;
+
+  saveSettings();
+  closeModal('modalAdvanced');
+  showBanner('تم حفظ الخيارات المتقدمة.', 'ok');
+});
+
+document.getElementById('btnOptReset').addEventListener('click', () => {
+  settings = { ...DEFAULT_SETTINGS, darkMode: settings.darkMode };
+  document.getElementById('btnAdvanced').click();
+});
+
+// نافذة تعيين الأعمدة
+const MAP_ROLES = [
+  { key: 'dateCol', label: 'التاريخ' },
+  { key: 'debitCol', label: 'المدين' },
+  { key: 'creditCol', label: 'الدائن' },
+  { key: 'amountCol', label: 'المبلغ (عمود واحد)' },
+  { key: 'refCol', label: 'المرجع / الرقم' },
+  { key: 'descCol', label: 'البيان' },
+  { key: 'docCol', label: 'نوع المستند' }
+];
+
+function openMappingModal(slotNum) {
+  activeMappingSlot = slotNum;
+  const slot = slots[slotNum];
+  if (!slot.rows.length) return;
+  document.getElementById('mapModalTitle').textContent = `🧩 تعيين الأعمدة — ${slot.title}`;
+  const hdrInput = document.getElementById('mapHeaderRow');
+  hdrInput.value = slot.mapping && slot.mapping.headerRow >= 0 ? slot.mapping.headerRow + 1 : 0;
+
+  const renderMapCombos = () => {
+    const h = +hdrInput.value === 0 ? guessHeaderRow(slot.rows) : (+hdrInput.value - 1);
+    const width = Math.max(1, ...slot.rows.slice(0, 30).map(r => (r ? r.length : 0)));
+    const container = document.getElementById('mapCombosContainer');
+    container.innerHTML = MAP_ROLES.map(role => {
+      let optsHtml = `<option value="-1">تلقائي</option>`;
+      for (let c = 0; c < width; c++) {
+        const headerTxt = String(slot.rows[h]?.[c] ?? '').trim().slice(0, 28);
+        const sel = (slot.mapping && slot.mapping[role.key] === c) ? 'selected' : '';
+        optsHtml += `<option value="${c}" ${sel}>${colLetter(c)} — ${escHtml(headerTxt)}</option>`;
+      }
+      return `<div class="form-row"><label style="width:130px">${role.label}:</label><select data-role="${role.key}">${optsHtml}</select></div>`;
+    }).join('');
+  };
+  hdrInput.oninput = renderMapCombos;
+  renderMapCombos();
+  document.getElementById('modalMapping').classList.add('show');
+}
+
+document.getElementById('btnMap1').addEventListener('click', () => openMappingModal(1));
+document.getElementById('btnMap2').addEventListener('click', () => openMappingModal(2));
+
+document.getElementById('btnMapAuto').addEventListener('click', () => {
+  document.getElementById('mapHeaderRow').value = 0;
+  document.querySelectorAll('#mapCombosContainer select').forEach(s => s.value = '-1');
+});
+
+document.getElementById('btnMapApply').addEventListener('click', () => {
+  const slot = slots[activeMappingSlot];
+  const hdrVal = +document.getElementById('mapHeaderRow').value;
+  const m = { headerRow: hdrVal === 0 ? -1 : hdrVal - 1 };
+  let allAuto = m.headerRow < 0;
+  document.querySelectorAll('#mapCombosContainer select').forEach(s => {
+    const v = parseInt(s.value, 10);
+    m[s.dataset.role] = v;
+    if (v >= 0) allAuto = false;
+  });
+  slot.mapping = allAuto ? null : m;
+  document.getElementById(`btnMap${activeMappingSlot}`).textContent = slot.mapping ? '🧩 مخصّص ✓' : '🧩 تعيين الأعمدة';
+  closeModal('modalMapping');
+  showBanner(`تم حفظ تعيين الأعمدة لـ ${slot.title}.`, 'ok');
+});
+
+// نافذة الحساب الوسيط الداخلي
+document.getElementById('btnIntermediary').addEventListener('click', () => {
+  document.getElementById('modalIntermediary').classList.add('show');
+});
+
+document.getElementById('btnRunIntermediary').addEventListener('click', () => {
+  if (!slots[1].rows.length) {
+    showBanner('حمّل الكشف الأول أولاً لفحص الحساب الوسيط.', 'warn');
+    return;
+  }
+  const tx = buildTransactionsFromRows(slots[1].rows, 'الحساب الوسيط', 1, slots[1].mapping, settings, []);
+  const debits = tx.filter(x => x.isDebit);
+  const credits = tx.filter(x => !x.isDebit);
+  let matchedPairs = 0;
+  for (const d of debits) {
+    const c = credits.find(y => !y.matched && Math.abs(y.amount - d.amount) < 0.01 && (d.refNorm && d.refNorm === y.refNorm || daysBetween(d.transDate, y.transDate) <= settings.dateWindowDays));
+    if (c) { d.matched = true; c.matched = true; matchedPairs++; }
+  }
+  const openItems = tx.filter(x => !x.matched);
+  document.getElementById('lblIntermediarySummary').textContent =
+    `تمت تصفية ${matchedPairs} زوج متقابل • المتبقي المعلق: ${openItems.length} قيد`;
+  document.getElementById('intermediaryWrap').innerHTML = `
+    <table class="data-grid">
+      <thead><tr><th>الصف</th><th>التاريخ</th><th>الجانب</th><th>المبلغ</th><th>المرجع</th><th>البيان</th></tr></thead>
+      <tbody>${openItems.map(x => `<tr><td>${x.rowNumber}</td><td>${fmtDate(x.transDate)}</td><td>${x.isDebit ? 'مدين' : 'دائن'}</td><td><b>${fmt(x.amount)}</b></td><td>${escHtml(x.ref)}</td><td>${escHtml(x.desc)}</td></tr>`).join('')}</tbody>
+    </table>`;
+});
+
+// بيانات تجريبية فورية لاختبار جميع المستويات (L1, L3, L6, L6F, L0R, Unmatched)
+document.getElementById('btnDemo').addEventListener('click', () => {
+  const demo1 = [
+    ['التاريخ', 'مدين', 'دائن', 'المرجع', 'نوع المستند', 'البيان'],
+    ['2026-10-01', '150000', '0', '18027', 'حوالة صادرة', 'حوالة إلى حساب محمد احمد الصباحي'],
+    ['2026-10-02', '0', '85200', '99410', 'سند قبض', 'إيداع نقدي مناولة علي عبدالله الحزمي وعمولة 200'],
+    ['2026-10-03', '40000', '0', '5501', 'قيد يومية', 'دفعة أولى من حساب خالد سعيد'],
+    ['2026-10-03', '60000', '0', '5502', 'قيد يومية', 'دفعة ثانية من حساب خالد سعيد'],
+    ['2026-10-04', '25000', '0', '7788', 'سند صرف', 'قيد بالخطأ'],
+    ['2026-10-04', '0', '25000', '7788', 'عكس قيد', 'عكس قيد بالخطأ'],
+    ['2026-10-05', '120000', '0', '33019', 'تحويل', 'تحويل لمحفظة ابراهيم صالح ناشر'],
+    ['Total', '395000', '110200', '', '', 'الإجمالي']
+  ];
+  const demo2 = [
+    ['التاريخ', 'مدين', 'دائن', 'المرجع', 'نوع المستند', 'البيان'],
+    ['2026-10-01', '0', '150000', '18027', 'توريد حوالة', 'توريد حوالة محمد أحمد الصباحي'],
+    ['2026-10-02', '85000', '0', '', 'إشعار إضافة', 'من حساب علي عبد الله الحزمي'],
+    ['2026-10-03', '0', '100000', '5500', 'إجمالي دفعات', 'إجمالي دفعات خالد سعيد'],
+    ['2026-10-06', '0', '119500', '33099', 'تحويل', 'تحويل لمحفظة ابراهيم صالح ناشر'],
+    ['Total', '85000', '369500', '', '', 'الإجمالي']
+  ];
+
+  slots[1] = { index: 1, title: 'الكشف الأول', workbook: null, fileName: 'كشف_نظامنا_التجريبي.xlsx', rows: demo1, mapping: null };
+  slots[2] = { index: 2, title: 'الكشف الثاني', workbook: null, fileName: 'كشف_الوكيل_التجريبي.xlsx', rows: demo2, mapping: null };
+  document.getElementById('txtPath1').value = slots[1].fileName;
+  document.getElementById('txtPath2').value = slots[2].fileName;
+  document.getElementById('txtLabel1').value = 'شركتنا (المركز الرئيسي)';
+  document.getElementById('txtLabel2').value = 'شركة الصرافة المقابلة';
+  document.getElementById('btnMap1').disabled = false;
+  document.getElementById('btnMap2').disabled = false;
+  renderPreviewGrid(1, demo1);
+  renderPreviewGrid(2, demo2);
+  startMatching();
+});
+
+// المساعدة واختصارات لوحة المفاتيح
+document.getElementById('btnHelp').addEventListener('click', () => {
+  alert(
+    "اختصارات لوحة المفاتيح:\n\n" +
+    "F5         بدء المطابقة\n" +
+    "Ctrl+S     تصدير ملف Excel كامل (.xlsx)\n" +
+    "Ctrl+T     تبديل الوضع الداكن / الفاتح\n" +
+    "Ctrl+I     فتح نافذة مطابقة الحساب الوسيط\n" +
+    "Ctrl+1…7   التنقل السريع بين الصفحات"
+  );
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'F5') { e.preventDefault(); startMatching(); }
+  if (e.ctrlKey && e.key.toLowerCase() === 't') { e.preventDefault(); document.getElementById('btnTheme').click(); }
+  if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); if (currentResult) exportFullXlsx(); }
+  if (e.ctrlKey && e.key.toLowerCase() === 'i') { e.preventDefault(); document.getElementById('btnIntermediary').click(); }
+  if (e.ctrlKey && e.key >= '1' && e.key <= '7') { e.preventDefault(); showPage(parseInt(e.key, 10) - 1); }
+});
+
+// تهيئة أولية
+applyTheme();
+renderPreviewGrid(1, []);
+renderPreviewGrid(2, []);
+</script>
 </body>
 </html>
