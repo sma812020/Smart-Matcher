@@ -2,110 +2,144 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Native Smart Matcher v5.1 | مطابقة كشوف الحسابات الذكية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Native Smart Reconciliation Enterprise V8 Pro | نظام التسوية والمراجعة المالية المتقدم</title>
   <!-- مكتبة SheetJS لقراءة وتصدير ملفات Excel و CSV مباشرة في المتصفح -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     :root {
-      --bg: #f5f7fa;
+      --bg: #f1f5f9;
       --surface: #ffffff;
       --surface2: #f8fafc;
-      --text: #212b3c;
-      --muted: #6e7887;
-      --border: #dee2e6;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
       --primary: #1e3a5f;
       --sidebar-bg: #ffffff;
-      --sidebar-text: #3c4655;
-      --sidebar-hover: #eaf0fa;
-      --grid-alt: #fafbfd;
-      --grid-header: #f0f3f8;
-      --selection: #dcebfc;
-      --selection-text: #142846;
-      --highlight: #ddebff;
-      --warn-tint: #fff3e0;
-      --info-tint: #e8f4fd;
-      --ok-tint: #fff9db;
+      --sidebar-text: #334155;
+      --sidebar-hover: #eff6ff;
+      --grid-alt: #f8fafc;
+      --grid-header: #f1f5f9;
+      --selection: #dbeafe;
+      --selection-text: #1e3a8a;
+      --highlight: #dbeafe;
+      --warn-tint: #fff7ed;
+      --info-tint: #eff6ff;
+      --ok-tint: #fefce8;
       --accent: #0d6efd;
-      --success: #198754;
-      --danger: #dc3545;
-      --warning: #ff9800;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
       --purple: #6f42c1;
+      --radius: 10px;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.12);
     }
 
     body.dark {
-      --bg: #12161e;
-      --surface: #1b212d;
-      --surface2: #242b3a;
-      --text: #e2e8f0;
-      --muted: #8c98aa;
-      --border: #323c4e;
-      --primary: #101a2c;
-      --sidebar-bg: #161c28;
-      --sidebar-text: #bec8d7;
-      --sidebar-hover: #283246;
-      --grid-alt: #1f2634;
-      --grid-header: #262f40;
-      --selection: #2d4b78;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface2: #263349;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --primary: #0b1528;
+      --sidebar-bg: #162032;
+      --sidebar-text: #cbd5e1;
+      --sidebar-hover: #26354f;
+      --grid-alt: #1b2638;
+      --grid-header: #243247;
+      --selection: #1d4ed8;
       --selection-text: #ffffff;
-      --highlight: #233e64;
-      --warn-tint: #463414;
-      --info-tint: #183048;
-      --ok-tint: #403c18;
+      --highlight: #1e3a8a;
+      --warn-tint: #452b12;
+      --info-tint: #172d47;
+      --ok-tint: #3f3916;
     }
 
-    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
-    body {
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, system-ui, -apple-system, sans-serif; }
+    html, body {
       margin: 0;
+      padding: 0;
       background: var(--bg);
       color: var(--text);
-      height: 100vh;
+      width: 100%;
+      min-height: 100dvh;
+      font-size: 13.5px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      font-size: 13.5px;
     }
 
     /* الرأس العلوي */
     .app-header {
-      height: 54px;
-      background: var(--primary);
+      min-height: 54px;
+      background: linear-gradient(135deg, var(--primary) 0%, #152c4a 100%);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 18px;
+      padding: 6px 16px;
       flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.16);
+      z-index: 45;
+      gap: 10px;
     }
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15.5px; min-width: 0; }
     .brand-badge {
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.18);
       padding: 2px 8px;
       border-radius: 6px;
       font-size: 11.5px;
-      font-weight: 600;
+      font-weight: 700;
+      white-space: nowrap;
     }
-    .header-actions { display: flex; gap: 6px; }
+    .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .icon-btn {
-      width: 36px; height: 34px;
-      border: none; border-radius: 6px;
-      background: transparent; color: #fff;
-      font-size: 16px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      min-width: 36px; height: 34px;
+      padding: 0 8px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 7px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background 0.15s, transform 0.1s;
     }
-    .icon-btn:hover { background: rgba(255,255,255,0.2); }
+    .icon-btn:hover { background: rgba(255,255,255,0.22); }
+    .icon-btn:active { transform: scale(0.97); }
 
     /* هيكل الوسط */
     .app-body {
       flex: 1;
       display: flex;
+      min-height: 0;
       overflow: hidden;
+      position: relative;
     }
+
+    /* خلفية القائمة في الجوال */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(2px);
+      z-index: 75;
+    }
+    body.mobile-nav-open .sidebar-backdrop { display: block; }
 
     /* الشريط الجانبي */
     .sidebar {
-      width: 215px;
+      width: 225px;
       background: var(--sidebar-bg);
       border-left: 1px solid var(--border);
       display: flex;
@@ -113,31 +147,36 @@
       padding: 10px 8px;
       gap: 4px;
       flex-shrink: 0;
+      overflow-y: auto;
+      z-index: 80;
     }
     .nav-btn {
       width: 100%;
       padding: 10px 12px;
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       background: transparent;
       color: var(--sidebar-text);
       text-align: right;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
       transition: 0.15s;
     }
     .nav-btn:hover { background: var(--sidebar-hover); }
-    .nav-btn.active { background: var(--accent); color: #fff; }
+    .nav-btn.active { background: var(--accent); color: #fff; box-shadow: 0 3px 10px rgba(13, 110, 253, 0.25); }
     .nav-badge {
-      background: rgba(0,0,0,0.15);
+      background: rgba(100,116,139,0.16);
       color: inherit;
-      padding: 1px 7px;
+      padding: 2px 7px;
       border-radius: 10px;
       font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
     .nav-btn.active .nav-badge { background: rgba(255,255,255,0.25); color: #fff; }
 
@@ -146,69 +185,81 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 8px 10px;
+      padding: 10px;
       gap: 8px;
-      overflow: hidden;
+      min-width: 0;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     /* شريط الإجراءات العلوي */
     .action-bar {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 14px;
+      border-radius: var(--radius);
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
+      gap: 12px;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
     }
     .action-buttons { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .btn {
-      height: 35px;
-      padding: 0 14px;
+      min-height: 35px;
+      padding: 5px 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 7px;
       color: #fff;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12.5px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: opacity 0.15s;
+      justify-content: center;
+      gap: 5px;
+      transition: opacity 0.15s, transform 0.1s;
+      white-space: nowrap;
     }
+    .btn:hover:not(:disabled) { opacity: 0.92; }
+    .btn:active:not(:disabled) { transform: scale(0.98); }
     .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn-sm { height: 29px; padding: 0 10px; font-size: 12px; }
+    .btn-sm { min-height: 30px; padding: 4px 10px; font-size: 12px; }
     .btn-success { background: var(--success); }
     .btn-primary { background: var(--accent); }
     .btn-purple { background: var(--purple); }
-    .btn-secondary { background: #6c757d; }
-    .btn-slate { background: #415470; }
+    .btn-warning { background: var(--warning); }
+    .btn-danger { background: var(--danger); }
+    .btn-secondary { background: #64748b; }
+    .btn-slate { background: #3b4d66; }
 
-    .progress-box { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-    .progress-label { color: var(--muted); font-size: 12.5px; }
+    .progress-box { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 5px; }
+    .progress-label { color: var(--muted); font-size: 12px; line-height: 1.4; }
     .progress-track {
-      width: 100%; height: 8px;
+      width: 100%; height: 7px;
       background: var(--border);
       border-radius: 4px;
       overflow: hidden;
     }
     .progress-fill {
       height: 100%; width: 0%;
-      background: var(--success);
-      transition: width 0.2s;
+      background: linear-gradient(90deg, var(--success), #22c55e);
+      transition: width 0.25s;
     }
 
     /* الشريط التنبيهي */
     .banner {
-      padding: 8px 14px;
-      border-radius: 6px;
+      padding: 9px 14px;
+      border-radius: 8px;
       color: #fff;
       font-weight: 700;
       cursor: pointer;
       display: none;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
 
     /* الصفحات */
@@ -217,18 +268,22 @@
       display: none;
       flex-direction: column;
       gap: 8px;
-      overflow: hidden;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 6px;
     }
     .page.active { display: flex; }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       padding: 10px 14px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      min-width: 0;
+      box-shadow: var(--shadow-sm);
     }
     .card-title {
       font-weight: 700;
@@ -238,24 +293,27 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     /* صفحة الإعداد */
     .files-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
       flex-shrink: 0;
     }
     .file-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       padding: 10px 14px;
       display: flex;
       flex-direction: column;
       gap: 7px;
       position: relative;
+      box-shadow: var(--shadow-sm);
     }
     .file-card.dragover {
       outline: 2px dashed var(--accent);
@@ -265,29 +323,31 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      min-width: 0;
     }
     .form-row label {
-      width: 55px;
+      width: 58px;
       color: var(--muted);
       font-weight: 700;
       font-size: 12.5px;
       flex-shrink: 0;
     }
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"], select, textarea {
       background: var(--surface2);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 5px 8px;
+      border-radius: 6px;
+      padding: 6px 9px;
       font-size: 13px;
       flex: 1;
+      min-width: 0;
     }
-    .file-info { font-size: 11.5px; color: var(--muted); font-style: italic; }
+    .file-info { font-size: 11.5px; color: var(--muted); }
 
     .options-strip {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       padding: 8px 14px;
       display: flex;
       align-items: center;
@@ -295,25 +355,33 @@
       flex-wrap: wrap;
       gap: 10px;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
-    .checks-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .chk-label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; }
+    .checks-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .chk-label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; user-select: none; font-size: 12.5px; }
 
     .previews-grid {
       flex: 1;
+      min-height: 250px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
+    }
+    .previews-grid > .card {
+      min-height: 240px;
+      max-height: 460px;
       overflow: hidden;
     }
 
     /* الجداول */
     .table-wrap {
       flex: 1;
+      min-height: 190px;
       overflow: auto;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 7px;
       background: var(--surface);
+      -webkit-overflow-scrolling: touch;
     }
     table.data-grid {
       width: 100%;
@@ -326,19 +394,20 @@
       background: var(--grid-header);
       color: var(--text);
       font-weight: 700;
-      padding: 7px 8px;
+      padding: 8px 9px;
       border-bottom: 1px solid var(--border);
       text-align: right;
       white-space: nowrap;
-      z-index: 1;
+      z-index: 2;
     }
     table.data-grid td {
-      padding: 5px 8px;
+      padding: 6px 9px;
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
       max-width: 340px;
       overflow: hidden;
       text-overflow: ellipsis;
+      vertical-align: middle;
     }
     table.data-grid tbody tr:nth-child(even) { background: var(--grid-alt); }
     table.data-grid tbody tr:hover { background: var(--sidebar-hover); cursor: pointer; }
@@ -352,58 +421,90 @@
     /* لوحة المعلومات */
     .kpis-row {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 8px;
       flex-shrink: 0;
     }
     .kpi-box {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: var(--radius);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      box-shadow: var(--shadow-sm);
     }
     .kpi-strip { height: 4px; width: 100%; }
     .kpi-cap { font-size: 11.5px; color: var(--muted); padding: 6px 10px 2px; }
-    .kpi-val { font-size: 20px; font-weight: 700; padding: 2px 10px 8px; direction: ltr; text-align: right; }
+    .kpi-val { font-size: 19px; font-weight: 700; padding: 2px 10px 8px; direction: ltr; text-align: right; overflow-wrap: anywhere; }
 
     .dash-middle {
       display: grid;
-      grid-template-columns: 28% 38% 1fr;
+      grid-template-columns: 26% 37% 1fr;
       gap: 8px;
-      height: 230px;
+      min-height: 225px;
       flex-shrink: 0;
     }
-    .recon-list { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
-    .recon-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border); padding: 4px 0; }
-    .recon-item span:first-child { color: var(--muted); font-size: 12.5px; }
-    .recon-item strong { font-size: 13.5px; direction: ltr; }
+    .recon-list { display: flex; flex-direction: column; justify-content: space-around; flex: 1; gap: 4px; }
+    .recon-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border); padding: 4px 0; gap: 8px; }
+    .recon-item span:first-child { color: var(--muted); font-size: 12px; }
+    .recon-item strong { font-size: 13px; direction: ltr; }
 
     /* شريط الأدوات في صفحات النتائج */
     .filter-bar {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 7px 12px;
+      border-radius: var(--radius);
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
+
+    /* شريط الربط اليدوي الذكي */
+    .manual-match-bar {
+      background: var(--info-tint);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .manual-match-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 12.5px;
+    }
+    .pill-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-weight: 600;
+    }
+
     .details-box {
-      height: 115px;
+      min-height: 105px;
+      max-height: 145px;
       flex-shrink: 0;
     }
     .details-textarea {
       width: 100%;
-      height: 100%;
+      height: 75px;
       resize: none;
       border: none;
       background: transparent;
       color: var(--text);
-      font-size: 13px;
+      font-size: 12.5px;
       line-height: 1.55;
       outline: none;
     }
@@ -417,13 +518,13 @@
       margin-top: 4px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      min-width: 210px;
-      z-index: 50;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      min-width: 230px;
+      z-index: 90;
       display: none;
       flex-direction: column;
-      padding: 4px;
+      padding: 5px;
     }
     .dropdown-menu.show { display: flex; }
     .dropdown-item {
@@ -433,33 +534,36 @@
       color: var(--text);
       text-align: right;
       cursor: pointer;
-      border-radius: 4px;
-      font-size: 13px;
+      border-radius: 5px;
+      font-size: 12.5px;
+      font-weight: 600;
     }
     .dropdown-item:hover { background: var(--sidebar-hover); }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(2px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 120;
+      padding: 12px;
     }
     .modal-backdrop.show { display: flex; }
     .modal-card {
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       width: 680px;
-      max-width: 95vw;
-      max-height: 90vh;
+      max-width: 100%;
+      max-height: 92dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      box-shadow: var(--shadow-md);
     }
     .modal-header {
       padding: 12px 16px;
@@ -469,23 +573,60 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
     .modal-body { padding: 14px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .modal-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; }
-    .options-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+    .modal-footer { padding: 10px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+    .options-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
 
     /* شريط الحالة السفلي */
     .status-bar {
-      height: 28px;
+      min-height: 28px;
       background: var(--surface);
       border-top: 1px solid var(--border);
-      padding: 0 14px;
+      padding: 4px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11.5px;
       flex-shrink: 0;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* شريط التنقل السفلي للجوال */
+    .mobile-bottom-nav {
+      display: none;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 4px 6px env(safe-area-inset-bottom, 4px);
+      gap: 4px;
+      overflow-x: auto;
+      flex-shrink: 0;
+      z-index: 60;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-tab-btn {
+      flex: 1 0 auto;
+      min-width: 68px;
+      padding: 6px 8px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .mobile-tab-btn.active {
+      background: var(--sidebar-hover);
+      color: var(--accent);
     }
 
     /* أشرطة الرسم البياني */
@@ -495,6 +636,96 @@
     .bar-track { flex: 1; height: 11px; background: var(--border); border-radius: 4px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 4px; }
     .bar-val { width: 42px; text-align: center; font-weight: 700; }
+
+    /* V7/V8 Reconciliation workflow */
+    .workflow-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex-shrink: 0; }
+    .workflow-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; min-width: 0; box-shadow: var(--shadow-sm); }
+    .workflow-tile small { display: block; color: var(--muted); margin-bottom: 5px; }
+    .workflow-tile strong { font-size: 19px; }
+    .workflow-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .workflow-toolbar input, .workflow-toolbar select { min-height: 34px; }
+    .workflow-table-wrap { flex: 1; min-height: 220px; }
+    .wf-actions { display: flex; gap: 4px; flex-wrap: wrap; }
+    .wf-action { border: 0; border-radius: 5px; padding: 5px 8px; color: #fff; cursor: pointer; font-size: 11px; font-weight: 700; }
+    .wf-approve { background: #198754; }
+    .wf-reject { background: #dc3545; }
+    .wf-hold { background: #b7791f; }
+    .wf-status { display: inline-block; border-radius: 12px; padding: 3px 8px; font-weight: 700; font-size: 11px; white-space: nowrap; }
+    .wf-pending { background: var(--warn-tint); color: var(--warning); }
+    .wf-approved { background: #dcfce7; color: #166534; }
+    .wf-rejected { background: #fee2e2; color: #991b1b; }
+    .wf-hold-status { background: var(--info-tint); color: var(--accent); }
+    .workflow-disclaimer, .audit-note {
+      line-height: 1.65;
+      background: var(--info-tint);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      flex-shrink: 0;
+    }
+
+    .audit-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex-shrink: 0; }
+    .audit-tile { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 10px 12px; min-width: 0; box-shadow: var(--shadow-sm); }
+    .audit-tile small { display: block; color: var(--muted); margin-bottom: 5px; }
+    .audit-tile strong { font-size: 18px; overflow-wrap: anywhere; }
+    .audit-section { flex: 1; min-height: 220px; }
+    .severity-high { color: var(--danger); font-weight: 700; }
+    .severity-mid { color: var(--warning); font-weight: 700; }
+    .mobile-nav-toggle { display: none; }
+
+    /* التوافق مع الشاشات المتوسطة (أجهزة لوحية ولابتوب صغير) */
+    @media (max-width: 1120px) {
+      .sidebar { width: 190px; }
+      .kpis-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .dash-middle { grid-template-columns: 1fr 1fr; height: auto; }
+      .dash-middle .card:last-child { grid-column: 1 / -1; min-height: 175px; }
+      .previews-grid { grid-template-columns: 1fr; }
+    }
+
+    /* التوافق الشامل مع الهواتف والشاشات الصغيرة */
+    @media (max-width: 820px) {
+      body { font-size: 13px; }
+      .app-header { padding: 6px 10px; min-height: 50px; }
+      .brand { font-size: 13.5px; }
+      .brand-subtitle { display: none; }
+      .mobile-nav-toggle { display: inline-flex; }
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: min(82vw, 290px);
+        box-shadow: -6px 0 24px rgba(0,0,0,0.25);
+        transform: translateX(105%);
+        transition: transform 0.22s ease;
+      }
+      body.mobile-nav-open .sidebar { transform: translateX(0); }
+      .content-area { padding: 8px; gap: 8px; }
+      .action-bar { padding: 8px; gap: 8px; }
+      .action-buttons { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+      .action-buttons .btn, .action-buttons .dropdown, .action-buttons .dropdown .btn { width: 100%; }
+      .progress-box { width: 100%; min-width: 100%; }
+      .files-grid, .previews-grid { grid-template-columns: 1fr; }
+      .kpis-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kpi-val { font-size: 16.5px; }
+      .dash-middle { grid-template-columns: 1fr; height: auto; }
+      .dash-middle .card { min-height: 185px; }
+      .filter-bar > input[type="text"], .filter-bar > select { width: 100%; max-width: none !important; flex: 1 1 140px; }
+      .options-grid-2 { grid-template-columns: 1fr; }
+      .audit-summary, .workflow-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .table-wrap { min-height: 230px; }
+      .table-wrap table { min-width: 680px; }
+      .mobile-bottom-nav { display: flex; }
+      .status-bar { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .action-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .brand-badge { display: none; }
+      .form-row { flex-wrap: wrap; }
+      .form-row label { width: 100%; margin-bottom: 2px; }
+    }
   </style>
 </head>
 <body>
@@ -502,11 +733,15 @@
   <!-- الرأس العلوي -->
   <header class="app-header">
     <div class="brand">
+      <button class="icon-btn mobile-nav-toggle" id="btnMobileNav" title="القائمة الجانبية">☰</button>
       <span>⚡ Native Smart Matcher</span>
-      <span class="brand-badge">v5.1 Web Edition</span>
-      <span style="font-weight:400; font-size:13px; opacity:0.85;">| نظام مطابقة كشوف الحسابات الذكي</span>
+      <span class="brand-badge">V8 Enterprise Pro</span>
+      <span class="brand-subtitle" style="font-weight:400; font-size:12.5px; opacity:0.85;">| نظام التسوية والمراجعة المالية الذكي</span>
     </div>
     <div class="header-actions">
+      <button class="icon-btn" id="btnSaveSession" title="حفظ جلسة العمل كاملة (JSON)">💾</button>
+      <button class="icon-btn" id="btnLoadSession" title="استرجاع جلسة عمل محفوظة">📂</button>
+      <input type="file" id="sessionFileInput" accept=".json" hidden />
       <button class="icon-btn" id="btnTheme" title="تبديل الوضع الداكن/الفاتح (Ctrl+T)">🌙</button>
       <button class="icon-btn" id="btnHelp" title="اختصارات لوحة المفاتيح والمساعدة">❓</button>
     </div>
@@ -514,6 +749,7 @@
 
   <!-- الجسم الرئيسي -->
   <div class="app-body">
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
     <!-- الشريط الجانبي -->
     <aside class="sidebar">
       <button class="nav-btn active" data-page="0"><span>📁 الإعداد والملفات</span></button>
@@ -523,6 +759,8 @@
       <button class="nav-btn" data-page="4"><span>🧾 التقرير التفصيلي</span></button>
       <button class="nav-btn" data-page="5"><span>↩ القيود وعكسها</span><span class="nav-badge" id="badgeReversals">0</span></button>
       <button class="nav-btn" data-page="6"><span>🔔 التحذيرات</span><span class="nav-badge" id="badgeWarnings">0</span></button>
+      <button class="nav-btn" data-page="7"><span>📉 تقرير الفروقات الكبيرة والمفقود</span><span class="nav-badge" id="badgeAudit">0</span></button>
+      <button class="nav-btn" data-page="8"><span>⚖ مركز التسويات والمراجعة</span><span class="nav-badge" id="badgeWorkflow">0</span></button>
     </aside>
 
     <!-- منطقة المحتوى -->
@@ -565,7 +803,7 @@
               <label>الملف:</label>
               <input type="text" id="txtPath1" readonly placeholder="اسحب ملف Excel/CSV هنا أو اضغط استعراض..." />
               <input type="file" id="fileInput1" accept=".xlsx,.xlsm,.xls,.csv,.txt,.tsv" hidden />
-              <button class="btn btn-sm btn-slate" onclick="document.getElementById('fileInput1').click()">استعراض...</button>
+              <button class="btn btn-sm btn-slate" id="btnBrowse1">استعراض...</button>
             </div>
             <div class="form-row">
               <label>الورقة:</label>
@@ -586,7 +824,7 @@
               <label>الملف:</label>
               <input type="text" id="txtPath2" readonly placeholder="اسحب ملف Excel/CSV هنا أو اضغط استعراض..." />
               <input type="file" id="fileInput2" accept=".xlsx,.xlsm,.xls,.csv,.txt,.tsv" hidden />
-              <button class="btn btn-sm btn-slate" onclick="document.getElementById('fileInput2').click()">استعراض...</button>
+              <button class="btn btn-sm btn-slate" id="btnBrowse2">استعراض...</button>
             </div>
             <div class="form-row">
               <label>الورقة:</label>
@@ -660,28 +898,50 @@
           </div>
         </div>
 
-        <div class="card" style="flex:1;">
+        <div class="card" style="flex:1; min-height:220px;">
           <div class="card-title">🔝 أكبر القيود غير المتطابقة</div>
           <div class="table-wrap" id="topUnmatchedWrap"></div>
         </div>
       </section>
 
-      <!-- الصفحة 2: غير المتطابقة -->
+      <!-- الصفحة 2: غير المتطابقة والربط اليدوي -->
       <section class="page" id="page2">
         <div class="filter-bar">
-          <input type="text" id="uSearch" placeholder="🔍 بحث في البيان / المرجع / المبلغ… (Ctrl+F)" style="max-width:240px;" />
-          <select id="uCboSide" style="max-width:160px;"><option value="0">كل الأطراف</option></select>
-          <select id="uCboDir" style="max-width:140px;">
+          <input type="text" id="uSearch" placeholder="🔍 بحث في البيان / المرجع / المبلغ… (Ctrl+F)" style="max-width:230px;" />
+          <select id="uCboSide" style="max-width:155px;"><option value="0">كل الأطراف</option></select>
+          <select id="uCboDir" style="max-width:130px;">
             <option value="0">كل الجوانب</option>
             <option value="مدين">مدين</option>
             <option value="دائن">دائن</option>
+          </select>
+          <select id="uCboAging" style="max-width:150px;">
+            <option value="all">كل الأعمار</option>
+            <option value="0-3">0 - 3 أيام</option>
+            <option value="4-7">4 - 7 أيام</option>
+            <option value="8-30">8 - 30 يوماً</option>
+            <option value="30+">أكثر من 30 يوماً</option>
           </select>
           <label class="chk-label"><input type="checkbox" id="uChkSugg" /> 💡 مع اقتراح</label>
           <label class="chk-label"><input type="checkbox" id="uChkHint" /> ⚠ مع تنبيه</label>
           <button class="btn btn-sm btn-primary" id="uBtnCsv">⬇ CSV</button>
           <button class="btn btn-sm btn-slate" id="uBtnCopy">📋 نسخ</button>
-          <span id="uLblCount" style="color:var(--muted); margin-right:auto;">0 / 0</span>
+          <span id="uLblCount" style="color:var(--muted); margin-right:auto; font-weight:700;">0 / 0</span>
         </div>
+
+        <!-- شريط الربط اليدوي الذكي -->
+        <div class="manual-match-bar">
+          <div class="manual-match-stats">
+            <span>🔗 <b>محطة الربط اليدوي:</b> حدد قيوداً من الطرفين لربطها كمجموعة مطابقة</span>
+            <span class="pill-stat">الطرف 1: <b id="lblSelSum1" dir="ltr">0.00</b></span>
+            <span class="pill-stat">الطرف 2: <b id="lblSelSum2" dir="ltr">0.00</b></span>
+            <span class="pill-stat">الفرق الفوري: <b id="lblSelDiff" dir="ltr">0.00</b></span>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-sm btn-success" id="btnManualLink" disabled>🔗 ربط المحدد كمطابقة</button>
+            <button class="btn btn-sm btn-secondary" id="btnManualClear" disabled>مسح التحديد</button>
+          </div>
+        </div>
+
         <div class="table-wrap" id="uGridWrap"></div>
         <div class="card details-box">
           <div class="card-title">📌 تفاصيل الصف المحدد</div>
@@ -701,9 +961,10 @@
           </select>
           <label class="chk-label"><input type="checkbox" id="mChkReview" /> 🔎 للمراجعة فقط</label>
           <label class="chk-label"><input type="checkbox" id="mChkLowConf" /> ⚑ ثقة منخفضة فقط</label>
+          <button class="btn btn-sm btn-danger" id="mBtnUnlink" disabled title="فك ارتباط المجموعة المحددة وإعادتها لغير المتطابق">🔓 فك المطابقة</button>
           <button class="btn btn-sm btn-primary" id="mBtnCsv">⬇ CSV</button>
           <button class="btn btn-sm btn-slate" id="mBtnCopy">📋 نسخ</button>
-          <span id="mLblCount" style="color:var(--muted); margin-right:auto;">0 / 0</span>
+          <span id="mLblCount" style="color:var(--muted); margin-right:auto; font-weight:700;">0 / 0</span>
         </div>
         <div class="table-wrap" id="mGridWrap"></div>
         <div class="card details-box">
@@ -719,14 +980,14 @@
           <button class="btn btn-sm btn-slate" id="btnPrintReport">🖨 طباعة التقرير</button>
           <button class="btn btn-sm btn-success" id="btnSaveReportHtml">💾 حفظ ملف HTML</button>
         </div>
-        <div class="card" style="flex:1; padding:0;">
-          <iframe id="reportFrame" style="width:100%; height:100%; border:none; border-radius:8px; background:#fff;"></iframe>
+        <div class="card" style="flex:1; min-height:380px; padding:0;">
+          <iframe id="reportFrame" style="width:100%; height:100%; min-height:380px; border:none; border-radius:8px; background:#fff;"></iframe>
         </div>
       </section>
 
       <!-- الصفحة 5: القيود وعكسها -->
       <section class="page" id="page5">
-        <div class="card" style="flex:1;">
+        <div class="card" style="flex:1; min-height:260px;">
           <div class="card-title">↩ قيود وعكسها داخل نفس الملف (أثرها صفر ومستبعدة من الفروقات)</div>
           <div class="table-wrap" id="revGridWrap"></div>
         </div>
@@ -734,13 +995,71 @@
 
       <!-- الصفحة 6: التحذيرات -->
       <section class="page" id="page6">
-        <div class="card" style="flex:1;">
+        <div class="card" style="flex:1; min-height:260px;">
           <div class="card-title">🔔 التحذيرات وعمليات التحقق</div>
           <div class="table-wrap" id="warnGridWrap"></div>
         </div>
       </section>
+
+      <!-- الصفحة 7: الفروقات الكبيرة والمفقود -->
+      <section class="page" id="page7">
+        <div class="audit-note">يعرض هذا التقرير مجموعات المطابقة التي تجاوز فرقها الحد المالي المحدد، والقيود غير المتطابقة التي لم يظهر لها مرشح مقابل موثوق. <strong>هذه نتائج تدقيق آلي وليست حكماً نهائياً</strong>؛ راجع المستندات الأصلية قبل إجراء أي تسوية.</div>
+        <div class="audit-summary">
+          <div class="audit-tile"><small>مجموعات بفروقات كبيرة</small><strong id="auditLargeCount">0</strong></div>
+          <div class="audit-tile"><small>إجمالي قيمة الفروقات الكبيرة</small><strong id="auditLargeValue">0.00</strong></div>
+          <div class="audit-tile"><small>قيود بلا مقابل مرشح</small><strong id="auditMissingCount">0</strong></div>
+          <div class="audit-tile"><small>قيمة القيود بلا مقابل</small><strong id="auditMissingValue">0.00</strong></div>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="auditSearch" placeholder="بحث بالمرجع أو البيان أو المصدر..." />
+          <select id="auditKind"><option value="all">كل النتائج</option><option value="large">الفروقات الكبيرة</option><option value="missing">بلا مقابل مرشح</option></select>
+          <button class="btn btn-sm btn-primary" id="btnAuditCsv">⬇ تصدير التقرير CSV</button>
+        </div>
+        <div class="card audit-section">
+          <div class="card-title">📋 نتائج التدقيق التفصيلية <span id="auditCountLabel">0 نتيجة</span></div>
+          <div class="table-wrap" id="auditGridWrap"></div>
+        </div>
+      </section>
+
+      <!-- الصفحة 8: مركز التسويات والمراجعة -->
+      <section class="page" id="page8">
+        <div class="workflow-disclaimer"><strong>مركز التسويات والمراجعة:</strong> حوّل نتائج المحرك إلى عناصر عمل موثقة. الاعتماد هنا يعني اعتماد نتيجة المراجعة فقط؛ لا ينشئ قيداً محاسبياً ولا يغيّر أرصدة المصدر. يجب تنفيذ أي قيد تسوية في النظام المحاسبي المعتمد بعد التحقق والموافقة.</div>
+        <div class="workflow-kpis">
+          <div class="workflow-tile"><small>عناصر المراجعة</small><strong id="wfTotal">0</strong></div>
+          <div class="workflow-tile"><small>بانتظار القرار / معلّق</small><strong id="wfPending">0</strong></div>
+          <div class="workflow-tile"><small>تم اعتماد المراجعة</small><strong id="wfApproved">0</strong></div>
+          <div class="workflow-tile"><small>مرفوض / يحتاج معالجة</small><strong id="wfRejected">0</strong></div>
+        </div>
+        <div class="filter-bar workflow-toolbar">
+          <input type="text" id="wfSearch" placeholder="بحث برقم المرجع أو البيان أو المصدر..." />
+          <select id="wfFilter"><option value="all">كل الحالات</option><option value="pending">بانتظار القرار</option><option value="approved">معتمد</option><option value="rejected">مرفوض / يحتاج معالجة</option><option value="hold">معلّق</option></select>
+          <input type="text" id="wfReviewer" placeholder="اسم المراجع المسؤول" style="max-width:190px" />
+          <button class="btn btn-sm btn-primary" id="btnWfRefresh">↻ تحديث</button>
+          <button class="btn btn-sm btn-success" id="btnWfClose">🔒 إقفال التسوية</button>
+          <button class="btn btn-sm btn-secondary" id="btnWfReopen">فتح التسوية</button>
+          <button class="btn btn-sm btn-slate" id="btnWfExportLog">⬇ سجل المراجعة CSV</button>
+        </div>
+        <div class="card workflow-table-wrap">
+          <div class="card-title">📋 قائمة أعمال المراجعة <span id="wfCaseState">لا توجد جلسة تسوية</span></div>
+          <div class="table-wrap" id="workflowGridWrap"></div>
+        </div>
+        <div class="card" style="min-height:150px; max-height:200px; flex-shrink:0;">
+          <div class="card-title">🧾 سجل القرارات والتغييرات</div>
+          <div class="table-wrap" id="workflowHistoryWrap"></div>
+        </div>
+      </section>
     </main>
   </div>
+
+  <!-- شريط التنقل السفلي للجوال -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <button class="mobile-tab-btn active" data-page="0"><span>📁</span><span>الملفات</span></button>
+    <button class="mobile-tab-btn" data-page="1"><span>📊</span><span>اللوحة</span></button>
+    <button class="mobile-tab-btn" data-page="2"><span>⚠</span><span>غير متطابق</span></button>
+    <button class="mobile-tab-btn" data-page="3"><span>✅</span><span>المطابقات</span></button>
+    <button class="mobile-tab-btn" data-page="7"><span>📉</span><span>التدقيق</span></button>
+    <button class="mobile-tab-btn" data-page="8"><span>⚖</span><span>التسويات</span></button>
+  </nav>
 
   <!-- شريط الحالة السفلي -->
   <footer class="status-bar">
@@ -753,7 +1072,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <span>⚙ الخيارات المتقدمة للمطابقة</span>
-        <button class="icon-btn" onclick="closeModal('modalAdvanced')">✖</button>
+        <button class="icon-btn" data-close-modal="modalAdvanced">✖</button>
       </div>
       <div class="modal-body">
         <div class="options-grid-2">
@@ -764,6 +1083,7 @@
           <div class="form-row"><label style="width:170px;">حد تشابه البيان/الاسم (%):</label><input type="number" id="optSim" min="30" max="100" /></div>
           <div class="form-row"><label style="width:170px;">أقصى حجم مجموعة (N:1):</label><input type="number" id="optGroupSize" min="2" max="8" /></div>
           <div class="form-row"><label style="width:170px;">أقصى نسبة عمولة (%):</label><input type="number" id="optFeeRatio" min="0" max="30" step="0.5" /></div>
+          <div class="form-row"><label style="width:170px;">حد الفرق الكبير (ريال يمني):</label><input type="number" id="optLargeDiff" min="1" max="100000000000" step="1000" /></div>
         </div>
         <hr style="border:none; border-top:1px solid var(--border); width:100%;" />
         <div class="options-grid-2">
@@ -781,7 +1101,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-sm btn-primary" id="btnOptReset">↺ الافتراضي</button>
-        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalAdvanced')">إلغاء</button>
+        <button class="btn btn-sm btn-secondary" data-close-modal="modalAdvanced">إلغاء</button>
         <button class="btn btn-sm btn-success" id="btnOptSave">حفظ</button>
       </div>
     </div>
@@ -792,7 +1112,7 @@
     <div class="modal-card" style="width:820px;">
       <div class="modal-header">
         <span id="mapModalTitle">🧩 تعيين الأعمدة يدوياً</span>
-        <button class="icon-btn" onclick="closeModal('modalMapping')">✖</button>
+        <button class="icon-btn" data-close-modal="modalMapping">✖</button>
       </div>
       <div class="modal-body">
         <div class="form-row">
@@ -804,7 +1124,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-sm btn-primary" id="btnMapAuto">↺ تلقائي بالكامل</button>
-        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalMapping')">إلغاء</button>
+        <button class="btn btn-sm btn-secondary" data-close-modal="modalMapping">إلغاء</button>
         <button class="btn btn-sm btn-success" id="btnMapApply">تطبيق</button>
       </div>
     </div>
@@ -815,20 +1135,79 @@
     <div class="modal-card" style="width:780px;">
       <div class="modal-header">
         <span>⚖ مطابقة كشف الحساب الوسيط الداخلي (القيود المتقابلة داخل نفس الكشف)</span>
-        <button class="icon-btn" onclick="closeModal('modalIntermediary')">✖</button>
+        <button class="icon-btn" data-close-modal="modalIntermediary">✖</button>
       </div>
       <div class="modal-body">
         <p style="margin:0; color:var(--muted); font-size:12.5px;">
           يقوم هذا المعالج بفحص <strong>الكشف الأول</strong> لمطابقة الحركات المدينة مع الحركات الدائنة المقابلة لها داخل نفس الحساب الوسيط، واستخراج القيود المعلقة التي لم تُصفَّ بعد.
         </p>
-        <div style="display:flex; gap:8px; align-items:center;">
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
           <button class="btn btn-sm btn-purple" id="btnRunIntermediary">▶ تشغيل فحص الحساب الوسيط</button>
           <span id="lblIntermediarySummary" style="font-weight:700; color:var(--accent);"></span>
         </div>
         <div class="table-wrap" style="height:320px;" id="intermediaryWrap"></div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-sm btn-secondary" onclick="closeModal('modalIntermediary')">إغلاق</button>
+        <button class="btn btn-sm btn-secondary" data-close-modal="modalIntermediary">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة قرارات المراجعة ومقترح التسوية والربط اليدوي -->
+  <div class="modal-backdrop" id="modalActionDialog">
+    <div class="modal-card" style="width:520px;">
+      <div class="modal-header">
+        <span id="dlgActionTitle">تسجيل إجراء المراجعة</span>
+        <button class="icon-btn" data-close-modal="modalActionDialog">✖</button>
+      </div>
+      <div class="modal-body">
+        <p id="dlgActionSubtitle" style="margin:0; color:var(--muted); font-size:12.5px;"></p>
+        <div class="form-row" id="dlgAmountRow" style="display:none;">
+          <label style="width:140px;">قيمة التسوية (ر.ي):</label>
+          <input type="number" id="dlgAmountInput" step="0.01" placeholder="أدخل المبلغ الموجب أو السالب" />
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px;" id="dlgNoteRow">
+          <label id="dlgNoteLabel" style="font-weight:700; font-size:12.5px; color:var(--muted);">الملاحظة / السبب:</label>
+          <textarea id="dlgNoteInput" rows="3" placeholder="اكتب تفاصيل القرار أو المستند المؤيد..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" data-close-modal="modalActionDialog">إلغاء</button>
+        <button class="btn btn-sm btn-success" id="btnDlgConfirm">تأكيد الحفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة المساعدة واختصارات لوحة المفاتيح -->
+  <div class="modal-backdrop" id="modalHelp">
+    <div class="modal-card" style="width:560px;">
+      <div class="modal-header">
+        <span>❓ دليل الاستخدام واختصارات لوحة المفاتيح</span>
+        <button class="icon-btn" data-close-modal="modalHelp">✖</button>
+      </div>
+      <div class="modal-body" style="line-height:1.7;">
+        <div style="background:var(--surface2); padding:10px 12px; border-radius:8px; border:1px solid var(--border);">
+          <strong>⌨ اختصارات لوحة المفاتيح السريعة:</strong>
+          <ul style="margin:6px 0 0; padding-right:18px;">
+            <li><b>F5</b> : بدء المطابقة الفورية</li>
+            <li><b>Ctrl + S</b> : تصدير ملف Excel الكامل (.xlsx)</li>
+            <li><b>Ctrl + T</b> : تبديل الوضع الداكن / الفاتح</li>
+            <li><b>Ctrl + I</b> : فتح معالج مطابقة الحساب الوسيط</li>
+            <li><b>Ctrl + 1…9</b> : التنقل السريع بين الصفحات التسع</li>
+          </ul>
+        </div>
+        <div style="background:var(--info-tint); padding:10px 12px; border-radius:8px; border:1px solid var(--border);">
+          <strong>🚀 المزايا المتقدمة في الإصدار V8 Enterprise Pro:</strong>
+          <ul style="margin:6px 0 0; padding-right:18px;">
+            <li><b>محطة الربط اليدوي الذكي:</b> يمكنك تحديد أي قيود غير متطابقة من الطرفين ومشاهدة الفرق الفوري وربطها كمجموعة مطابقة، أو فك أي مطابقة من جدول المطابقات.</li>
+            <li><b>فلترة أعمار القيود المعلقة:</b> تصنيف القيود غير المتطابقة حسب عمرها الزمني للتركيز على المتأخرات.</li>
+            <li><b>حفظ واسترجاع الجلسة (JSON):</b> حفظ كامل حالة المطابقة والقرارات والملفات بضغطة زر من الشريط العلوي.</li>
+            <li><b>توافق كامل مع الشاشات:</b> واجهة مرنة تدعم شاشات سطح المكتب العريضة واللابتوب والتابلت والهواتف الذكية مع شريط تنقل سفلي.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-primary" data-close-modal="modalHelp">حسناً، فهمت</button>
       </div>
     </div>
   </div>
@@ -845,6 +1224,7 @@ const DEFAULT_SETTINGS = {
   descSimilarityThreshold: 0.65,
   maxGroupSize: 5,
   maxFeeRatio: 0.06,
+  largeDifferenceThreshold: 10000,
   enableGroupMatching: true,
   enableFeeSplit: true,
   enableFuzzy: true,
@@ -862,7 +1242,14 @@ let settings = loadSettings();
 function loadSettings() {
   try {
     const raw = localStorage.getItem('NativeSmartMatcher_Settings_v51');
-    if (raw) return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        ...DEFAULT_SETTINGS,
+        ...parsed,
+        largeDifferenceThreshold: Math.max(1, Number(parsed.largeDifferenceThreshold) || DEFAULT_SETTINGS.largeDifferenceThreshold)
+      };
+    }
   } catch (e) {}
   return { ...DEFAULT_SETTINGS };
 }
@@ -884,6 +1271,8 @@ let currentResult = null;
 let unmatchedRowsData = [];
 let matchedRowsData = [];
 let activeMappingSlot = 1;
+let selectedUnmatchedIds = new Set();
+let selectedMatchedGroupId = null;
 
 const LEVEL_NAMES = {
   L1: 'مبلغ + مرجع تام',
@@ -893,7 +1282,8 @@ const LEVEL_NAMES = {
   L5: 'مبلغ ضمن السماحية',
   L6: 'تجميع N:1',
   L6R: 'تجميع بالرقم المشترك',
-  L6F: 'مبلغ مقارب برسوم'
+  L6F: 'مبلغ مقارب برسوم',
+  MANUAL: 'ربط يدوي موثق'
 };
 
 /* =====================================================================================
@@ -1105,7 +1495,6 @@ function tryParseFlexibleDate(raw, dayFirst) {
   let s = normalizeDigits(String(raw)).replace(/[\u200E\u200F\u202A-\u202E\u00A0]/g, ' ').trim();
   if (!s) return null;
 
-  // رقم تسلسلي Excel
   if (/^\d{5}(\.\d+)?$/.test(s)) {
     const serial = parseFloat(s);
     if (serial >= 29221 && serial <= 76702) {
@@ -1114,13 +1503,11 @@ function tryParseFlexibleDate(raw, dayFirst) {
     }
   }
 
-  // yyyyMMdd متصل
   const mCompact = s.match(/(?<!\d)(20\d{2}|19\d{2})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])(?!\d)/);
   if (mCompact) {
     return new Date(Date.UTC(+mCompact[1], +mCompact[2] - 1, +mCompact[3]));
   }
 
-  // استخراج التوكن الرقمي للتاريخ
   const mTok = s.match(/(\d{1,4})\s*[/\-.\s]\s*(\d{1,2})\s*[/\-.\s]\s*(\d{1,4})/);
   if (mTok) {
     let a = +mTok[1], b = +mTok[2], c = +mTok[3];
@@ -1146,9 +1533,11 @@ function fmt(n) {
 }
 function fmtDate(d) {
   if (!d) return 'غير محدد';
-  const y = d.getUTCFullYear();
-  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(d.getUTCDate()).padStart(2, '0');
+  const dt = d instanceof Date ? d : tryParseFlexibleDate(d, true);
+  if (!dt || isNaN(dt)) return 'غير محدد';
+  const y = dt.getUTCFullYear();
+  const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(dt.getUTCDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
 }
 function daysBetween(d1, d2) {
@@ -1165,6 +1554,23 @@ function colLetter(index) {
     n = Math.floor((n - 1) / 26);
   }
   return s;
+}
+function copyToClipboardSafe(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (_) {}
+  document.body.removeChild(ta);
 }
 
 /* =====================================================================================
@@ -1305,6 +1711,7 @@ function buildTransactionsFromRows(rows, sourceName, side, map, opts, warnings) 
       const docType = (colDoc >= 0 && colDoc < fields.length) ? String(fields[colDoc] ?? '').trim() : '';
       const amount = debit > 0 ? debit : credit;
       list.push({
+        uid: `${side}_${i + 1}`,
         transDate,
         debit,
         credit,
@@ -1368,7 +1775,6 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     }
   }
 
-  // كشف التكرار داخل الملف الواحد
   if (opts.enableDuplicates) {
     const flagDups = (list, srcName) => {
       const groups = new Map();
@@ -1395,7 +1801,6 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     flagDups(all2, name2);
   }
 
-  // (0) المطابقة العالمية بالرقم المشترك
   if (opts.unlimitedRefMatch) {
     const same = opts.sameConvention;
     const groupByRef = list => {
@@ -1433,7 +1838,6 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     }
   }
 
-  // حساب درجة التطابق الزوجي
   const computeScore = (a, b, level, maxDays) => {
     const daysDiff = daysBetween(a.transDate, b.transDate);
     if (daysDiff > maxDays) return { score: 0, label: '' };
@@ -1516,7 +1920,6 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     matchLists(l1.filter(x => !x.isDebit), l2.filter(x => (!x.isDebit) === same), maxDays, levels);
   };
 
-  // البحث عن مجموعات جزئية (Subset Sum N:1)
   const findComboMatchingSum = (candidates, targetAmount, maxSize, tolerance) => {
     const sorted = [...candidates].sort((a, b) => b.amount - a.amount);
     const n = sorted.length;
@@ -1599,14 +2002,10 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
   const gPool1 = all1.filter(x => !x.matched && x.transDate && x.amount > 0);
   const gPool2 = all2.filter(x => !x.matched && x.transDate && x.amount > 0);
 
-  // (1) المطابقات القوية (L1, L2, L3)
   for (const w of windows) crossMatchLocalized(gPool1, gPool2, w, ['L1', 'L2', 'L3']);
-
-  // (2) المطابقات الضعيفة والتجميع
   for (const w of windows) crossMatchLocalized(gPool1, gPool2, w, ['L4', 'L5']);
   if (opts.enableGroupMatching) groupPassLocalized(gPool1, gPool2, opts.dateWindowDays);
 
-  // (3) المطابقة التقريبية 1:1 (L6F)
   if (opts.enableFuzzy) {
     const same = opts.sameConvention;
     for (let pass = 1; pass <= 2; pass++) {
@@ -1639,7 +2038,6 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     }
   }
 
-  // (4) كشف القيد وعكسه داخل نفس الملف (L0R)
   const reversals = [];
   if (opts.enableReversals) {
     const detectRev = list => {
@@ -1672,12 +2070,26 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     if (reversals.length > 0) warnings.push(`ℹ️ تم رصد ${reversals.length} زوج (قيد + عكسه) داخل نفس الملف واستُبعدت من الفروقات لأن أثرها صفر.`);
   }
 
+  const result = { name1, name2, orig1, orig2, all1, all2, reversals, warnings, nextMatchId };
+  recomputeResultAggregates(result, opts);
+  return result;
+}
+
+function recomputeResultAggregates(result, opts) {
+  const { all1, all2, orig1, orig2, reversals } = result;
   const active = [...all1, ...all2].filter(x => !x.superseded);
   const unmatchedRecords = active.filter(x => !x.matched).sort((a, b) => {
     const da = a.transDate ? a.transDate.getTime() : Infinity;
     const db = b.transDate ? b.transDate.getTime() : Infinity;
     return da - db || a.side - b.side || a.rowNumber - b.rowNumber;
   });
+
+  // حساب عمر القيد لكل سجل غير متطابق مقارنة بأحدث تاريخ في الكشفين
+  const allDates = active.filter(x => x.transDate).map(x => x.transDate.getTime());
+  const maxDateMs = allDates.length ? Math.max(...allDates) : Date.now();
+  for (const x of unmatchedRecords) {
+    x.ageDays = x.transDate ? Math.max(0, Math.round((maxDateMs - x.transDate.getTime()) / 86400000)) : 0;
+  }
 
   const groupMap = new Map();
   for (const x of active.filter(t => t.matched)) {
@@ -1686,12 +2098,12 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
   }
   const matchedGroups = Array.from(groupMap.values()).sort((a, b) => a.groupId - b.groupId);
 
-  // اقتراحات القيود غير المتطابقة
   if (opts.enableSuggestions) {
     const u1 = unmatchedRecords.filter(x => x.side === 1 && x.amount > 0);
     const u2 = unmatchedRecords.filter(x => x.side === 2 && x.amount > 0);
     const same = opts.sameConvention;
     for (const x of [...u1, ...u2]) {
+      x.suggestion = '';
       const others = x.side === 1 ? u2 : u1;
       const wantDebit = same ? x.isDebit : !x.isDebit;
       let best = null, bestScore = 0, bestNs = 0;
@@ -1716,14 +2128,13 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     }
   }
 
-  // الإحصائيات والتسوية
   const signedNet = x => {
     let v = x.debit - x.credit;
     if (x.side === 2 && !opts.sameConvention) v = -v;
     return v;
   };
   const levelKey = lvl => (lvl && lvl.includes('-')) ? lvl.split('-')[0] : (lvl || '');
-  const confidenceOf = k => (k === 'L1' || k === 'L2') ? 'عالية' : (k === 'L3' || k === 'L6' || k === 'L6R') ? 'متوسطة' : 'منخفضة';
+  const confidenceOf = k => (k === 'L1' || k === 'L2' || k === 'MANUAL') ? 'عالية' : (k === 'L3' || k === 'L6' || k === 'L6R') ? 'متوسطة' : 'منخفضة';
 
   const a1 = all1.filter(x => !x.superseded);
   const a2 = all2.filter(x => !x.superseded);
@@ -1750,7 +2161,7 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
     g.effect = +(e1 - e2).toFixed(2);
     const k = levelKey(g.level);
     g.levelKey = k;
-    g.needsReview = ['L4', 'L5', 'L6F'].includes(k);
+    g.needsReview = ['L4', 'L5', 'L6F'].includes(k) || (k === 'MANUAL' && Math.abs(g.diff) >= 0.01);
     g.confidence = confidenceOf(k);
   }
 
@@ -1759,13 +2170,15 @@ function runSmartMatcher(rows1, rows2, name1, name2, map1, map2, opts) {
   stats.reviewGroups = matchedGroups.filter(g => g.needsReview).length;
   stats.diffGroups = matchedGroups.filter(g => Math.abs(g.diff) >= 0.01).length;
 
-  const result = { name1, name2, unmatchedRecords, matchedGroups, reversals, warnings, stats, reportText: '' };
+  result.unmatchedRecords = unmatchedRecords;
+  result.matchedGroups = matchedGroups;
+  result.stats = stats;
+  result.auditFindings = buildAuditFindings(result, opts);
   result.reportText = buildReportHtml(result, opts);
-  return result;
 }
 
 /* =====================================================================================
-   6. بناء تقرير HTML المدمج (نفس تصميم BuildReport في VB.NET)
+   6. بناء تقرير HTML المدمج
    ===================================================================================== */
 function buildReportHtml(result, opts) {
   const st = result.stats;
@@ -1797,7 +2210,7 @@ function buildReportHtml(result, opts) {
       </div>`;
   };
 
-  return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><title>تقرير المطابقة المالية</title>
+  return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>تقرير المطابقة المالية</title>
   <style>
     * { box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f1f5f9; color: #1e293b; margin: 0; padding: 15px; direction: rtl; text-align: right; }
@@ -1805,7 +2218,7 @@ function buildReportHtml(result, opts) {
     .header { text-align: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 18px; }
     .header h1 { margin: 0 0 8px 0; font-size: 22px; color: #0f172a; }
     .header h3 { margin: 0; font-size: 14px; color: #0d9488; }
-    .kpi-table { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 15px 0 22px; }
+    .kpi-table { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 15px 0 22px; }
     .kpi-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 6px; text-align: center; border-top: 4px solid #2563eb; }
     .kpi-val { display: block; font-size: 20px; font-weight: bold; margin-bottom: 4px; }
     .kpi-lbl { font-size: 11.5px; color: #64748b; font-weight: 600; }
@@ -1817,7 +2230,7 @@ function buildReportHtml(result, opts) {
     .unmatched-card { border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px 14px; margin-bottom: 9px; }
     .card-border-src1 { border-right: 4px solid #2563eb; }
     .card-border-src2 { border-right: 4px solid #db2777; }
-    .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; flex-wrap: wrap; gap: 6px; }
     .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 5px; }
     .badge-src1 { background: #dbeafe; color: #1d4ed8; }
     .badge-src2 { background: #fce7f3; color: #be185d; }
@@ -1858,15 +2271,52 @@ function buildReportHtml(result, opts) {
 }
 
 /* =====================================================================================
-   7. إدارة الواجهة والأحداث (UI & DOM Wiring)
+   7. إدارة الواجهة والنوافذ المنبثقة والأحداث
    ===================================================================================== */
 function showPage(index) {
   document.querySelectorAll('.page').forEach((p, i) => p.classList.toggle('active', i === index));
   document.querySelectorAll('.nav-btn').forEach((b, i) => b.classList.toggle('active', i === index));
+  document.querySelectorAll('.mobile-tab-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.page, 10) === index);
+  });
+  document.body.classList.remove('mobile-nav-open');
 }
 
-document.querySelectorAll('.nav-btn').forEach(btn => {
+document.querySelectorAll('.nav-btn, .mobile-tab-btn').forEach(btn => {
   btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page, 10)));
+});
+
+function closeModal(id) {
+  document.getElementById(id)?.classList.remove('show');
+}
+document.querySelectorAll('[data-close-modal]').forEach(btn => {
+  btn.addEventListener('click', () => closeModal(btn.dataset.closeModal));
+});
+
+// نافذة الحوار المخصصة (بديل آمن ومتجاوب لـ prompt / confirm)
+let pendingDialogCallback = null;
+function openActionDialog({ title, subtitle, showAmount = false, defaultAmount = '0', showNote = true, noteLabel = 'الملاحظة / السبب:', defaultNote = '', confirmText = 'تأكيد', onConfirm }) {
+  document.getElementById('dlgActionTitle').textContent = title;
+  document.getElementById('dlgActionSubtitle').textContent = subtitle || '';
+  document.getElementById('dlgAmountRow').style.display = showAmount ? 'flex' : 'none';
+  document.getElementById('dlgAmountInput').value = defaultAmount;
+  document.getElementById('dlgNoteRow').style.display = showNote ? 'flex' : 'none';
+  document.getElementById('dlgNoteLabel').textContent = noteLabel;
+  document.getElementById('dlgNoteInput').value = defaultNote;
+  document.getElementById('btnDlgConfirm').textContent = confirmText;
+  pendingDialogCallback = onConfirm;
+  document.getElementById('modalActionDialog').classList.add('show');
+  setTimeout(() => {
+    if (showAmount) document.getElementById('dlgAmountInput').focus();
+    else if (showNote) document.getElementById('dlgNoteInput').focus();
+  }, 60);
+}
+document.getElementById('btnDlgConfirm').addEventListener('click', () => {
+  const amountVal = document.getElementById('dlgAmountInput').value;
+  const noteVal = document.getElementById('dlgNoteInput').value;
+  const cb = pendingDialogCallback;
+  closeModal('modalActionDialog');
+  if (typeof cb === 'function') cb({ amount: amountVal, note: noteVal });
 });
 
 let bannerTimer = null;
@@ -1892,7 +2342,9 @@ document.getElementById('btnTheme').addEventListener('click', () => {
   applyTheme();
 });
 
-// قراءة ملف Excel / CSV باستخدام SheetJS
+document.getElementById('btnBrowse1').addEventListener('click', () => document.getElementById('fileInput1').click());
+document.getElementById('btnBrowse2').addEventListener('click', () => document.getElementById('fileInput2').click());
+
 function handleFileSelect(slotNum, file) {
   if (!file) return;
   const slot = slots[slotNum];
@@ -1968,7 +2420,6 @@ function renderPreviewGrid(slotNum, rows) {
   wrap.innerHTML = html;
 }
 
-// ربط أحداث رفع وسحب الملفات
 [1, 2].forEach(num => {
   document.getElementById(`fileInput${num}`).addEventListener('change', e => handleFileSelect(num, e.target.files[0]));
   document.getElementById(`cboSheet${num}`).addEventListener('change', e => loadSheetPreview(num, parseInt(e.target.value, 10)));
@@ -1987,7 +2438,6 @@ function renderPreviewGrid(slotNum, rows) {
   });
 });
 
-// تبديل الكشفين
 document.getElementById('btnSwap').addEventListener('click', () => {
   const tmp = { ...slots[1] };
   Object.assign(slots[1], slots[2], { index: 1, title: 'الكشف الأول' });
@@ -2007,7 +2457,7 @@ document.getElementById('btnSwap').addEventListener('click', () => {
 });
 
 /* =====================================================================================
-   8. تشغيل المطابقة وتحديث جميع الجداول واللوحات
+   8. تشغيل المطابقة وتحديث الجداول والربط اليدوي
    ===================================================================================== */
 function syncOptionsFromQuickStrip() {
   settings.enableGroupMatching = document.getElementById('chkGroup').checked;
@@ -2039,8 +2489,10 @@ function startMatching() {
 
       const result = runSmartMatcher(slots[1].rows, slots[2].rows, name1, name2, slots[1].mapping, slots[2].mapping, settings);
       currentResult = result;
-      const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
+      selectedUnmatchedIds.clear();
+      selectedMatchedGroupId = null;
 
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(2);
       document.getElementById('progressBar').style.width = '100%';
       document.getElementById('lblProgress').textContent = `✅ اكتمل التحليل في ${elapsed} ثانية.`;
       document.getElementById('btnExport').disabled = false;
@@ -2059,13 +2511,14 @@ function startMatching() {
       document.getElementById('lblProgress').textContent = '❌ فشل التحليل.';
       showBanner(err.message, 'err');
     }
-  }, 50);
+  }, 40);
 }
 
 document.getElementById('btnRun').addEventListener('click', startMatching);
 
 function drawDonut(pct, caption) {
   const canvas = document.getElementById('donutCanvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const style = getComputedStyle(document.body);
   const textColor = style.getPropertyValue('--text').trim();
@@ -2101,15 +2554,318 @@ function drawDonut(pct, caption) {
   ctx.fillText(caption, cx, cy + 20);
 }
 
+/* طبقة التدقيق الآلي للفروقات الكبيرة والمفقود */
+function buildAuditFindings(result, opts) {
+  const threshold = Math.max(1, Number(opts.largeDifferenceThreshold) || 10000);
+  const findings = [];
+  for (const g of result.matchedGroups || []) {
+    const diff = Math.abs(Number(g.diff) || 0);
+    if (diff >= threshold) {
+      const left = g.items.filter(x => x.side === 1);
+      const right = g.items.filter(x => x.side === 2);
+      findings.push({
+        kind: 'large', kindText: 'فرق مالي كبير', severity: 'high', groupId: g.groupId,
+        source: `${left.length} قيد مقابل ${right.length} قيد`,
+        date: left[0]?.transDate || right[0]?.transDate || null,
+        amount: diff, difference: Number(g.diff) || 0,
+        ref: g.items.map(x => x.ref).filter(Boolean).join(' / '),
+        desc: g.items.map(x => x.desc).filter(Boolean).join(' | '),
+        details: `المجموعة #${g.groupId} • المستوى ${g.level} • الثقة ${g.confidence} • الطرف الأول: ${left.reduce((a, x) => a + x.amount, 0).toFixed(2)} • الطرف الثاني: ${right.reduce((a, x) => a + x.amount, 0).toFixed(2)}`
+      });
+    }
+  }
+  const unmatched = result.unmatchedRecords || [];
+  for (const x of unmatched) {
+    const others = unmatched.filter(y => y.side !== x.side && y.isDebit !== (opts.sameConvention ? x.isDebit : !x.isDebit));
+    const tolerance = Math.max(Number(opts.amountTolerance) || 0, Math.abs(x.amount) * (Number(opts.amountTolerancePct) || 0));
+    let best = null, bestScore = 0;
+    for (const y of others) {
+      const amountDiff = Math.abs(x.amount - y.amount);
+      const refEqual = !!x.refNorm && x.refNorm.length >= 3 && x.refNorm === y.refNorm;
+      const days = x.transDate && y.transDate ? Math.abs(Math.round((x.transDate - y.transDate) / 86400000)) : 9999;
+      const descScore = similarity(normalizeDesc(x.desc || ''), normalizeDesc(y.desc || ''), 0.55);
+      let score = 0;
+      if (refEqual) score = 0.98;
+      else if (amountDiff <= tolerance && days <= (Number(opts.crossDayWindowDays) || 30)) score = 0.55 + descScore * 0.35;
+      else if (descScore >= 0.72 && days <= (Number(opts.crossDayWindowDays) || 30)) score = 0.45 + descScore * 0.3;
+      if (score > bestScore) { bestScore = score; best = y; }
+    }
+    if (!best || bestScore < 0.55) {
+      findings.push({
+        kind: 'missing', kindText: 'لا يوجد مقابل مرشح', severity: 'mid',
+        source: x.source, date: x.transDate, amount: Number(x.amount) || 0, difference: 0, side: x.side, rowNumber: x.rowNumber,
+        ref: x.ref || '', desc: x.desc || '',
+        details: `الصف ${x.rowNumber} • ${x.isDebit ? 'مدين' : 'دائن'} • عمر القيد: ${x.ageDays || 0} يوم • ${x.hint || 'لم يعثر التدقيق على قيد مقابل قريب.'}`
+      });
+    }
+  }
+  return findings.sort((a, b) => (b.kind === 'large') - (a.kind === 'large') || b.amount - a.amount);
+}
+
+function renderAuditReport(result) {
+  const findings = result.auditFindings || [];
+  const large = findings.filter(x => x.kind === 'large');
+  const missing = findings.filter(x => x.kind === 'missing');
+  document.getElementById('auditLargeCount').textContent = large.length.toLocaleString();
+  document.getElementById('auditLargeValue').textContent = fmt(large.reduce((a, x) => a + x.amount, 0));
+  document.getElementById('auditMissingCount').textContent = missing.length.toLocaleString();
+  document.getElementById('auditMissingValue').textContent = fmt(missing.reduce((a, x) => a + x.amount, 0));
+  document.getElementById('badgeAudit').textContent = findings.length.toLocaleString();
+
+  const draw = () => {
+    const q = normalizeDesc(document.getElementById('auditSearch').value);
+    const kind = document.getElementById('auditKind').value;
+    const filtered = findings.filter(x => (kind === 'all' || x.kind === kind) &&
+      (!q || normalizeDesc(`${x.source} ${x.ref} ${x.desc} ${x.details} ${x.kindText}`).includes(q)));
+    document.getElementById('auditCountLabel').textContent = `${filtered.length} نتيجة`;
+    document.getElementById('auditGridWrap').innerHTML = `<table class="data-grid" id="auditTable">
+      <thead><tr><th>التصنيف</th><th>المصدر / المجموعة</th><th>التاريخ</th><th>المبلغ / الفرق</th><th>المرجع</th><th>البيان والتفاصيل</th></tr></thead>
+      <tbody>${filtered.map(x => `<tr><td class="${x.severity === 'high' ? 'severity-high' : 'severity-mid'}">${escHtml(x.kindText)}</td>
+      <td>${escHtml(x.source)}</td><td>${fmtDate(x.date)}</td><td dir="ltr">${fmt(x.amount)}${x.kind === 'large' ? `<br><b>فرق: ${fmt(x.difference)}</b>` : ''}</td>
+      <td>${escHtml(x.ref || '—')}</td><td title="${escHtml(x.details)}">${escHtml((x.desc || x.details).slice(0, 220))}<br><small>${escHtml(x.details)}</small></td></tr>`).join('')}</tbody></table>`;
+  };
+  document.getElementById('auditSearch').oninput = draw;
+  document.getElementById('auditKind').onchange = draw;
+  draw();
+}
+
+/* =====================================================================================
+   مركز التسويات والمراجعة وسجل القرارات (Workflow Center)
+   ===================================================================================== */
+let workflowState = null;
+let workflowCaseKey = '';
+const WORKFLOW_PREFIX = 'NativeSmartMatcher_Workflow_V1_';
+
+function stableHash(text) {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
+function getWorkflowCaseKey(r) {
+  const all = [...(r.matchedGroups || []).flatMap(g => g.items), ...(r.unmatchedRecords || [])];
+  const signature = [r.name1, r.name2, all.length, ...all.map(x => [x.side, x.rowNumber, fmtDate(x.transDate), x.amount, x.refNorm, x.isDebit ? 1 : 0, normalizeDesc(x.desc)].join('~'))].join('|');
+  return stableHash(signature);
+}
+function ensureWorkflowState(r) {
+  const key = getWorkflowCaseKey(r);
+  if (workflowCaseKey === key && workflowState) return workflowState;
+  workflowCaseKey = key;
+  try { workflowState = JSON.parse(localStorage.getItem(WORKFLOW_PREFIX + key) || 'null'); } catch (_) { workflowState = null; }
+  if (!workflowState || typeof workflowState !== 'object') {
+    workflowState = { caseKey: key, caseName: `${r.name1} ↔ ${r.name2}`, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), closed: false, decisions: {}, history: [] };
+  }
+  if (!workflowState.decisions) workflowState.decisions = {};
+  if (!Array.isArray(workflowState.history)) workflowState.history = [];
+  return workflowState;
+}
+function persistWorkflow() {
+  if (!workflowState || !workflowCaseKey) return false;
+  workflowState.updatedAt = new Date().toISOString();
+  try { localStorage.setItem(WORKFLOW_PREFIX + workflowCaseKey, JSON.stringify(workflowState)); return true; }
+  catch (e) { showBanner('تعذر حفظ سجل المراجعة محلياً.', 'err'); return false; }
+}
+function buildWorkflowItems(r) {
+  const items = [];
+  for (const g of (r.matchedGroups || [])) {
+    if (!g.needsReview && Math.abs(g.diff) < 0.01) continue;
+    const a = g.items.filter(x => x.side === 1), b = g.items.filter(x => x.side === 2);
+    items.push({ id: `G-${g.groupId}`, kind: 'group', title: Math.abs(g.diff) >= Math.max(1, Number(settings.largeDifferenceThreshold) || 10000) ? 'فرق مالي كبير' : 'مطابقة تحتاج تحقق', source: `${a.length} مقابل ${b.length}`, date: g.items[0]?.transDate || null, amount: g.items.reduce((v, x) => v + x.amount, 0), difference: g.diff, reference: g.items.map(x => x.ref).filter(Boolean).join(' / '), description: g.items.map(x => x.desc).filter(Boolean).join(' | '), details: `المجموعة #${g.groupId} • ${g.level} • الثقة ${g.confidence} • أثر التسوية ${fmt(g.effect)}`, confidence: g.confidence });
+  }
+  for (const x of (r.unmatchedRecords || [])) {
+    items.push({ id: `U-${x.side}-${x.rowNumber}-${x.refNorm}-${x.amount}`, kind: 'unmatched', title: 'قيد غير متطابق', source: x.source, date: x.transDate, amount: x.amount, difference: 0, reference: x.ref || '', description: x.desc || '', details: `الصف ${x.rowNumber} • ${x.isDebit ? 'مدين' : 'دائن'} • ${x.hint || 'لا يوجد تطابق مؤكد'}${x.suggestion ? ' • ' + x.suggestion : ''}`, confidence: 'غير محسومة' });
+  }
+  return items;
+}
+function workflowStatusText(status) {
+  return status === 'approved' ? 'اعتمدت المراجعة' : status === 'rejected' ? 'مرفوض / يحتاج معالجة' : status === 'hold' ? 'معلّق' : 'بانتظار القرار';
+}
+function workflowStatusClass(status) {
+  return status === 'approved' ? 'wf-approved' : status === 'rejected' ? 'wf-rejected' : status === 'hold' ? 'wf-hold-status' : 'wf-pending';
+}
+function renderWorkflowCenter(r) {
+  if (!r) return;
+  ensureWorkflowState(r);
+  const items = buildWorkflowItems(r);
+  const decisions = workflowState.decisions;
+  const counts = { pending: 0, approved: 0, rejected: 0, hold: 0 };
+  items.forEach(x => { const st = decisions[x.id]?.status || 'pending'; counts[st] = (counts[st] || 0) + 1; });
+  document.getElementById('wfTotal').textContent = items.length.toLocaleString();
+  document.getElementById('wfPending').textContent = (counts.pending + counts.hold).toLocaleString();
+  document.getElementById('wfApproved').textContent = counts.approved.toLocaleString();
+  document.getElementById('wfRejected').textContent = counts.rejected.toLocaleString();
+  document.getElementById('badgeWorkflow').textContent = (counts.pending + counts.hold).toLocaleString();
+  document.getElementById('wfCaseState').textContent = `${workflowState.caseName} • ${workflowState.closed ? 'مقفلة 🔒' : 'مفتوحة 🔓'} • ${workflowState.caseKey}`;
+
+  const draw = () => {
+    const q = normalizeDesc(document.getElementById('wfSearch').value), f = document.getElementById('wfFilter').value;
+    const rows = items.filter(x => {
+      const st = decisions[x.id]?.status || 'pending';
+      return (f === 'all' || st === f) && (!q || normalizeDesc(`${x.title} ${x.source} ${x.reference} ${x.description} ${x.details}`).includes(q));
+    });
+    document.getElementById('workflowGridWrap').innerHTML = `<table class="data-grid"><thead><tr><th>نوع الحالة</th><th>المصدر / المجموعة</th><th>التاريخ</th><th>المبلغ</th><th>الفرق</th><th>المرجع والبيان</th><th>الحالة</th><th>المراجع / الملاحظة</th><th>الإجراء</th></tr></thead><tbody>${rows.map(x => {
+      const d = decisions[x.id] || {};
+      const st = d.status || 'pending';
+      return `<tr><td><b>${escHtml(x.title)}</b><br><small>${escHtml(x.confidence)}</small></td><td>${escHtml(x.source)}</td><td>${fmtDate(x.date)}</td><td dir="ltr">${fmt(x.amount)}</td><td dir="ltr">${fmt(x.difference)}</td><td title="${escHtml(x.details)}">${escHtml((x.reference || '—') + ' | ' + (x.description || '').slice(0, 100))}</td><td><span class="wf-status ${workflowStatusClass(st)}">${workflowStatusText(st)}</span></td><td>${escHtml(d.reviewer || '—')}<br><small>${escHtml(d.note || '')}</small>${d.proposal ? `<br><small><b>مقترح:</b> ${fmt(d.proposal.amount)} ر.ي — ${escHtml(d.proposal.rationale)}</small>` : ''}</td><td><div class="wf-actions"><button class="wf-action wf-approve" data-wf-action="approved" data-wf-id="${encodeURIComponent(x.id)}" ${workflowState.closed ? 'disabled' : ''}>اعتماد</button><button class="wf-action wf-reject" data-wf-action="rejected" data-wf-id="${encodeURIComponent(x.id)}" ${workflowState.closed ? 'disabled' : ''}>رفض</button><button class="wf-action wf-hold" data-wf-action="hold" data-wf-id="${encodeURIComponent(x.id)}" ${workflowState.closed ? 'disabled' : ''}>تعليق</button><button class="wf-action" style="background:var(--purple)" data-wf-proposal="1" data-wf-id="${encodeURIComponent(x.id)}" ${workflowState.closed ? 'disabled' : ''}>اقتراح تسوية</button></div></td></tr>`;
+    }).join('')}</tbody></table>`;
+    if (!rows.length) document.getElementById('workflowGridWrap').innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted)">لا توجد عناصر مطابقة للفلاتر.</div>';
+  };
+  draw();
+  document.getElementById('workflowHistoryWrap').innerHTML = `<table class="data-grid"><thead><tr><th>الوقت</th><th>العنصر</th><th>القرار</th><th>المراجع</th><th>الملاحظة</th></tr></thead><tbody>${workflowState.history.slice().reverse().slice(0, 100).map(h => `<tr><td>${escHtml(new Date(h.at).toLocaleString('ar'))}</td><td>${escHtml(h.itemId)}</td><td>${escHtml(workflowStatusText(h.status))}</td><td>${escHtml(h.reviewer)}</td><td>${escHtml(h.note)}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('wfSearch').oninput = draw;
+  document.getElementById('wfFilter').onchange = draw;
+}
+
+function applyWorkflowDecision(id, status) {
+  if (!currentResult || !workflowState || workflowState.closed) return;
+  const reviewer = document.getElementById('wfReviewer').value.trim();
+  if (!reviewer) {
+    showBanner('أدخل اسم المراجع المسؤول قبل تسجيل القرار.', 'warn');
+    document.getElementById('wfReviewer').focus();
+    return;
+  }
+  const titleMap = { approved: 'اعتماد نتيجة المراجعة', rejected: 'رفض / طلب معالجة محاسبية', hold: 'تعليق البند لحين استكمال المستندات' };
+  const labelMap = { approved: 'ملاحظة الاعتماد (اختياري):', rejected: 'سبب الرفض أو المعالجة المطلوبة (إلزامي):', hold: 'سبب التعليق / المستند المطلوب:' };
+  openActionDialog({
+    title: titleMap[status] || 'قرار المراجعة',
+    subtitle: `العنصر: ${id} • المراجع: ${reviewer}`,
+    showAmount: false,
+    showNote: true,
+    noteLabel: labelMap[status],
+    defaultNote: workflowState.decisions[id]?.note || '',
+    confirmText: 'حفظ القرار',
+    onConfirm: ({ note }) => {
+      if (status === 'rejected' && !note.trim()) {
+        showBanner('يرجى كتابة سبب الرفض أو المعالجة المطلوبة.', 'warn');
+        return;
+      }
+      const old = workflowState.decisions[id] || {};
+      workflowState.decisions[id] = { ...old, status, reviewer, note: note.trim(), updatedAt: new Date().toISOString(), previousStatus: old.status || 'pending' };
+      workflowState.history.push({ at: new Date().toISOString(), itemId: id, status, reviewer, note: note.trim(), previousStatus: old.status || 'pending' });
+      if (persistWorkflow()) {
+        renderWorkflowCenter(currentResult);
+        showBanner('تم تسجيل قرار المراجعة وحفظه في سجل الحالة.', 'ok');
+      }
+    }
+  });
+}
+
+function createWorkflowProposal(id) {
+  if (!workflowState || workflowState.closed) return;
+  const reviewer = document.getElementById('wfReviewer').value.trim();
+  if (!reviewer) {
+    showBanner('أدخل اسم المراجع المسؤول قبل إعداد مقترح التسوية.', 'warn');
+    document.getElementById('wfReviewer').focus();
+    return;
+  }
+  const existing = workflowState.decisions[id]?.proposal;
+  openActionDialog({
+    title: 'إعداد مقترح تسوية مالية (مسودة)',
+    subtitle: `العنصر: ${id} • المراجع: ${reviewer}`,
+    showAmount: true,
+    defaultAmount: existing ? String(existing.amount) : '0',
+    showNote: true,
+    noteLabel: 'سبب التسوية والمستند المؤيد لها (إلزامي):',
+    defaultNote: existing ? existing.rationale : '',
+    confirmText: 'حفظ المقترح',
+    onConfirm: ({ amount: rawAmt, note: rationale }) => {
+      const amount = parseDecimalSafe(rawAmt);
+      if (!Number.isFinite(amount) || amount === 0) {
+        showBanner('أدخل مبلغاً رقمياً صحيحاً غير صفري.', 'warn');
+        return;
+      }
+      if (!rationale.trim()) {
+        showBanner('يجب توضيح سبب التسوية والمستند المؤيد.', 'warn');
+        return;
+      }
+      const d = workflowState.decisions[id] || {};
+      d.proposal = { amount: +amount.toFixed(2), currency: 'YER', currencyText: 'ريال يمني', rationale: rationale.trim(), reviewer, createdAt: new Date().toISOString(), status: 'مسودة — غير مرحّلة' };
+      d.updatedAt = new Date().toISOString();
+      workflowState.decisions[id] = d;
+      workflowState.history.push({ at: new Date().toISOString(), itemId: id, status: d.status || 'pending', reviewer, note: `اقتراح تسوية ${fmt(amount)} ريال يمني: ${rationale.trim()}`, previousStatus: d.status || 'pending', action: 'proposal' });
+      if (persistWorkflow()) {
+        renderWorkflowCenter(currentResult);
+        showBanner('تم حفظ مقترح التسوية كمسودة للمراجعة.', 'ok');
+      }
+    }
+  });
+}
+
+function closeWorkflowCase() {
+  if (!currentResult || !workflowState) return;
+  const items = buildWorkflowItems(currentResult);
+  const unresolved = items.filter(x => !['approved', 'rejected'].includes(workflowState.decisions[x.id]?.status || 'pending'));
+  if (unresolved.length) {
+    showBanner(`لا يمكن إقفال التسوية: ما زال هناك ${unresolved.length} عنصر بانتظار القرار أو معلّق.`, 'warn');
+    return;
+  }
+  openActionDialog({
+    title: '🔒 تأكيد إقفال ملف المراجعة',
+    subtitle: 'سيصبح سجل القرارات للقراءة فقط حتى إعادة فتحه. يمكنك إضافة ملاحظة ختامية:',
+    showAmount: false,
+    showNote: true,
+    noteLabel: 'ملاحظة الإقفال:',
+    defaultNote: 'إقفال ملف المراجعة بعد استكمال جميع البنود',
+    confirmText: 'إقفال التسوية الآن',
+    onConfirm: ({ note }) => {
+      workflowState.closed = true;
+      workflowState.history.push({ at: new Date().toISOString(), itemId: 'CASE', status: 'approved', reviewer: document.getElementById('wfReviewer').value.trim() || 'المستخدم', note: note.trim() || 'إقفال ملف المراجعة', previousStatus: 'open' });
+      persistWorkflow();
+      renderWorkflowCenter(currentResult);
+      showBanner('تم إقفال ملف المراجعة بنجاح.', 'ok');
+    }
+  });
+}
+
+function reopenWorkflowCase() {
+  if (!currentResult || !workflowState) return;
+  openActionDialog({
+    title: '🔓 إعادة فتح ملف المراجعة',
+    subtitle: 'سيتم فتح ملف التسوية للسماح بتعديل القرارات أو إضافة مقترحات جديدة.',
+    showAmount: false,
+    showNote: true,
+    noteLabel: 'سبب إعادة الفتح:',
+    defaultNote: 'إعادة فتح ملف المراجعة لتحديث القرارات',
+    confirmText: 'إعادة الفتح',
+    onConfirm: ({ note }) => {
+      workflowState.closed = false;
+      workflowState.history.push({ at: new Date().toISOString(), itemId: 'CASE', status: 'hold', reviewer: document.getElementById('wfReviewer').value.trim() || 'المستخدم', note: note.trim() || 'إعادة فتح ملف المراجعة', previousStatus: 'closed' });
+      persistWorkflow();
+      renderWorkflowCenter(currentResult);
+      showBanner('تمت إعادة فتح ملف المراجعة.', 'ok');
+    }
+  });
+}
+
+document.getElementById('workflowGridWrap').addEventListener('click', e => {
+  const p = e.target.closest('[data-wf-proposal]');
+  if (p) { createWorkflowProposal(decodeURIComponent(p.dataset.wfId)); return; }
+  const b = e.target.closest('[data-wf-action]');
+  if (b) applyWorkflowDecision(decodeURIComponent(b.dataset.wfId), b.dataset.wfAction);
+});
+document.getElementById('btnWfRefresh').addEventListener('click', () => { if (currentResult) renderWorkflowCenter(currentResult); });
+document.getElementById('btnWfClose').addEventListener('click', closeWorkflowCase);
+document.getElementById('btnWfReopen').addEventListener('click', reopenWorkflowCase);
+document.getElementById('btnWfExportLog').addEventListener('click', () => {
+  if (!workflowState) return;
+  const rows = [['التاريخ', 'العنصر', 'الحالة', 'المراجع', 'الملاحظة', 'الحالة السابقة'], ...workflowState.history.map(h => [h.at, h.itemId, workflowStatusText(h.status), h.reviewer, h.note, h.previousStatus || ''])];
+  const csv = '\uFEFF' + rows.map(r => r.map(v => '"' + String(v ?? '').replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'سجل_مراجعة_التسوية.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+});
+
 function populateAllViews(r) {
   const st = r.stats;
-  // الشارات الجانبية
+  renderAuditReport(r);
+  renderWorkflowCenter(r);
+
   document.getElementById('badgeUnmatched').textContent = r.unmatchedRecords.length;
   document.getElementById('badgeMatched').textContent = r.matchedGroups.length;
   document.getElementById('badgeReversals').textContent = r.reversals.length;
   document.getElementById('badgeWarnings').textContent = r.warnings.length;
 
-  // بطاقات KPI
   document.getElementById('kpiRate').textContent = `${st.matchRatePct.toFixed(1)}%`;
   document.getElementById('kpiGroups').textContent = st.groupCount.toLocaleString();
   document.getElementById('kpiUnmatched').textContent = r.unmatchedRecords.length.toLocaleString();
@@ -2119,7 +2875,6 @@ function populateAllViews(r) {
 
   drawDonut(st.matchRatePct, `${st.matched1 + st.matched2} من ${st.count1 + st.count2} قيد`);
 
-  // أشرطة مستويات المطابقة
   const levelCounts = new Map();
   for (const g of r.matchedGroups) {
     levelCounts.set(g.levelKey, (levelCounts.get(g.levelKey) || 0) + 1);
@@ -2131,13 +2886,12 @@ function populateAllViews(r) {
   } else {
     barContainer.innerHTML = Array.from(levelCounts.entries()).sort((a, b) => a[0].localeCompare(b[0])).map(([k, v]) => {
       const label = LEVEL_NAMES[k] ? `${k} • ${LEVEL_NAMES[k]}` : k;
-      const color = (k === 'L1' || k === 'L2') ? 'var(--success)' : (['L4', 'L5', 'L6F'].includes(k) ? 'var(--warning)' : 'var(--purple)');
+      const color = (k === 'L1' || k === 'L2' || k === 'MANUAL') ? 'var(--success)' : (['L4', 'L5', 'L6F'].includes(k) ? 'var(--warning)' : 'var(--purple)');
       const w = Math.max(4, Math.round((v / maxVal) * 100));
       return `<div class="bar-row"><div class="bar-label">${escHtml(label)}</div><div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${color}"></div></div><div class="bar-val">${v}</div></div>`;
     }).join('');
   }
 
-  // تسوية صافي الفارق
   const recon = +(st.matchedEffect + st.unmatchedEffect).toFixed(2);
   document.getElementById('recNet').textContent = fmt(st.netDiff);
   document.getElementById('recMatched').textContent = fmt(st.matchedEffect);
@@ -2152,7 +2906,6 @@ function populateAllViews(r) {
     chkEl.style.color = 'var(--danger)';
   }
 
-  // أكبر 8 قيود غير متطابقة في لوحة المعلومات
   const top8 = [...r.unmatchedRecords].sort((a, b) => b.amount - a.amount).slice(0, 8);
   document.getElementById('topUnmatchedWrap').innerHTML = `
     <table class="data-grid">
@@ -2160,13 +2913,12 @@ function populateAllViews(r) {
       <tbody>${top8.map(x => `<tr><td>${escHtml(x.source)}</td><td><b>${fmt(x.amount)}</b></td><td>${x.isDebit ? 'مدين' : 'دائن'}</td><td>${escHtml(x.ref)}</td><td>${escHtml(x.desc)}</td></tr>`).join('')}</tbody>
     </table>`;
 
-  // فلاتر صفحة غير المتطابقة
   const uCboSide = document.getElementById('uCboSide');
   uCboSide.innerHTML = `<option value="0">كل الأطراف</option><option value="1">${escHtml(r.name1)}</option><option value="2">${escHtml(r.name2)}</option>`;
 
   unmatchedRowsData = r.unmatchedRecords.map(x => {
     const sideText = x.isDebit ? 'مدين' : 'دائن';
-    const full = `المصدر: ${x.source}   |   الصف في الملف: ${x.rowNumber}\nالتاريخ: ${fmtDate(x.transDate)}   |   الجانب: ${sideText}   |   المبلغ: ${fmt(x.amount)}\nالمرجع: ${x.ref || '-'}   ${x.docType ? '|   نوع المستند: ' + x.docType : ''}\nالبيان: ${x.desc}${x.hint ? '\nالتنبيه: ' + x.hint : ''}${x.suggestion ? '\n' + x.suggestion : ''}`;
+    const full = `المصدر: ${x.source}   |   الصف في الملف: ${x.rowNumber}   |   العمر: ${x.ageDays || 0} يوم\nالتاريخ: ${fmtDate(x.transDate)}   |   الجانب: ${sideText}   |   المبلغ: ${fmt(x.amount)}\nالمرجع: ${x.ref || '-'}   ${x.docType ? '|   نوع المستند: ' + x.docType : ''}\nالبيان: ${x.desc}${x.hint ? '\nالتنبيه: ' + x.hint : ''}${x.suggestion ? '\n' + x.suggestion : ''}`;
     return {
       ...x,
       dateText: fmtDate(x.transDate),
@@ -2176,7 +2928,6 @@ function populateAllViews(r) {
     };
   });
 
-  // فلاتر صفحة المطابقات
   const mCboLevel = document.getElementById('mCboLevel');
   const distinctLevels = Array.from(new Set(r.matchedGroups.map(g => g.levelKey))).sort();
   mCboLevel.innerHTML = `<option value="0">كل المستويات</option>` + distinctLevels.map(k => `<option value="${k}">${k}</option>`).join('');
@@ -2205,11 +2956,10 @@ function populateAllViews(r) {
 
   filterUnmatched();
   filterMatched();
+  updateManualMatchBar();
 
-  // التقرير المدمج
   document.getElementById('reportFrame').srcdoc = r.reportText;
 
-  // صفحة القيود وعكسها
   document.getElementById('revGridWrap').innerHTML = `
     <table class="data-grid">
       <thead><tr><th>#</th><th>المصدر</th><th>تاريخ المدين</th><th>تاريخ الدائن</th><th>المبلغ</th><th>المرجع</th><th>البيان</th></tr></thead>
@@ -2219,7 +2969,6 @@ function populateAllViews(r) {
       }).join('')}</tbody>
     </table>`;
 
-  // صفحة التحذيرات
   document.getElementById('warnGridWrap').innerHTML = `
     <table class="data-grid">
       <thead><tr><th style="width:50px">#</th><th style="width:110px">النوع</th><th>الرسالة</th></tr></thead>
@@ -2233,11 +2982,97 @@ function populateAllViews(r) {
   document.getElementById('lblStats').textContent = `مطابقة ${st.matchRatePct.toFixed(1)}%  •  غير متطابق ${r.unmatchedRecords.length}  •  صافي الفارق ${fmt(st.netDiff)}`;
 }
 
-// فلترة وعرض جدول غير المتطابقة
+// تحديث شريط الربط اليدوي الذكي
+function updateManualMatchBar() {
+  if (!currentResult) return;
+  const selItems = currentResult.unmatchedRecords.filter(x => selectedUnmatchedIds.has(x.uid));
+  const sum1 = selItems.filter(x => x.side === 1).reduce((s, x) => s + x.amount, 0);
+  const sum2 = selItems.filter(x => x.side === 2).reduce((s, x) => s + x.amount, 0);
+  const diff = +(sum1 - sum2).toFixed(2);
+
+  document.getElementById('lblSelSum1').textContent = fmt(sum1);
+  document.getElementById('lblSelSum2').textContent = fmt(sum2);
+  const diffEl = document.getElementById('lblSelDiff');
+  diffEl.textContent = fmt(diff);
+  diffEl.style.color = Math.abs(diff) < 0.01 ? 'var(--success)' : 'var(--danger)';
+
+  const hasBothSides = selItems.some(x => x.side === 1) && selItems.some(x => x.side === 2);
+  document.getElementById('btnManualLink').disabled = !hasBothSides;
+  document.getElementById('btnManualClear').disabled = selItems.length === 0;
+}
+
+document.getElementById('btnManualClear').addEventListener('click', () => {
+  selectedUnmatchedIds.clear();
+  filterUnmatched();
+  updateManualMatchBar();
+});
+
+document.getElementById('btnManualLink').addEventListener('click', () => {
+  if (!currentResult) return;
+  const selItems = currentResult.unmatchedRecords.filter(x => selectedUnmatchedIds.has(x.uid));
+  const s1 = selItems.filter(x => x.side === 1);
+  const s2 = selItems.filter(x => x.side === 2);
+  if (!s1.length || !s2.length) return;
+  const diff = +(s1.reduce((a, x) => a + x.amount, 0) - s2.reduce((a, x) => a + x.amount, 0)).toFixed(2);
+
+  openActionDialog({
+    title: '🔗 تأكيد الربط اليدوي كمجموعة مطابقة',
+    subtitle: `سيتم ربط (${s1.length}) قيد من الطرف الأول مع (${s2.length}) قيد من الطرف الثاني • الفرق: ${fmt(diff)}`,
+    showAmount: false,
+    showNote: true,
+    noteLabel: 'ملاحظة الربط اليدوي (سبب التطابق):',
+    defaultNote: Math.abs(diff) < 0.01 ? 'تطابق يدوي مؤكد بالمستندات' : `تطابق يدوي مع فرق عمولة/رسوم (${fmt(diff)})`,
+    confirmText: 'تنفيذ الربط الآن',
+    onConfirm: ({ note }) => {
+      const newId = ++currentResult.nextMatchId;
+      const lbl = `MANUAL-ربط يدوي (${s1.length}:${s2.length})${note.trim() ? ' — ' + note.trim() : ''}`;
+      for (const item of selItems) {
+        item.matched = true;
+        item.matchId = newId;
+        item.matchLevel = lbl;
+      }
+      selectedUnmatchedIds.clear();
+      recomputeResultAggregates(currentResult, settings);
+      populateAllViews(currentResult);
+      showBanner(`تم ربط المجموعة #${newId} يدوياً وتحديث كافة الإحصائيات.`, 'ok');
+    }
+  });
+});
+
+// فك المطابقة وإعادة عناصر المجموعة إلى غير المتطابقة
+document.getElementById('mBtnUnlink').addEventListener('click', () => {
+  if (!currentResult || !selectedMatchedGroupId) return;
+  const grp = currentResult.matchedGroups.find(g => g.groupId === selectedMatchedGroupId);
+  if (!grp) return;
+  openActionDialog({
+    title: `🔓 فك ارتباط المجموعة #${grp.groupId}`,
+    subtitle: `سيتم إلغاء مطابقة (${grp.items.length}) قيود وإعادتها إلى قائمة غير المتطابقة.`,
+    showAmount: false,
+    showNote: true,
+    noteLabel: 'سبب فك المطابقة:',
+    defaultNote: 'فك ارتباط للمراجعة اليدوية',
+    confirmText: 'تأكيد فك المطابقة',
+    onConfirm: ({ note }) => {
+      for (const x of grp.items) {
+        x.matched = false;
+        x.matchId = 0;
+        x.matchLevel = '';
+        if (note.trim()) x.hint = `🔓 فُك ارتباطه: ${note.trim()}`;
+      }
+      selectedMatchedGroupId = null;
+      document.getElementById('mBtnUnlink').disabled = true;
+      recomputeResultAggregates(currentResult, settings);
+      populateAllViews(currentResult);
+      showBanner(`تم فك ارتباط المجموعة #${grp.groupId} وإعادة قيودها لغير المتطابق.`, 'ok');
+    }
+  });
+});
+
 function filterUnmatched() {
   const q = normalizeDesc(document.getElementById('uSearch').value);
   const side = parseInt(document.getElementById('uCboSide').value, 10);
   const dir = document.getElementById('uCboDir').value;
+  const aging = document.getElementById('uCboAging').value;
   const chkSugg = document.getElementById('uChkSugg').checked;
   const chkHint = document.getElementById('uChkHint').checked;
 
@@ -2245,6 +3080,13 @@ function filterUnmatched() {
     if (q && !x.searchText.includes(q)) return false;
     if (side > 0 && x.side !== side) return false;
     if (dir !== '0' && x.sideText !== dir) return false;
+    if (aging !== 'all') {
+      const d = x.ageDays || 0;
+      if (aging === '0-3' && d > 3) return false;
+      if (aging === '4-7' && (d < 4 || d > 7)) return false;
+      if (aging === '8-30' && (d < 8 || d > 30)) return false;
+      if (aging === '30+' && d <= 30) return false;
+    }
     if (chkSugg && !x.suggestion) return false;
     if (chkHint && !x.hint) return false;
     return true;
@@ -2254,12 +3096,15 @@ function filterUnmatched() {
   const wrap = document.getElementById('uGridWrap');
   wrap.innerHTML = `
     <table class="data-grid" id="uTable">
-      <thead><tr><th>المصدر</th><th>التاريخ</th><th>الجانب</th><th>المبلغ</th><th>المرجع</th><th>المستند</th><th>البيان</th><th>الاقتراح</th><th>تنبيه</th><th>الصف</th></tr></thead>
+      <thead><tr><th style="width:36px">🔗</th><th>المصدر</th><th>التاريخ</th><th>العمر</th><th>الجانب</th><th>المبلغ</th><th>المرجع</th><th>المستند</th><th>البيان</th><th>الاقتراح</th><th>تنبيه</th><th>الصف</th></tr></thead>
       <tbody>${filtered.map((x, i) => {
         const cls = x.hint ? 'tint-warn' : x.suggestion ? 'tint-info' : '';
         const sideColor = x.sideText === 'مدين' ? 'var(--success)' : 'var(--warning)';
-        return `<tr class="${cls}" data-idx="${i}">
+        const checked = selectedUnmatchedIds.has(x.uid) ? 'checked' : '';
+        return `<tr class="${cls}" data-idx="${i}" data-uid="${escHtml(x.uid)}">
+          <td><input type="checkbox" class="u-row-chk" data-uid="${escHtml(x.uid)}" ${checked} /></td>
           <td>${escHtml(x.source)}</td><td>${x.dateText}</td>
+          <td>${x.ageDays || 0} يوم</td>
           <td style="color:${sideColor};font-weight:700">${x.sideText}</td>
           <td style="direction:ltr;text-align:right;font-weight:700">${fmt(x.amount)}</td>
           <td>${escHtml(x.ref)}</td><td>${escHtml(x.docType)}</td>
@@ -2271,20 +3116,30 @@ function filterUnmatched() {
 
   const rows = wrap.querySelectorAll('tbody tr');
   rows.forEach(tr => {
-    tr.addEventListener('click', () => {
+    tr.addEventListener('click', e => {
+      if (e.target.classList.contains('u-row-chk')) return;
       rows.forEach(r => r.classList.remove('selected'));
       tr.classList.add('selected');
       document.getElementById('uDetails').value = filtered[parseInt(tr.dataset.idx, 10)].full;
     });
   });
+
+  wrap.querySelectorAll('.u-row-chk').forEach(chk => {
+    chk.addEventListener('change', () => {
+      const uid = chk.dataset.uid;
+      if (chk.checked) selectedUnmatchedIds.add(uid);
+      else selectedUnmatchedIds.delete(uid);
+      updateManualMatchBar();
+    });
+  });
+
   document.getElementById('uDetails').value = filtered.length ? filtered[0].full : 'لا توجد صفوف مطابقة للفلاتر الحالية.';
 }
-['uSearch', 'uCboSide', 'uCboDir', 'uChkSugg', 'uChkHint'].forEach(id => {
+['uSearch', 'uCboSide', 'uCboDir', 'uCboAging', 'uChkSugg', 'uChkHint'].forEach(id => {
   document.getElementById(id).addEventListener('input', filterUnmatched);
   document.getElementById(id).addEventListener('change', filterUnmatched);
 });
 
-// فلترة وعرض جدول المطابقات
 function filterMatched() {
   const q = normalizeDesc(document.getElementById('mSearch').value);
   const lvl = document.getElementById('mCboLevel').value;
@@ -2310,7 +3165,7 @@ function filterMatched() {
       <tbody>${filtered.map((g, i) => {
         const cls = g.review ? 'tint-warn' : g.hasDiff ? 'tint-ok' : '';
         const confColor = g.confidence === 'عالية' ? 'var(--success)' : g.confidence === 'متوسطة' ? 'var(--warning)' : 'var(--danger)';
-        return `<tr class="${cls}" data-idx="${i}">
+        return `<tr class="${cls}" data-idx="${i}" data-gid="${g.groupId}">
           <td>${g.groupId}</td><td>${escHtml(g.levelText)}</td>
           <td style="color:${confColor};font-weight:700">${g.confidence}</td>
           <td>${g.review ? '⚠ نعم' : ''}</td>
@@ -2326,9 +3181,16 @@ function filterMatched() {
     tr.addEventListener('click', () => {
       rows.forEach(r => r.classList.remove('selected'));
       tr.classList.add('selected');
-      document.getElementById('mDetails').value = filtered[parseInt(tr.dataset.idx, 10)].full;
+      const item = filtered[parseInt(tr.dataset.idx, 10)];
+      selectedMatchedGroupId = item.groupId;
+      document.getElementById('mBtnUnlink').disabled = false;
+      document.getElementById('mDetails').value = item.full;
     });
   });
+  if (!filtered.length) {
+    selectedMatchedGroupId = null;
+    document.getElementById('mBtnUnlink').disabled = true;
+  }
   document.getElementById('mDetails').value = filtered.length ? filtered[0].full : 'لا توجد مجموعات مطابقة للفلاتر الحالية.';
 }
 ['mSearch', 'mCboLevel', 'mCboDiff', 'mChkReview', 'mChkLowConf'].forEach(id => {
@@ -2337,7 +3199,7 @@ function filterMatched() {
 });
 
 /* =====================================================================================
-   9. التصدير (Excel متعدد الأوراق / HTML / CSV / ملخص واتساب)
+   9. التصدير وحفظ/استرجاع جلسة العمل (JSON / Excel / HTML / CSV)
    ===================================================================================== */
 const exportBtn = document.getElementById('btnExport');
 const exportMenu = document.getElementById('exportMenu');
@@ -2365,17 +3227,35 @@ function exportFullXlsx() {
     ['أثر القيود غير المتطابقة', st.unmatchedEffect],
     ['مطابقات تحتاج مراجعة', st.reviewGroups],
     ['أزواج قيد/عكس مستبعدة', st.reversalPairs],
-    ['إجمالي غير المتطابق', r.unmatchedRecords.length]
+    ['إجمالي غير المتطابق', r.unmatchedRecords.length],
+    ['حالة ملف المراجعة', workflowState?.closed ? 'مقفل' : 'مفتوح'],
+    ['عدد قرارات المراجعة', workflowState ? workflowState.history.length : 0]
   ];
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summaryRows), 'الملخص');
 
-  const unRows = [['المصدر', 'التاريخ', 'الجانب', 'المبلغ', 'المرجع', 'نوع المستند', 'البيان', 'ملاحظات', 'اقتراح']];
-  r.unmatchedRecords.forEach(x => unRows.push([x.source, fmtDate(x.transDate), x.isDebit ? 'مدين' : 'دائن', x.amount, x.ref, x.docType, x.desc, x.hint, x.suggestion]));
+  const unRows = [['المصدر', 'التاريخ', 'العمر بالأيام', 'الجانب', 'المبلغ', 'المرجع', 'نوع المستند', 'البيان', 'ملاحظات', 'اقتراح']];
+  r.unmatchedRecords.forEach(x => unRows.push([x.source, fmtDate(x.transDate), x.ageDays || 0, x.isDebit ? 'مدين' : 'دائن', x.amount, x.ref, x.docType, x.desc, x.hint, x.suggestion]));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(unRows), 'غير المتطابقة');
 
   const mRows = [['رقم المجموعة', 'المستوى', 'الثقة', 'المصدر', 'التاريخ', 'الجانب', 'المبلغ', 'المرجع', 'نوع المستند', 'البيان']];
   r.matchedGroups.forEach(g => g.items.forEach(x => mRows.push([g.groupId, g.level, g.confidence, x.source, fmtDate(x.transDate), x.isDebit ? 'مدين' : 'دائن', x.amount, x.ref, x.docType, x.desc])));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(mRows), 'المتطابقة');
+
+  const auditRows = [['التصنيف', 'المصدر/المجموعة', 'التاريخ', 'المبلغ', 'الفرق', 'المرجع', 'البيان', 'التفاصيل']];
+  (r.auditFindings || []).forEach(x => auditRows.push([x.kindText, x.source, fmtDate(x.date), x.amount, x.difference, x.ref, x.desc, x.details]));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(auditRows), 'الفروقات والمفقود');
+
+  const wfRows = [['العنصر', 'الحالة', 'المراجع', 'الملاحظة', 'مبلغ التسوية المقترح', 'سبب التسوية', 'حالة المقترح', 'آخر تحديث']];
+  if (workflowState) {
+    for (const [id, d] of Object.entries(workflowState.decisions || {})) {
+      wfRows.push([id, workflowStatusText(d.status), d.reviewer, d.note, d.proposal?.amount ?? '', d.proposal?.rationale ?? '', d.proposal?.status ?? '', d.updatedAt]);
+    }
+  }
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(wfRows), 'قرارات المراجعة');
+
+  const histRows = [['التاريخ', 'العنصر', 'القرار', 'المراجع', 'الملاحظة', 'الحالة السابقة']];
+  if (workflowState) workflowState.history.forEach(h => histRows.push([h.at, h.itemId, h.action === 'proposal' ? 'إعداد مقترح تسوية' : workflowStatusText(h.status), h.reviewer, h.note, h.previousStatus || '']));
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(histRows), 'سجل التدقيق');
 
   XLSX.writeFile(wb, `تقرير_مطابقة_${new Date().toISOString().slice(0, 10)}.xlsx`);
   showBanner('تم تصدير ملف Excel الكامل (.xlsx) بنجاح.', 'ok');
@@ -2413,9 +3293,75 @@ function copyTableText(tableId) {
   tbl.querySelectorAll('tr').forEach(tr => {
     lines.push(Array.from(tr.children).map(td => td.textContent.trim()).join('\t'));
   });
-  navigator.clipboard.writeText(lines.join('\r\n'));
+  copyToClipboardSafe(lines.join('\r\n'));
   showBanner('تم نسخ الجدول إلى الحافظة.', 'ok');
 }
+
+// حفظ واسترجاع جلسة العمل بالكامل (JSON)
+document.getElementById('btnSaveSession').addEventListener('click', () => {
+  if (!slots[1].rows.length && !slots[2].rows.length) {
+    showBanner('لا توجد بيانات محملة لحفظ الجلسة.', 'warn');
+    return;
+  }
+  const payload = {
+    version: 'V8',
+    savedAt: new Date().toISOString(),
+    settings,
+    slot1: { fileName: slots[1].fileName, label: document.getElementById('txtLabel1').value, rows: slots[1].rows, mapping: slots[1].mapping },
+    slot2: { fileName: slots[2].fileName, label: document.getElementById('txtLabel2').value, rows: slots[2].rows, mapping: slots[2].mapping },
+    workflowState
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `جلسة_تسوية_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  showBanner('تم حفظ ملف جلسة العمل (.json) بنجاح.', 'ok');
+});
+
+document.getElementById('btnLoadSession').addEventListener('click', () => {
+  document.getElementById('sessionFileInput').click();
+});
+
+document.getElementById('sessionFileInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.settings) { settings = { ...DEFAULT_SETTINGS, ...data.settings }; saveSettings(); applyTheme(); }
+      if (data.slot1) {
+        slots[1].fileName = data.slot1.fileName || 'الملف_الأول';
+        slots[1].rows = data.slot1.rows || [];
+        slots[1].mapping = data.slot1.mapping || null;
+        document.getElementById('txtPath1').value = slots[1].fileName;
+        document.getElementById('txtLabel1').value = data.slot1.label || '';
+        document.getElementById('btnMap1').disabled = !slots[1].rows.length;
+        renderPreviewGrid(1, slots[1].rows);
+      }
+      if (data.slot2) {
+        slots[2].fileName = data.slot2.fileName || 'الملف_الثاني';
+        slots[2].rows = data.slot2.rows || [];
+        slots[2].mapping = data.slot2.mapping || null;
+        document.getElementById('txtPath2').value = slots[2].fileName;
+        document.getElementById('txtLabel2').value = data.slot2.label || '';
+        document.getElementById('btnMap2').disabled = !slots[2].rows.length;
+        renderPreviewGrid(2, slots[2].rows);
+      }
+      if (data.workflowState) {
+        workflowState = data.workflowState;
+        workflowCaseKey = data.workflowState.caseKey || '';
+        persistWorkflow();
+      }
+      if (slots[1].rows.length && slots[2].rows.length) startMatching();
+      showBanner('تم استرجاع جلسة العمل بنجاح.', 'ok');
+    } catch (err) {
+      showBanner('ملف الجلسة غير صالح.', 'err');
+    }
+  };
+  reader.readAsText(file);
+});
 
 document.getElementById('expXlsx').addEventListener('click', exportFullXlsx);
 document.getElementById('expHtml').addEventListener('click', saveReportHtmlFile);
@@ -2424,6 +3370,18 @@ document.getElementById('uBtnCsv').addEventListener('click', () => exportTableTo
 document.getElementById('mBtnCsv').addEventListener('click', () => exportTableToCsv('mTable', 'المطابقات'));
 document.getElementById('uBtnCopy').addEventListener('click', () => copyTableText('uTable'));
 document.getElementById('mBtnCopy').addEventListener('click', () => copyTableText('mTable'));
+document.getElementById('btnAuditCsv').addEventListener('click', () => {
+  if (!currentResult) return;
+  const rows = [['التصنيف', 'المصدر/المجموعة', 'التاريخ', 'المبلغ', 'الفرق', 'المرجع', 'البيان', 'التفاصيل']];
+  (currentResult.auditFindings || []).forEach(x => rows.push([x.kindText, x.source, fmtDate(x.date), x.amount, x.difference, x.ref, x.desc, x.details]));
+  const csv = rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'تقرير_الفروقات_والمفقود.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+});
 
 document.getElementById('expSummary').addEventListener('click', () => {
   if (!currentResult) return;
@@ -2437,15 +3395,17 @@ document.getElementById('expSummary').addEventListener('click', () => {
       txt += `${idx + 1}) [${x.source}] ${fmtDate(x.transDate)} | ${x.isDebit ? 'مدين ' : 'دائن '}${fmt(x.amount)} | ${x.ref || '-'} | ${x.desc}\n`;
     });
   }
-  navigator.clipboard.writeText(txt);
+  copyToClipboardSafe(txt);
   showBanner('تم نسخ الملخص — الصقه في واتساب أو البريد.', 'ok');
 });
 
 document.getElementById('btnOpenReportTab').addEventListener('click', () => {
   if (!currentResult) return;
   const w = window.open('', '_blank');
-  w.document.write(currentResult.reportText);
-  w.document.close();
+  if (w) {
+    w.document.write(currentResult.reportText);
+    w.document.close();
+  }
 });
 document.getElementById('btnPrintReport').addEventListener('click', () => {
   const frame = document.getElementById('reportFrame');
@@ -2456,8 +3416,6 @@ document.getElementById('btnSaveReportHtml').addEventListener('click', saveRepor
 /* =====================================================================================
    10. النوافذ المنبثقة (الخيارات المتقدمة + تعيين الأعمدة + الحساب الوسيط)
    ===================================================================================== */
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
 document.getElementById('btnAdvanced').addEventListener('click', () => {
   document.getElementById('optDateWin').value = settings.dateWindowDays;
   document.getElementById('optCrossWin').value = settings.crossDayWindowDays;
@@ -2466,6 +3424,7 @@ document.getElementById('btnAdvanced').addEventListener('click', () => {
   document.getElementById('optSim').value = Math.round(settings.descSimilarityThreshold * 100);
   document.getElementById('optGroupSize').value = settings.maxGroupSize;
   document.getElementById('optFeeRatio').value = +(settings.maxFeeRatio * 100).toFixed(1);
+  document.getElementById('optLargeDiff').value = settings.largeDifferenceThreshold || 10000;
 
   document.getElementById('optChkGroup').checked = settings.enableGroupMatching;
   document.getElementById('optChkFee').checked = settings.enableFeeSplit;
@@ -2489,6 +3448,7 @@ document.getElementById('btnOptSave').addEventListener('click', () => {
   settings.descSimilarityThreshold = +document.getElementById('optSim').value / 100;
   settings.maxGroupSize = +document.getElementById('optGroupSize').value;
   settings.maxFeeRatio = +document.getElementById('optFeeRatio').value / 100;
+  settings.largeDifferenceThreshold = Math.max(1, Number(document.getElementById('optLargeDiff').value) || 10000);
 
   settings.enableGroupMatching = document.getElementById('optChkGroup').checked;
   settings.enableFeeSplit = document.getElementById('optChkFee').checked;
@@ -2517,7 +3477,6 @@ document.getElementById('btnOptReset').addEventListener('click', () => {
   document.getElementById('btnAdvanced').click();
 });
 
-// نافذة تعيين الأعمدة
 const MAP_ROLES = [
   { key: 'dateCol', label: 'التاريخ' },
   { key: 'debitCol', label: 'المدين' },
@@ -2579,7 +3538,6 @@ document.getElementById('btnMapApply').addEventListener('click', () => {
   showBanner(`تم حفظ تعيين الأعمدة لـ ${slot.title}.`, 'ok');
 });
 
-// نافذة الحساب الوسيط الداخلي
 document.getElementById('btnIntermediary').addEventListener('click', () => {
   document.getElementById('modalIntermediary').classList.add('show');
 });
@@ -2607,7 +3565,7 @@ document.getElementById('btnRunIntermediary').addEventListener('click', () => {
     </table>`;
 });
 
-// بيانات تجريبية فورية لاختبار جميع المستويات (L1, L3, L6, L6F, L0R, Unmatched)
+// بيانات تجريبية فورية
 document.getElementById('btnDemo').addEventListener('click', () => {
   const demo1 = [
     ['التاريخ', 'مدين', 'دائن', 'المرجع', 'نوع المستند', 'البيان'],
@@ -2618,7 +3576,8 @@ document.getElementById('btnDemo').addEventListener('click', () => {
     ['2026-10-04', '25000', '0', '7788', 'سند صرف', 'قيد بالخطأ'],
     ['2026-10-04', '0', '25000', '7788', 'عكس قيد', 'عكس قيد بالخطأ'],
     ['2026-10-05', '120000', '0', '33019', 'تحويل', 'تحويل لمحفظة ابراهيم صالح ناشر'],
-    ['Total', '395000', '110200', '', '', 'الإجمالي']
+    ['2026-09-18', '75000', '0', '44102', 'سند صرف', 'دفعة معلقة للوكيل عبدالله القاضي'],
+    ['Total', '470000', '110200', '', '', 'الإجمالي']
   ];
   const demo2 = [
     ['التاريخ', 'مدين', 'دائن', 'المرجع', 'نوع المستند', 'البيان'],
@@ -2626,7 +3585,8 @@ document.getElementById('btnDemo').addEventListener('click', () => {
     ['2026-10-02', '85000', '0', '', 'إشعار إضافة', 'من حساب علي عبد الله الحزمي'],
     ['2026-10-03', '0', '100000', '5500', 'إجمالي دفعات', 'إجمالي دفعات خالد سعيد'],
     ['2026-10-06', '0', '119500', '33099', 'تحويل', 'تحويل لمحفظة ابراهيم صالح ناشر'],
-    ['Total', '85000', '369500', '', '', 'الإجمالي']
+    ['2026-09-20', '0', '75000', '99812', 'إشعار قيد', 'توريد نقدي من الوكيل القاضي'],
+    ['Total', '85000', '444500', '', '', 'الإجمالي']
   ];
 
   slots[1] = { index: 1, title: 'الكشف الأول', workbook: null, fileName: 'كشف_نظامنا_التجريبي.xlsx', rows: demo1, mapping: null };
@@ -2642,16 +3602,9 @@ document.getElementById('btnDemo').addEventListener('click', () => {
   startMatching();
 });
 
-// المساعدة واختصارات لوحة المفاتيح
+// المساعدة واختصارات لوحة المفاتيح عبر النافذة المدمجة
 document.getElementById('btnHelp').addEventListener('click', () => {
-  alert(
-    "اختصارات لوحة المفاتيح:\n\n" +
-    "F5         بدء المطابقة\n" +
-    "Ctrl+S     تصدير ملف Excel كامل (.xlsx)\n" +
-    "Ctrl+T     تبديل الوضع الداكن / الفاتح\n" +
-    "Ctrl+I     فتح نافذة مطابقة الحساب الوسيط\n" +
-    "Ctrl+1…7   التنقل السريع بين الصفحات"
-  );
+  document.getElementById('modalHelp').classList.add('show');
 });
 
 document.addEventListener('keydown', e => {
@@ -2659,8 +3612,12 @@ document.addEventListener('keydown', e => {
   if (e.ctrlKey && e.key.toLowerCase() === 't') { e.preventDefault(); document.getElementById('btnTheme').click(); }
   if (e.ctrlKey && e.key.toLowerCase() === 's') { e.preventDefault(); if (currentResult) exportFullXlsx(); }
   if (e.ctrlKey && e.key.toLowerCase() === 'i') { e.preventDefault(); document.getElementById('btnIntermediary').click(); }
-  if (e.ctrlKey && e.key >= '1' && e.key <= '7') { e.preventDefault(); showPage(parseInt(e.key, 10) - 1); }
+  if (e.ctrlKey && e.key >= '1' && e.key <= '9') { e.preventDefault(); showPage(parseInt(e.key, 10) - 1); }
 });
+
+// تنقل متوافق مع الهاتف والأجهزة اللوحية
+document.getElementById('btnMobileNav')?.addEventListener('click', () => document.body.classList.toggle('mobile-nav-open'));
+document.getElementById('sidebarBackdrop')?.addEventListener('click', () => document.body.classList.remove('mobile-nav-open'));
 
 // تهيئة أولية
 applyTheme();
